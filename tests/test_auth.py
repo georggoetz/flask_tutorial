@@ -1,16 +1,15 @@
 import pytest
 from flask import g, session
-from flaskr.db import get_db
+from flaskr.models import User
 
-def test_register(client, app):
+def test_register(client, session):
   assert client.get('/auth/register').status_code == 200
   response = client.post(
     'auth/register', 
     data={'username': 'a', 'password': 'a'})
   assert response.headers['Location'] == '/auth/login'
 
-  with app.app_context():
-    assert get_db().execute("SELECT * FROM users WHERE username = 'a'").fetchone() is not None
+  session.query(User).filter(User.username == 'a').first() is not None
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
     ('', '', 'Username is required!'),

@@ -1,12 +1,11 @@
 import os
-import tempfile
-
 import pytest
+import tempfile
+from flask import g
 from flaskr import create_app
-from flaskr.db import get_db, init_db
-
-with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
-  _data_sql = f.read().decode('utf8')
+from flaskr.db import init_db, db
+from flaskr.models import User, Post
+from werkzeug.security import generate_password_hash
 
 @pytest.fixture
 def app():
@@ -14,26 +13,38 @@ def app():
 
   app = create_app({
     'TESTING': True,
-    'DATABASE': db_path,
+    'SQLALCHEMY_DATABASE_URI': 'sqlite:///' + db_path
   })
 
   with app.app_context():
     init_db()
-    get_db().executescript(_data_sql)
+    seed_db()
 
   yield app
 
   os.close(db_fd)
   os.unlink(db_path)
 
+def seed_db():
+  with db.session() as db_session:
+    db_session.add(User(username='test', password=generate_password_hash('test')))
+    db_session.add(User(username='other', password=generate_password_hash('test')))
+    db_session.add(Post(title='test title', body='test\nbody', author_id=1))
+    db_session.commit()
+
 @pytest.fixture
 def client(app):
   return app.test_client()
 
-
 @pytest.fixture
 def runner(app):
   return app.test_cli_runner()
+
+@pytest.fixture
+def session(app):
+  with app.app_context():
+    yield db.session
+    db.session.remove()
 
 class AuthActions(object):
   def __init__(self, client):
@@ -49,4 +60,8 @@ class AuthActions(object):
 def auth(client):
   return AuthActions(client)
   
-
+@pytest.fixture
+def db_session(app):
+  with app.app_context():
+    yield db.session()
+    db.session.remove()

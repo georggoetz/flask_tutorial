@@ -1,39 +1,36 @@
-import sqlite3
-from datetime import datetime
-
 import click
-from flask import current_app, g
+from flask import g
+from flask_sqlalchemy import SQLAlchemy
 
-def get_db():
-  if 'db' not in g:
-    g.db = sqlite3.connect(
-      current_app.config['DATABASE'],
-      detect_types=sqlite3.PARSE_DECLTYPES
-    )
-    g.db.row_factory = sqlite3.Row
+db = SQLAlchemy()
 
-  return g.db
+def before_request():
+  g.db_session = db.session()
 
-def close_db(e=None):
-  db = g.pop('db', None)
-
-  if db is not None:
-    db.close()
+def teardown_request(exception):
+  db_session = g.pop('db_session', None)
+  if db_session is not None:
+    if exception is None:
+      try:
+        db_session.commit()
+      except Exception:
+        db_session.rollback()
+        raise
+    else:
+      db_session.rollback()
+    db_session.close()
 
 def init_db():
-  db = get_db()
-
-  with current_app.open_resource('schema.sql') as f:
-    db.executescript(f.read().decode('utf-8'))
+  db.drop_all()
+  db.create_all()
 
 @click.command('init-db')
 def init_db_command():
-  """Clear existing database and create tables"""
   init_db()
   click.echo('Initialized database')
 
-sqlite3.register_converter('datetime', lambda v: datetime.fromisoformat(v.decode()))
-
 def init_app(app):
-  app.teardown_appcontext(close_db)
+  db.init_app(app)
+  app.before_request(before_request)
+  app.teardown_request(teardown_request)
   app.cli.add_command(init_db_command)
