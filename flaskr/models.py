@@ -2,10 +2,12 @@ from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, func
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from flaskr.db import db
 
+
 class User(db.Model):
   __tablename__ = 'users'
 
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+  id: Mapped[int] = mapped_column(
+    Integer, primary_key=True, autoincrement=True)
   username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
   password: Mapped[str] = mapped_column(String, nullable=False)
 
@@ -18,12 +20,16 @@ class User(db.Model):
   def __repr__(self) -> str:
     return f'User(id={self.id!r}, username={self.username!r})'
 
+
 class Post(db.Model):
   __tablename__ = 'posts'
-  
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  author_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
-  created: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+
+  id: Mapped[int] = mapped_column(
+    Integer, primary_key=True, autoincrement=True)
+  author_id: Mapped[int] = mapped_column(
+    Integer, ForeignKey('users.id'), nullable=False)
+  created: Mapped[TIMESTAMP] = mapped_column(
+    TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
   title: Mapped[str] = mapped_column(String, nullable=False)
   body: Mapped[str] = mapped_column(Text, nullable=False)
 

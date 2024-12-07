@@ -4,8 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 def before_request():
   g.db_session = db.session()
+
 
 def teardown_request(exception):
   db_session = g.pop('db_session', None)
@@ -20,14 +22,17 @@ def teardown_request(exception):
       db_session.rollback()
     db_session.close()
 
+
 def init_db():
   db.drop_all()
   db.create_all()
+
 
 @click.command('init-db')
 def init_db_command():
   init_db()
   click.echo('Initialized database')
+
 
 def init_app(app):
   db.init_app(app)

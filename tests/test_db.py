@@ -1,7 +1,7 @@
-import pytest
 from flask import g
 from sqlalchemy.sql import text
 from sqlalchemy.exc import ProgrammingError
+
 
 def test_init_db_command(runner, monkeypatch):
   class Recorder(object):

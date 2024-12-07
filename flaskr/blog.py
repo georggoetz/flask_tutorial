@@ -5,11 +5,13 @@ from flaskr.models import Post
 
 bp = Blueprint('blog', __name__)
 
+
 @bp.route('/')
 def index():
   posts = g.db_session.query(Post).all()
 
   return render_template('blog/index.html', posts=posts)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -33,6 +35,7 @@ def create():
 
   return render_template('blog/create.html')
 
+
 def get_post(id, check_author=True):
   post = g.db_session.query(Post).get(id)
 
@@ -43,6 +46,7 @@ def get_post(id, check_author=True):
     abort(403)
 
   return post
+
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
@@ -62,7 +66,7 @@ def update(id):
     else:
       post.title = title
       post.body = body
-      
+
       post.verified = True
       g.db_session.commit()
 
@@ -70,16 +74,18 @@ def update(id):
 
   return render_template('blog/update.html', post=post)
 
+
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required
 def delete(id):
-    post = get_post(id)
-    
-    g.db_session.delete(post)
-    g.db_session.commit()
-    
-    return redirect(url_for('blog.index'))
+  post = get_post(id)
+
+  g.db_session.delete(post)
+  g.db_session.commit()
+
+  return redirect(url_for('blog.index'))
+
 
 def init_app(app):
-    app.register_blueprint(bp)
-    app.add_url_rule('/', endpoint='index')
+  app.register_blueprint(bp)
+  app.add_url_rule('/', endpoint='index')

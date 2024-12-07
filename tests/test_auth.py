@@ -2,19 +2,22 @@ import pytest
 from flask import g, session
 from flaskr.models import User
 
+
 def test_register(client, session):
   assert client.get('/auth/register').status_code == 200
   response = client.post(
-    'auth/register', 
+    'auth/register',
     data={'username': 'a', 'password': 'a'})
   assert response.headers['Location'] == '/auth/login'
 
   session.query(User).filter(User.username == 'a').first() is not None
 
-@pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('', '', 'Username is required!'),
-    ('a', '', 'Password is required!'),
-    ('test', 'test', 'User test is already registered!'),
+
+@pytest.mark.parametrize(
+    ('username', 'password', 'message'), (
+        ('', '', 'Username is required!'),
+        ('a', '', 'Password is required!'),
+        ('test', 'test', 'User test is already registered!'),
     ))
 def test_register_validate_input(client, username, password, message):
   response = client.post(
@@ -23,23 +26,27 @@ def test_register_validate_input(client, username, password, message):
   )
   assert message in response.data.decode()
 
+
 def test_login(client, auth):
   assert client.get('/auth/login').status_code == 200
   response = auth.login()
   assert response.headers['Location'] == '/'
 
   with client:
-    client.get('/') 
+    client.get('/')
     assert g.user['username'] == 'test'
     assert session['user_id'] == 1
 
-@pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('a', 'test', 'Incorrect username!'),
-    ('test', 'a', 'Incorrect password!'),
+
+@pytest.mark.parametrize(
+    ('username', 'password', 'message'), (
+        ('a', 'test', 'Incorrect username!'),
+        ('test', 'a', 'Incorrect password!'),
     ))
 def test_login_validate_input(auth, username, password, message):
   response = auth.login(username, password)
   assert message in response.data.decode()
+
 
 def test_logout(client, auth):
   auth.login()

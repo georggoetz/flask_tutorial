@@ -7,6 +7,7 @@ from flaskr.db import init_db, db
 from flaskr.models import User, Post
 from werkzeug.security import generate_password_hash
 
+
 @pytest.fixture
 def app():
   db_fd, db_path = tempfile.mkstemp()
@@ -25,26 +26,33 @@ def app():
   os.close(db_fd)
   os.unlink(db_path)
 
+
 def seed_db():
   with db.session() as db_session:
-    db_session.add(User(username='test', password=generate_password_hash('test')))
-    db_session.add(User(username='other', password=generate_password_hash('test')))
+    db_session.add(
+      User(username='test', password=generate_password_hash('test')))
+    db_session.add(
+      User(username='other', password=generate_password_hash('test')))
     db_session.add(Post(title='test title', body='test\nbody', author_id=1))
     db_session.commit()
+
 
 @pytest.fixture
 def client(app):
   return app.test_client()
 
+
 @pytest.fixture
 def runner(app):
   return app.test_cli_runner()
+
 
 @pytest.fixture
 def session(app):
   with app.app_context():
     yield db.session
     db.session.remove()
+
 
 class AuthActions(object):
   def __init__(self, client):
@@ -55,11 +63,13 @@ class AuthActions(object):
 
   def logout(self):
     return self._client.get('/auth/logout')
-  
+
+
 @pytest.fixture
 def auth(client):
   return AuthActions(client)
-  
+
+
 @pytest.fixture
 def db_session(app):
   with app.app_context():
