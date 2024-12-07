@@ -7,5 +7,10 @@
   "autopep8.args": [
     "--indent-size=2",
     "--ignore=E121"
+  ],
+  "flake8.args": [
+    "--indent-size=2",
+    "--max-line-length=120",
+    "--ignore=E121"
   ]
 }

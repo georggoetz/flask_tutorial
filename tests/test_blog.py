@@ -1,5 +1,5 @@
 import pytest
-from flask import g
+from datetime import datetime
 from flaskr.models import Post
 from sqlalchemy.sql import func
 
@@ -13,7 +13,8 @@ def test_index(client, auth):
   response = client.get('/')
   assert b'Log Out' in response.data
   assert b'test title' in response.data
-  # assert b'by test on 2024-12-01' in response.data
+  assert f'by test on {datetime.today().strftime(
+    '%Y-%m-%d')}'.encode() in response.data
   assert b'test\nbody' in response.data
   assert b'href="/1/update"' in response.data
 

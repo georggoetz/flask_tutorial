@@ -1,7 +1,6 @@
 import os
 import pytest
 import tempfile
-from flask import g
 from flaskr import create_app
 from flaskr.db import init_db, db
 from flaskr.models import User, Post
