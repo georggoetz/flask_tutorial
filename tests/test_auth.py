@@ -13,12 +13,11 @@ def test_register(client, session):
   session.query(User).filter(User.username == 'a').first() is not None
 
 
-@pytest.mark.parametrize(
-    ('username', 'password', 'message'), (
-        ('', '', 'Username is required!'),
-        ('a', '', 'Password is required!'),
-        ('test', 'test', 'User test is already registered!'),
-    ))
+@pytest.mark.parametrize(('username', 'password', 'message'), (
+  ('', '', 'Username is required!'),
+  ('a', '', 'Password is required!'),
+  ('test', 'test', 'User test is already registered!'),
+))
 def test_register_validate_input(client, username, password, message):
   response = client.post(
     '/auth/register',
@@ -38,11 +37,10 @@ def test_login(client, auth):
     assert session['user_id'] == 1
 
 
-@pytest.mark.parametrize(
-    ('username', 'password', 'message'), (
-        ('a', 'test', 'Incorrect username!'),
-        ('test', 'a', 'Incorrect password!'),
-    ))
+@pytest.mark.parametrize(('username', 'password', 'message'), (
+  ('a', 'test', 'Incorrect username!'),
+  ('test', 'a', 'Incorrect password!'),
+))
 def test_login_validate_input(auth, username, password, message):
   response = auth.login(username, password)
   assert message in response.data.decode()

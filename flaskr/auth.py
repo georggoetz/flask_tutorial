@@ -46,7 +46,7 @@ def login():
     error = None
 
     user = g.db_session.query(User).filter(
-        User.username == username).first()
+      User.username == username).first()
 
     if user is None:
       error = 'Incorrect username!'
