@@ -10,6 +10,7 @@ class User(db.Model):
   username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
   password: Mapped[str] = mapped_column(String, nullable=False)
   posts: Mapped[list['Post']] = relationship('Post', back_populates='author')
+  likes: Mapped[list['Like']] = relationship('Like', back_populates='user')
 
   def __init__(self, username: None, password: None):
     self.username = username
@@ -26,8 +27,9 @@ class Post(db.Model):
   author_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
   created: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
   title: Mapped[str] = mapped_column(String, nullable=False)
-  author: Mapped["User"] = relationship('User', back_populates='posts')
-  content: Mapped["Content"] = relationship('Content', back_populates='post', cascade='all, delete')
+  author: Mapped['User'] = relationship('User', back_populates='posts')
+  content: Mapped['Content'] = relationship('Content', back_populates='post', cascade='all, delete')
+  likes: Mapped[list['Like']] = relationship('Like', back_populates='post', cascade='all, delete')
 
   def __init__(self, title: None, author_id: None):
     self.title = title
@@ -40,10 +42,9 @@ class Post(db.Model):
 class Content(db.Model):
   __tablename__ = 'content'
 
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+  post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), primary_key=True, nullable=False)
+  post: Mapped['Post'] = relationship('Post', back_populates='content')
   body: Mapped[str] = mapped_column(Text, nullable=False)
-  post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
-  post: Mapped["Post"] = relationship('Post', back_populates='content')
 
   def __init__(self, body: None, post_id: None):
     self.body = body
@@ -51,3 +52,20 @@ class Content(db.Model):
 
   def __repr__(self):
     return f'Content(id={self.id!r}, post_id={self.post_id!r})'
+
+
+class Like(db.Model):
+  __tablename__ = 'likes'
+  __table_args__ = (db.PrimaryKeyConstraint('user_id', 'post_id'),)
+
+  user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+  post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
+  user: Mapped['User'] = relationship('User', back_populates='likes')
+  post: Mapped['Post'] = relationship('Post', back_populates='likes')
+
+  def __init__(self, user_id=None, post_id=None):
+    self.user_id = user_id
+    self.post_id = post_id
+
+  def __repr__(self):
+    return f'Like(user_id={self.user_id!r}, post_id={self.post_id!r})'
