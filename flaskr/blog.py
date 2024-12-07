@@ -6,11 +6,15 @@ from flaskr.models import Post
 bp = Blueprint('blog', __name__)
 
 
-@bp.route('/')
-def index():
-  posts = g.db_session.query(Post).all()
+@bp.route('/', methods=('GET',))
+@bp.route('/<int:id>', methods=('GET',))
+def index(id=None):
+  if id is None:
+    posts = g.db_session.query(Post).all()
+    return render_template('blog/index.html', posts=posts)
 
-  return render_template('blog/index.html', posts=posts)
+  post = get_post(id, check_author=False)
+  return render_template('blog/post.html', post=post)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
