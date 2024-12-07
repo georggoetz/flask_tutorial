@@ -1,7 +1,7 @@
 from flask import Blueprint, g, request, flash, redirect, render_template, url_for
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-from flaskr.models import Post
+from flaskr.models import Post, Content
 
 bp = Blueprint('blog', __name__)
 
@@ -31,8 +31,12 @@ def create():
     if error is not None:
       flash(error)
     else:
-      new_post = Post(title, body, g.user['id'])
+      new_post = Post(title, g.user['id'])
       g.db_session.add(new_post)
+      g.db_session.commit()
+
+      new_content = Content(body, new_post.id)
+      g.db_session.add(new_content)
       g.db_session.commit()
 
       return redirect(url_for('blog.index'))

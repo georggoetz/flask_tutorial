@@ -1,8 +1,10 @@
 import click
 from flask import g
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
+migrate = Migrate(db=db)
 
 
 def setup_transaction_middleware(app, db):
@@ -38,5 +40,6 @@ def init_db_command():
 
 def init_app(app):
   db.init_app(app)
+  migrate.init_app(app, db)
   setup_transaction_middleware(app, db)
   app.cli.add_command(init_db_command)

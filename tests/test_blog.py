@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from flaskr.models import Post
+from flaskr.models import Post, Content
 from sqlalchemy.sql import func
 
 
@@ -95,3 +95,6 @@ def test_delete(client, auth, db_session):
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post is None
+
+  content = db_session.query(Content).filter(Content.post_id == 1).first()
+  assert content is None
