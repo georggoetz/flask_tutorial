@@ -73,7 +73,7 @@ def update(id):
       flash(error)
     else:
       post.title = title
-      post.body = body
+      post.content.body = body
 
       post.verified = True
       g.db_session.commit()

@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from flaskr.models import Post, Content
+from flaskr.models import Post
 from sqlalchemy.sql import func
 
 
@@ -22,8 +22,8 @@ def test_index(client, auth):
   assert b'test title' in response.data
   assert f'by test on {datetime.today().strftime(
     '%Y-%m-%d')}'.encode() in response.data
-  assert b'test\nbody' in response.data
   assert b'href="/1/update"' in response.data
+  assert b'test\nbody' in response.data
 
 
 @pytest.mark.parametrize('path', (
@@ -72,10 +72,11 @@ def test_create(client, auth, db_session):
 def test_update(client, auth, db_session):
   auth.login()
   assert client.get('/1/update').status_code == 200
-  client.post('/1/update', data={'title': 'updated', 'body': ''})
+  client.post('/1/update', data={'title': 'updated', 'body': 'updated'})
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post.title == 'updated'
+  assert post.content.body == 'updated'
 
 
 @pytest.mark.parametrize('path', (
@@ -95,6 +96,3 @@ def test_delete(client, auth, db_session):
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post is None
-
-  content = db_session.query(Content).filter(Content.post_id == 1).first()
-  assert content is None
