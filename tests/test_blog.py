@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from flaskr.models import Post
+from flaskr.models import Post, post_likes
 from sqlalchemy.sql import func
 
 
@@ -94,3 +94,24 @@ def test_delete(client, auth, db_session):
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post is None
+
+
+def test_like_validate(client, auth):
+  auth.login()
+  # Cannot like post that does not exist
+  assert client.post('/2/like').status_code == 404
+  # Cannot like my own posts
+  assert client.post('/1/like').status_code == 400
+  auth.logout()
+  auth.login(username='other', password='test')
+  assert client.post('/1/like').status_code == 200
+  # Cannot like the same post twice
+  assert client.post('/1/like').status_code == 400
+
+
+def test_like(client, auth, db_session):
+  auth.login(username='other', password='test')
+  assert client.post('/1/like').status_code == 200
+  assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is not None
+  assert client.delete('/1/like').status_code == 200
+  assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is None

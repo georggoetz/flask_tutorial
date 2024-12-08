@@ -66,12 +66,13 @@ def login():
 @bp.before_app_request
 def load_logged_in_user():
   user_id = session.get('user_id')
+  g.user = None if user_id is None else g.db_session.query(User).get(user_id)
 
-  if user_id is None:
-    g.user = None
-  else:
-    current_user = g.db_session.query(User).get(user_id)
-    g.user = {'id': current_user.id, 'username': current_user.username}
+
+@bp.teardown_app_request
+def clear_logged_in_user(response):
+  g.user = None
+  return response
 
 
 @bp.route('/logout')

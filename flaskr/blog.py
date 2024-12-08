@@ -1,7 +1,7 @@
 from flask import Blueprint, g, request, flash, redirect, render_template, url_for
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-from flaskr.models import Post, Content
+from flaskr.models import Post, Content, post_likes
 
 bp = Blueprint('blog', __name__)
 
@@ -31,7 +31,7 @@ def create():
     if error is not None:
       flash(error)
     else:
-      new_post = Post(title, g.user['id'])
+      new_post = Post(title, g.user.id)
       g.db_session.add(new_post)
       g.db_session.commit()
 
@@ -50,7 +50,7 @@ def get_post(id, check_author=True):
   if post is None:
     abort(404, f"Post id {id} doesn't exist.")
 
-  if check_author and post.author_id != g.user['id']:
+  if check_author and post.author_id != g.user.id:
     abort(403)
 
   return post
@@ -92,6 +92,32 @@ def delete(id):
   g.db_session.commit()
 
   return redirect(url_for('blog.index'))
+
+
+@bp.route('/<int:id>/like', methods=('POST', 'DELETE',))
+@login_required
+def like(id):
+  post = get_post(id, check_author=False)
+
+  if post is None:
+    abort(404)
+
+  if g.user.id == post.author.id:
+    abort(400, 'You cannot like your own posts!')
+
+  if request.method == 'POST':
+    exists = g.db_session.query(post_likes).filter_by(user_id=g.user.id, post_id=post.id).first() is not None
+    if exists:
+      abort(400, 'You already liked that post!')
+
+    g.user.liked_posts.append(post)
+
+  elif request.method == 'DELETE':
+    g.user.liked_posts.remove(post)
+
+  g.db_session.commit()
+
+  return '', 200
 
 
 def init_app(app):

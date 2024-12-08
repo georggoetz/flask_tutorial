@@ -1,16 +1,23 @@
-from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, func
-from sqlalchemy.orm import relationship, mapped_column, Mapped
+from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, Table, Column, func
+from sqlalchemy.orm import relationship, mapped_column
 from flaskr.db import db
+
+
+post_likes = Table(
+  'post_likes',
+  db.metadata,
+  Column('user_id', Integer, ForeignKey('users.id'), primary_key=True),
+  Column('post_id', Integer, ForeignKey('posts.id'), primary_key=True))
 
 
 class User(db.Model):
   __tablename__ = 'users'
 
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-  password: Mapped[str] = mapped_column(String, nullable=False)
-  posts: Mapped[list['Post']] = relationship('Post', back_populates='author')
-  likes: Mapped[list['Like']] = relationship('Like', back_populates='user')
+  id = mapped_column(Integer, primary_key=True, autoincrement=True)
+  username = mapped_column(String, unique=True, nullable=False)
+  password = mapped_column(String, nullable=False)
+  posts = relationship('Post', back_populates='author', cascade='all, delete')
+  liked_posts = relationship('Post', secondary=post_likes, back_populates='liked_by', cascade='all, delete')
 
   def __init__(self, username: None, password: None):
     self.username = username
@@ -23,13 +30,14 @@ class User(db.Model):
 class Post(db.Model):
   __tablename__ = 'posts'
 
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  author_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
-  created: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
-  title: Mapped[str] = mapped_column(String, nullable=False)
-  author: Mapped['User'] = relationship('User', back_populates='posts')
-  content: Mapped['Content'] = relationship('Content', back_populates='post', cascade='all, delete')
-  likes: Mapped[list['Like']] = relationship('Like', back_populates='post', cascade='all, delete')
+  id = mapped_column(Integer, primary_key=True, autoincrement=True)
+  created = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+  title = mapped_column(String, nullable=False)
+  author_id = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+  author = relationship('User', back_populates='posts')
+  content = relationship('Content', back_populates='post', uselist=False, cascade='all, delete')
+  liked_by = relationship('User', secondary=post_likes, back_populates='liked_posts', cascade='all, delete')
+  like_count = mapped_column(Integer, default=0, nullable=False)
 
   def __init__(self, title: None, author_id: None):
     self.title = title
@@ -42,9 +50,9 @@ class Post(db.Model):
 class Content(db.Model):
   __tablename__ = 'content'
 
-  post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), primary_key=True, nullable=False)
-  post: Mapped['Post'] = relationship('Post', back_populates='content')
-  body: Mapped[str] = mapped_column(Text, nullable=False)
+  post_id = mapped_column(Integer, ForeignKey('posts.id'), primary_key=True, nullable=False)
+  post = relationship('Post', back_populates='content')
+  body = mapped_column(Text, nullable=False)
 
   def __init__(self, body: None, post_id: None):
     self.body = body
@@ -52,20 +60,3 @@ class Content(db.Model):
 
   def __repr__(self):
     return f'Content(id={self.id!r}, post_id={self.post_id!r})'
-
-
-class Like(db.Model):
-  __tablename__ = 'likes'
-  __table_args__ = (db.PrimaryKeyConstraint('user_id', 'post_id'),)
-
-  user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
-  post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
-  user: Mapped['User'] = relationship('User', back_populates='likes')
-  post: Mapped['Post'] = relationship('Post', back_populates='likes')
-
-  def __init__(self, user_id=None, post_id=None):
-    self.user_id = user_id
-    self.post_id = post_id
-
-  def __repr__(self):
-    return f'Like(user_id={self.user_id!r}, post_id={self.post_id!r})'

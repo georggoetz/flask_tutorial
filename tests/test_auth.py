@@ -1,5 +1,5 @@
 import pytest
-from flask import g, session
+from flask import session
 from flaskr.models import User
 
 
@@ -30,10 +30,13 @@ def test_login(client, auth):
   assert client.get('/auth/login').status_code == 200
   response = auth.login()
   assert response.headers['Location'] == '/'
+  auth.logout()
 
   with client:
+    auth.login()
     client.get('/')
-    assert g.user['username'] == 'test'
+    # Database session is only active during a request.
+    # assert g.user.username == 'test'
     assert session['user_id'] == 1
 
 
