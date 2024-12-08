@@ -114,10 +114,14 @@ def test_like(client, auth, db_session):
   auth.login(username='other', password='test')
   response = client.post('/1/like')
   assert response.status_code == 200
-  assert json.loads(response.data).get('like_count') == 1
+  data = json.loads(response.data)
+  assert data.get('like_count') == 1
+  assert data.get('liked')
   assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is not None
 
   response = client.delete('/1/like')
   assert response.status_code == 200
-  assert json.loads(response.data).get('like_count') == 0
+  data = json.loads(response.data)
+  assert data.get('like_count') == 0
+  assert not data.get('liked')
   assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is None

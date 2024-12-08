@@ -14,5 +14,12 @@
     "--max-line-length=120",
     "--ignore=E121",
     "--exclude=__pycache__,.git,migrations,build,dist,.venv"
-  ]
+  ],
+  "eslint.options": {
+    "configFile": "eslint.config.mjs",
+    "eslint.experimental.useFlatConfig": true
+  },
+  "eslint.validate": [
+    "javascript",
+  ],
 }

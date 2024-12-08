@@ -14,7 +14,7 @@ def index(id=None):
     return render_template('blog/index.html', posts=posts)
 
   post = get_post(id, check_author=False)
-  return render_template('blog/post.html', post=post)
+  return render_template('blog/post.html', post=post, is_liked=is_liked_by_current_user(post))
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -119,7 +119,14 @@ def like(id):
 
   g.db_session.commit()
 
-  return jsonify({'like_count': post.like_count})
+  return jsonify({
+    'like_count': post.like_count,
+    'liked': request.method == 'POST'
+  })
+
+
+def is_liked_by_current_user(post):
+  return g.db_session.query(post_likes).filter_by(user_id=g.user.id, post_id=post.id).first() is not None
 
 
 def init_app(app):

@@ -1,0 +1,41 @@
+import globals from 'globals';
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  {
+    files: ['**/*.js'],
+    ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*'],
+    languageOptions: {
+      sourceType: 'script',
+      ecmaVersion: 6,
+      globals:
+        globals.browser
+    },
+    rules: {
+      /* === Best Practices === */
+      'no-unused-vars': 'warn',          // Warn about variables that are declared but not used
+      'eqeqeq': ['error', 'always'],     // Enforce the use of '===' and '!==' over '==' and '!='
+      'curly': 'error',                  // Require curly braces for all control statements
+
+      /* === ES6 Rules === */
+      'prefer-const': 'error',           // Prefer 'const' when variables are not reassigned
+      'arrow-spacing': ['error', {       // Enforce spaces before and after arrow functions
+        'before': true,
+        'after': true
+      }],
+      'no-var': 'error',                 // Disallow the use of 'var'; prefer 'let' or 'const'
+      'prefer-arrow-callback': 'error',  // Prefer arrow functions for callbacks where possible
+      'no-duplicate-imports': 'error',   // Disallow duplicate imports
+
+      /* === Style Guidelines === */
+      'semi': ['error', 'never'],        // No semicolons at the end of statements
+      'quotes': ['error', 'single'],     // Enforce the use of single quotes
+      'indent': ['error', 2],            // Enforce 4-space indentation
+      'space-before-function-paren': ['error', 'never'],  // No pace before function parentheses
+      'comma-dangle': ['error', 'never'], // Disallow trailing commas
+
+      /* === Strict Mode === */
+      'strict': ['error', 'global']      // Enforce 'use strict' at the global level
+    }
+  },
+];
