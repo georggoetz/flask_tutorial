@@ -7,12 +7,12 @@ function toggleLike(postId) {
     return
   }
 
-  const userElement = document.getElementById('user-data');
+  const userElement = document.getElementById('user-data')
   if (!userElement) {
     console.error('Element \'user-data\' not found')
     return
   }
-  const likedByUser = JSON.parse(userElement.getAttribute('liked-by-user'));
+  const likedByUser = JSON.parse(userElement.getAttribute('liked-by-user'))
   fetch(`${postId}/like`, {
     method: likedByUser ? 'DELETE' : 'POST',
     headers: { 'accept': 'application/json' },
@@ -33,3 +33,5 @@ function toggleLike(postId) {
       console.error('Error:', error)
     })
 }
+
+window.toggleLike = toggleLike
