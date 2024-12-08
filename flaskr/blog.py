@@ -11,10 +11,10 @@ bp = Blueprint('blog', __name__)
 def index(id=None):
   if id is None:
     posts = g.db_session.query(Post).all()
-    return render_template('blog/index.html', posts=posts)
+    return render_template('blog/index.jinja2', posts=posts)
 
   post = get_post(id, check_author=False)
-  return render_template('blog/post.html', post=post, is_liked=is_liked_by_current_user(post))
+  return render_template('blog/post.jinja2', post=post, is_liked=is_liked_by_current_user(post))
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -41,7 +41,7 @@ def create():
 
       return redirect(url_for('blog.index'))
 
-  return render_template('blog/create.html')
+  return render_template('blog/create.jinja2')
 
 
 def get_post(id, check_author=True):
@@ -80,7 +80,7 @@ def update(id):
 
       return redirect(url_for('blog.index'))
 
-  return render_template('blog/update.html', post=post)
+  return render_template('blog/update.jinja2', post=post)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
