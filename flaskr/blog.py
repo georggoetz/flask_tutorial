@@ -1,4 +1,4 @@
-from flask import Blueprint, g, request, flash, redirect, render_template, url_for
+from flask import Blueprint, g, request, flash, redirect, render_template, url_for, jsonify
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.models import Post, Content, post_likes
@@ -111,13 +111,15 @@ def like(id):
       abort(400, 'You already liked that post!')
 
     g.user.liked_posts.append(post)
+    post.like_count += 1
 
   elif request.method == 'DELETE':
     g.user.liked_posts.remove(post)
+    post.like_count -= 1
 
   g.db_session.commit()
 
-  return '', 200
+  return jsonify({'like_count': post.like_count})
 
 
 def init_app(app):

@@ -1,4 +1,5 @@
 import pytest
+import json
 from datetime import datetime
 from flaskr.models import Post, post_likes
 from sqlalchemy.sql import func
@@ -111,7 +112,12 @@ def test_like_validate(client, auth):
 
 def test_like(client, auth, db_session):
   auth.login(username='other', password='test')
-  assert client.post('/1/like').status_code == 200
+  response = client.post('/1/like')
+  assert response.status_code == 200
+  assert json.loads(response.data).get('like_count') == 1
   assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is not None
-  assert client.delete('/1/like').status_code == 200
+
+  response = client.delete('/1/like')
+  assert response.status_code == 200
+  assert json.loads(response.data).get('like_count') == 0
   assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is None
