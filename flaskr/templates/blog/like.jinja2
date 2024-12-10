@@ -7,7 +7,7 @@
         postId: {{ post.id | tojson }},
         authorId: {{ post.author_id | tojson }},
         userId: {% if g.user %}{{ g.user.id | tojson }} {% else %}null{% endif %},
-        liked: {{ is_liked | tojson }},
+        liked: {% if g.user %} {{ g.user.likes_post(post) | tojson }} {% else %} {{ False | tojson }} {% endif %},
         count: {{ post.like_count | tojson }},
         loginUrl: {{ url_for('auth.login', next=request.url) | tojson }}
       }

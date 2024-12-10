@@ -1,7 +1,7 @@
 from flask import Blueprint, g, request, flash, redirect, render_template, url_for, jsonify
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-from flaskr.models import Post, Content, post_likes
+from flaskr.models import Post, Content
 
 bp = Blueprint('blog', __name__)
 
@@ -11,10 +11,10 @@ bp = Blueprint('blog', __name__)
 def index(id=None):
   if id is None:
     posts = g.db_session.query(Post).all()
-    return render_template('blog/index.jinja2', posts=posts)
+    return render_template('blog/index.jinja2', posts=posts, request=request)
 
   post = get_post(id, check_author=False)
-  return render_template('blog/post.jinja2', post=post, is_liked=is_liked_by_current_user(post), request=request)
+  return render_template('blog/post.jinja2', post=post, request=request)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -106,16 +106,12 @@ def like(id):
     abort(400, 'You cannot like your own posts!')
 
   if request.method == 'POST':
-    exists = g.db_session.query(post_likes).filter_by(user_id=g.user.id, post_id=post.id).first() is not None
-    if exists:
+    if g.user.likes_post(post):
       abort(400, 'You already liked that post!')
-
-    g.user.liked_posts.append(post)
-    post.like_count += 1
+    g.user.like_post(post)
 
   elif request.method == 'DELETE':
-    g.user.liked_posts.remove(post)
-    post.like_count -= 1
+    g.user.unlike_post(post)
 
   g.db_session.commit()
 
@@ -125,10 +121,13 @@ def like(id):
   })
 
 
-def is_liked_by_current_user(post):
-  if g.user is None:
-    return False
-  return g.db_session.query(post_likes).filter_by(user_id=g.user.id, post_id=post.id).first() is not None
+@bp.route('/<int:id>/liked_by', methods=('GET',))
+@login_required
+def liked_by(id):
+  post = get_post(id, check_author=False)
+  return jsonify({
+    'users': [user.username for user in post.liked_by]
+  })
 
 
 def init_app(app):

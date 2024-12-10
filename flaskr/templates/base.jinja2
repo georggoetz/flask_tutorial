@@ -21,5 +21,10 @@
   {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
   {% endfor %}
+  <div class="modal" id="modal-dialog">
+    <div class="modal-content" id="modal-content">
+      <span class="close">&times;</span>
+    </div>
+  </div>
   {% block content %}{% endblock %}
 </section>

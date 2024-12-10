@@ -1,5 +1,7 @@
 from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, Table, Column, func
-from sqlalchemy.orm import relationship, mapped_column
+from sqlalchemy.sql import exists, and_
+from sqlalchemy.orm import relationship, mapped_column, object_session
+from sqlalchemy.ext.hybrid import hybrid_method
 from flaskr.db import db
 
 
@@ -26,6 +28,47 @@ class User(db.Model):
   def __repr__(self) -> str:
     return f'User(id={self.id!r}, username={self.username!r})'
 
+  @hybrid_method
+  def like_post(self, post):
+    session = object_session(self)
+    self.liked_posts.append(post)
+    post.like_count += 1
+    session.commit()
+
+  @like_post.expression
+  def like_post(cls, post):
+    return post_likes.insert().values(user_id=cls.id, post_id=post.id)
+
+  @hybrid_method
+  def unlike_post(self, post):
+    session = object_session(self)
+    self.liked_posts.remove(post)
+    post.like_count -= 1
+    session.commit()
+
+  @unlike_post.expression
+  def unlike_post(cls, post):
+    return post_likes.delete().where(
+      and_(
+        post_likes.c.user_id == cls.id,
+        post_likes.c.post_id == post.id))
+
+  @hybrid_method
+  def likes_post(self, post):
+    session = object_session(self)
+    return session.query(post_likes).filter(
+      and_(
+        post_likes.c.user_id == self.id,
+        post_likes.c.post_id == post.id
+      )).count() > 0
+
+  @likes_post.expression
+  def likes_post(cls, post):
+    return exists().where(
+      and_(
+        post_likes.user_id == cls.id,
+        post_likes.post_id == post.id))
+
 
 class Post(db.Model):
   __tablename__ = 'posts'
@@ -45,6 +88,22 @@ class Post(db.Model):
 
   def __repr__(self):
     return f'Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r})'
+
+  @hybrid_method
+  def is_liked_by(self, user):
+    session = object_session(self)
+    return session.query(post_likes).filter(
+      and_(
+        post_likes.c.user_id == user.id,
+        post_likes.c.post_id == self.id
+      )).count() > 0
+
+  @is_liked_by.expression
+  def is_liked_by(cls, user):
+    return exists().where(
+      and_(
+        post_likes.user_id == user.id,
+        post_likes.post_id == cls.id))
 
 
 class Content(db.Model):
