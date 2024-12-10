@@ -39,14 +39,15 @@ function Like(args) {
   updateCount()
   
   return {
-    toggle: function() {
+    toggle() {
       if (!userId) {
         window.location.href = loginUrl
         return
       }
-      fetch(`${postId}/like`, {
+
+      return fetch(`${String(postId)}/like`, {
         method: liked ? 'DELETE' : 'POST',
-        headers: { 'accept': 'application/json' }
+        headers: { 'Accept': 'application/json' }
       })
         .then(response => response.json())
         .then(data => {
@@ -56,7 +57,7 @@ function Like(args) {
           updateCount()
         })
         .catch((error) => {
-          console.error('Error:', error)
+          console.error('Error:', error.message)
         })
     }
   }

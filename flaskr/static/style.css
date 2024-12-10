@@ -144,6 +144,8 @@ input[type=submit] {
   position: relative;
   transform: rotate(-45deg);
   cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 0.25rem;
 }
 
 .heart.disabled {

@@ -32,7 +32,7 @@ def test_index(client, auth):
 ))
 def test_login_required(client, path):
   response = client.post(path)
-  assert response.headers["Location"] == "/auth/login"
+  assert response.headers['Location'] == f'/auth/login?next=http://localhost{path}'
 
 
 def test_author_required(app, client, auth, db_session):
