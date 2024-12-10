@@ -14,7 +14,7 @@ def index(id=None):
     return render_template('blog/index.jinja2', posts=posts)
 
   post = get_post(id, check_author=False)
-  return render_template('blog/post.jinja2', post=post, is_liked=is_liked_by_current_user(post))
+  return render_template('blog/post.jinja2', post=post, is_liked=is_liked_by_current_user(post), request=request)
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -126,6 +126,8 @@ def like(id):
 
 
 def is_liked_by_current_user(post):
+  if g.user is None:
+    return False
   return g.db_session.query(post_likes).filter_by(user_id=g.user.id, post_id=post.id).first() is not None
 
 

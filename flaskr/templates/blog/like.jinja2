@@ -1,0 +1,17 @@
+<div class="like" id="post-like-{{ post.id | tojson }}">
+  <a href="#"></a>
+  <div class="heart" onclick="likePost_{{ post.id | tojson }}.toggle(); return false;"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const args = {
+        postId: {{ post.id | tojson }},
+        authorId: {{ post.author_id | tojson }},
+        userId: {% if g.user %}{{ g.user.id | tojson }} {% else %}null{% endif %},
+        liked: {{ is_liked | tojson }},
+        count: {{ post.like_count | tojson }},
+        loginUrl: {{ url_for('auth.login', next=request.url) | tojson }}
+      }
+      window.likePost_{{ post.id | tojson }} = Like(args)
+    })
+  </script>
+</div>

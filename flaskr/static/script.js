@@ -1,37 +1,65 @@
 'use strict'
 
-function toggleLike(postId) {
-  const likeElement = document.getElementById('like')
-  if (!likeElement) {
-    console.error('Element \'like\' not found')
-    return
+function Like(args) {
+  let { count, liked } = args
+  const { postId, userId, authorId, loginUrl } = args
+  
+  const div = document.getElementById(`post-like-${postId}`)
+  const checkbox = div.querySelector('div')
+  const link = div.querySelector('a')
+
+  if (userId === authorId) {
+    checkbox.classList.toggle('disabled')
   }
 
-  const userElement = document.getElementById('user-data')
-  if (!userElement) {
-    console.error('Element \'user-data\' not found')
-    return
+  if (!userId) {
+    link.removeAttribute('href')
   }
-  const likedByUser = JSON.parse(userElement.getAttribute('liked-by-user'))
-  fetch(`${postId}/like`, {
-    method: likedByUser ? 'DELETE' : 'POST',
-    headers: { 'accept': 'application/json' },
-    body: JSON.stringify({})
-  })
-    .then(response => response.json())
-    .then(data => {
-      userElement.setAttribute('liked-by-user', (!likedByUser).toString())
-      likeElement.innerText = data.liked ? 'Unlike' : 'Like'
-      const countElement = document.getElementById('like-count')
-      if (!countElement) {
-        console.error('Element \'like-count\' not found')
+
+  function updateCheckbox() {
+    if (liked) {
+      checkbox.classList.add('liked')
+    } else {
+      checkbox.classList.remove('liked')
+    }
+  }
+
+  function updateCount() {
+    if (count === 0) {
+      link.innerText = 'not liked yet'
+    } else if (count === 1) {
+      link.innerText = '1 like'
+    } else {
+      link.innerText = `${count} likes`
+    }
+    
+  }
+
+  updateCheckbox()
+  updateCount()
+  
+  return {
+    toggle: function() {
+      if (!userId) {
+        window.location.href = loginUrl
         return
       }
-      countElement.innerText = data.likes_count
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-    })
+      fetch(`${postId}/like`, {
+        method: liked ? 'DELETE' : 'POST',
+        headers: { 'accept': 'application/json' }
+      })
+        .then(response => response.json())
+        .then(data => {
+          liked = data.liked
+          count = data.like_count
+          updateCheckbox()
+          updateCount()
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
+    }
+  }
 }
 
-window.toggleLike = toggleLike
+module.exports = { Like }

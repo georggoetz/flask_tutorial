@@ -56,7 +56,8 @@ def login():
     if error is None:
       session.clear()
       session['user_id'] = user.id
-      return redirect(url_for('index'))
+      next_page = request.args.get('next')
+      return redirect(next_page or url_for('index'))
 
     flash(error)
 
@@ -85,7 +86,7 @@ def login_required(view):
   @functools.wraps(view)
   def wrapped_view(**kwargs):
     if g.user is None:
-      return redirect(url_for('auth.login'))
+      return redirect(url_for('auth.login', next=request.url))
 
     return view(**kwargs)
 
