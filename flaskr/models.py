@@ -47,7 +47,7 @@ class Post(db.Model):
       and_(
         post_likes.user_id == user.id,
         post_likes.post_id == cls.id))
-  
+
 
 class Content(db.Model):
   __tablename__ = 'content'
