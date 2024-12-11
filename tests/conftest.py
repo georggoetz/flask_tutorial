@@ -3,7 +3,7 @@ import pytest
 import tempfile
 from flaskr import create_app
 from flaskr.db import init_db, db
-from flaskr.models import User, Post, Content
+from flaskr.models import User, Post
 from werkzeug.security import generate_password_hash
 
 
@@ -30,8 +30,7 @@ def seed_db():
   with db.session() as db_session:
     db_session.add(User(username='test', password=generate_password_hash('test')))
     db_session.add(User(username='other', password=generate_password_hash('test')))
-    db_session.add(Post(title='test title', author_id=1))
-    db_session.add(Content(body='test\nbody', post_id=1))
+    db_session.add(Post(title='test title', author_id=1, body='test\nbody'))
     db_session.commit()
 
 

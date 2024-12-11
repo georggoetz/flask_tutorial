@@ -1,7 +1,8 @@
 from flask import Blueprint, g, request, flash, redirect, render_template, url_for, jsonify
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-from flaskr.models import Post, Content
+from flaskr.models import Post
+from sqlalchemy.sql import desc
 
 bp = Blueprint('blog', __name__)
 
@@ -10,7 +11,7 @@ bp = Blueprint('blog', __name__)
 @bp.route('/<int:id>', methods=('GET',))
 def index(id=None):
   if id is None:
-    posts = g.db_session.query(Post).all()
+    posts = g.db_session.query(Post).order_by(desc(Post.created), Post.id).all()
     return render_template('blog/index.jinja2', posts=posts, request=request)
 
   post = get_post(id, check_author=False)
@@ -31,12 +32,7 @@ def create():
     if error is not None:
       flash(error)
     else:
-      new_post = Post(title, g.user.id)
-      g.db_session.add(new_post)
-      g.db_session.commit()
-
-      new_content = Content(body, new_post.id)
-      g.db_session.add(new_content)
+      g.db_session.add(Post(title, g.user.id, body))
       g.db_session.commit()
 
       return redirect(url_for('blog.index'))
