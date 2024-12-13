@@ -12,6 +12,13 @@ post_likes = Table(
   Column('post_id', Integer, ForeignKey('posts.id'), primary_key=True))
 
 
+comment_likes = Table(
+  'comment_likes',
+  db.metadata,
+  Column('user_id', Integer, ForeignKey('users.id'), primary_key=True),
+  Column('comment_id', Integer, ForeignKey('comments.id'), primary_key=True))
+
+
 class Post(db.Model):
   __tablename__ = 'posts'
 
@@ -20,9 +27,11 @@ class Post(db.Model):
   title = mapped_column(String, nullable=False)
   author_id = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
   author = relationship('User', back_populates='posts')
+  content_id = mapped_column(Integer, ForeignKey('content.id'), nullable=False)
   content = relationship('Content', back_populates='post', uselist=False, cascade='all, delete')
   liked_by = relationship('User', secondary=post_likes, back_populates='liked_posts', cascade='all, delete')
   like_count = mapped_column(Integer, default=0, nullable=False)
+  comments = relationship('Comment', back_populates='post', cascade='all, delete')
 
   def __init__(self, title=None, author_id=None, body=None):
     self.title = title
@@ -49,12 +58,26 @@ class Post(db.Model):
         post_likes.post_id == cls.id))
 
 
+class Comment(db.Model):
+  __tablename__ = 'comments'
+
+  id = mapped_column(Integer, primary_key=True, autoincrement=True)
+  post_id = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
+  post = relationship('Post', back_populates='comments')
+  comment_id = mapped_column(Integer, ForeignKey('comments.id'))
+  reply_to = relationship('Comment', remote_side=[id], back_populates='replies')
+  replies = relationship('Comment', back_populates='reply_to', cascade='all, delete')
+  content_id = mapped_column(Integer, ForeignKey('content.id'), nullable=False)
+  content = relationship('Content', back_populates='comment', uselist=False, cascade='all, delete')
+
+
 class Content(db.Model):
   __tablename__ = 'content'
 
-  post_id = mapped_column(Integer, ForeignKey('posts.id'), primary_key=True, nullable=False)
-  post = relationship('Post', back_populates='content')
+  id = mapped_column(Integer, primary_key=True, autoincrement=True)
   body = mapped_column(Text, nullable=False)
+  post = relationship('Post', back_populates='content', uselist=False)
+  comment = relationship('Comment', back_populates='content', uselist=False)
 
   def __init__(self, body=None, post_id=None):
     self.body = body

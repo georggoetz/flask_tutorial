@@ -1,4 +1,4 @@
-const { Like } = require('../flaskr/static/script.js')
+const { Like } = require('./script.js')
 
 describe('Like', () => {
   
