@@ -1,17 +1,23 @@
-<div class="like action" id="post-like-{{ post.id | tojson }}">
+
+{% set post_id    = post.id | tojson %}
+{% set author_id  = post.author_id | tojson %}
+{% set user_id    = g.user.id | tojson if g.user else 'null' %}
+{% set liked      = g.user.likes_post(post) | tojson if g.user else 'false' %}
+{% set count      = post.like_count | tojson %}
+{% set login_url  = url_for('auth.login', next=request.url) | tojson %}
+<div class="like action" id="post-like-{{ post_id }}">
   <a href="#"></a>
-  <div class="heart" onclick="likePost_{{ post.id | tojson }}.toggle(); return false;"></div>
+  <div class="heart" onclick="likePost_{{ post_id }}.toggle(); return false;"></div>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const args = {
-        postId: {{ post.id | tojson }},
-        authorId: {{ post.author_id | tojson }},
-        userId: {% if g.user %}{{ g.user.id | tojson }} {% else %}null{% endif %},
-        liked: {% if g.user %} {{ g.user.likes_post(post) | tojson }} {% else %} {{ False | tojson }} {% endif %},
-        count: {{ post.like_count | tojson }},
-        loginUrl: {{ url_for('auth.login', next=request.url) | tojson }}
-      }
-      window.likePost_{{ post.id | tojson }} = Like(args)
+    document.addEventListener('DOMContentLoaded', () => { 
+      window.likePost_{{ post_id }} = Like({
+        postId:   {{ post_id }},
+        authorId: {{ author_id }},
+        userId:   {{ user_id }},
+        liked:    {{ liked }},
+        count:    {{ count }},
+        loginUrl: {{ login_url }}
+      })
     })
   </script>
 </div>
