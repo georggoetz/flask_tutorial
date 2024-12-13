@@ -10,7 +10,7 @@
   <div class="heart" onclick="likePost_{{ post_id }}.toggle(); return false;"></div>
   <script>
     document.addEventListener('DOMContentLoaded', () => { 
-      window.likePost_{{ post_id }} = Like({
+      const.likePost_{{ post_id }} = Like({
         postId:   {{ post_id }},
         authorId: {{ author_id }},
         userId:   {{ user_id }},
