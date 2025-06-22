@@ -8,6 +8,14 @@ dependencies = [
     "flask_migrate"
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "coverage",
+  "flake8",
+  "flake8-pyproject"
+]
+
 [build-system]
 requires = ["flit_core<4"]
 build-backend = "flit_core.buildapi"
@@ -31,5 +39,6 @@ exclude = [
     "venv/",
     "build/",
     "dist/",
-    ".venv/"
+    ".venv/",
+    "node_modules"
 ]
