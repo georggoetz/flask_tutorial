@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <title>{% block title %}{% endblock %}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
 <nav>
   <h1>Flaskr</h1>
@@ -21,10 +20,5 @@
   {% for message in get_flashed_messages() %}
   <div class="flash">{{ message }}</div>
   {% endfor %}
-  <div class="modal" id="modal-dialog">
-    <div class="modal-content" id="modal-content">
-      <span class="close">&times;</span>
-    </div>
-  </div>
   {% block content %}{% endblock %}
 </section>

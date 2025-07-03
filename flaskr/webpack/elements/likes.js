@@ -1,0 +1,111 @@
+import cssText from './likes.css?raw'
+
+const styleSheet = new CSSStyleSheet()
+styleSheet.replaceSync(cssText)
+
+export default class Likes extends HTMLElement {
+  
+  static get observedAttributes() {
+    return ['liked', 'count', 'url', 'disabled']
+  }
+
+  constructor() {
+    super()
+
+    this.attachShadow({ mode: 'open' })
+  }
+
+  connectedCallback() {
+    this.shadowRoot.adoptedStyleSheets.push(styleSheet)
+    this.isDOMCreated = this.createDOM()
+    this.updateDOM()
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue) {
+      this.updateDOM()
+    }
+  }
+
+  get isLiked() {
+    return this.getAttribute('liked') === 'true'
+  }
+
+  set isLiked(val) {
+    this.setAttribute('liked', val ? 'true' : 'false')
+  }
+
+  get url() {
+    return this.getAttribute('url')
+  }
+
+  get count() {
+    return parseInt(this.getAttribute('count'), 10) || 0
+  }
+
+  set count(val) {
+    this.setAttribute('count', val.toString())
+  }
+
+  get isDisabled() {
+    return this.getAttribute('disabled') === 'true'
+  }
+
+  createDOM() {
+    this.button = document.createElement('button')
+    this.button.type = 'button'
+    this.button.innerHTML = '<span class="likes__heart"></span>'
+    this.button.setAttribute('aria-pressed', this.isLiked)
+    this.button.addEventListener('click', () => { this.handleClick() })
+
+    this.counter = document.createElement('span')
+    this.counter.classList.add('likes__counter')
+
+    this.wrapper = document.createElement('div')
+    this.wrapper.classList.add('likes')
+
+    this.wrapper.appendChild(this.button)
+    this.wrapper.appendChild(this.counter)
+
+    this.shadowRoot.appendChild(this.wrapper)
+
+    return true
+  }
+
+  updateDOM() {
+    if (!this.isDOMCreated) {
+      return
+    }
+
+    this.button.setAttribute('aria-pressed', this.isLiked)
+    this.button.setAttribute('aria-disabled', this.isDisabled ? 'true' : 'false')
+    
+    this.counter.textContent = `${this.count}`
+    //this.counter.classList.toggle('likes__counter--hidden', this.count <= 0)
+    this.counter.classList.toggle('likes__counter--liked', this.isLiked)
+
+    const heart = this.button.querySelector('.likes__heart')
+    if (heart) {
+      heart.classList.toggle('likes__heart--liked', this.isLiked)
+      heart.classList.toggle('likes__heart--disabled', this.isDisabled)
+    }
+  }
+
+  async handleClick() {
+    try {
+      const response = await fetch(this.url, { method: this.isLiked ? 'DELETE' : 'POST' })
+      const data = await response.json()
+
+      if (response.ok) {
+        this.isLiked = data.isLiked
+        this.count = data.count
+      } else {       
+        console.error(`${response.statusText} (${response.status}): ${data?.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error(`Network error: ${error.message}`)
+    }
+  }
+}
+
+customElements.define('x-likes', Likes)

@@ -27,8 +27,7 @@ def create_app(test_config=None):
   from . import blog
   blog.init_app(app)
 
-  @app.route('/hello')
-  def hello():
-    return 'Hello, World!'
+  from . import blog_api
+  blog_api.init_app(app)
 
   return app

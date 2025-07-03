@@ -4,10 +4,10 @@ import globals from 'globals';
 export default [
   {
     files: ['**/*.js'],
-    ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*'],
+    ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*', 'flaskr/static/dist/**/*'],
     languageOptions: {
-      sourceType: 'script',
-      ecmaVersion: 6,
+      sourceType: 'module',
+      ecmaVersion: 2020,
       globals:
         globals.browser
     },
