@@ -1,8 +1,9 @@
+// Jest does not support the replaceSync method on CSSStyleSheet.
 global.CSSStyleSheet = class {
   replaceSync() { }
 }
 
-// Patch attachShadow, damit adoptedStyleSheets immer existiert
+// Jest does not support the adoptedStyleSheets property on ShadowRoot.
 const origAttachShadow = Element.prototype.attachShadow
 Element.prototype.attachShadow = function(init) {
   const shadow = origAttachShadow.call(this, init)
