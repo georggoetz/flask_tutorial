@@ -7,7 +7,7 @@ export default [
     ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*', 'flaskr/static/dist/**/*'],
     languageOptions: {
       sourceType: 'module',
-      ecmaVersion: 2020,
+      ecmaVersion: 'latest',
       globals:
         globals.browser
     },

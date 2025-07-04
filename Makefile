@@ -47,7 +47,7 @@ lint-python:
 	$(FLAKE8)
 
 lint-js:
-	npx eslint flaskr/webpack
+	$(NPM) run eslint
 
 lint: lint-python lint-js
 

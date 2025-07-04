@@ -1,7 +1,5 @@
 import cssText from './likes.css?raw'
-
-const styleSheet = new CSSStyleSheet()
-styleSheet.replaceSync(cssText)
+import { adoptStyleSheet } from '../../global/adopt-style-sheet.js'
 
 export default class Likes extends HTMLElement {
   
@@ -16,7 +14,7 @@ export default class Likes extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot.adoptedStyleSheets.push(styleSheet)
+    adoptStyleSheet(this.shadowRoot, cssText)
     this.isDOMCreated = this.createDOM()
     this.updateDOM()
   }

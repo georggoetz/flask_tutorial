@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import './likes.js'
 
 describe('Likes Web Component', () => {
@@ -12,26 +13,26 @@ describe('Likes Web Component', () => {
     document.body.innerHTML = ''
   })
 
-  test('initializes with default attributes', () => {
+  it('initializes with default attributes', () => {
     expect(element.isLiked).toBe(false)
     expect(element.count).toBe(0)
     expect(element.isDisabled).toBe(false)
   })
 
-  test('reflects liked attribute', () => {
+  it('reflects liked attribute', () => {
     element.isLiked = true
     expect(element.getAttribute('liked')).toBe('true')
     expect(element.isLiked).toBe(true)
   })
 
-  test('updates count attribute', () => {
-    element.count = 42
-    expect(element.getAttribute('count')).toBe('42')
-    expect(element.count).toBe(42)
-    expect(element.shadowRoot.querySelector('.likes__counter').textContent).toBe('42')
+  it('updates count attribute', () => {
+    element.count = 5
+    expect(element.getAttribute('count')).toBe('5')
+    expect(element.count).toBe(5)
+    expect(element.shadowRoot.querySelector('.likes__counter').textContent).toBe('5')
   })
 
-  test('toggles liked class on heart', () => {
+  it('toggles liked class on heart', () => {
     const heart = element.shadowRoot.querySelector('.likes__heart')
     expect(heart.classList.contains('likes__heart--liked')).toBe(false)
     element.isLiked = true
@@ -39,7 +40,7 @@ describe('Likes Web Component', () => {
     expect(heart.classList.contains('likes__heart--liked')).toBe(true)
   })
 
-  test('toggles disabled class on heart', () => {
+  it('toggles disabled class on heart', () => {
     const heart = element.shadowRoot.querySelector('.likes__heart')
     expect(heart.classList.contains('likes__heart--disabled')).toBe(false)
     element.setAttribute('disabled', 'true')

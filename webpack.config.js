@@ -4,7 +4,7 @@ module.exports = (env, argv) => {
   const isDev = argv.mode === 'development'
 
   return {
-    entry: './flaskr/webpack/index.js',
+    entry: './flaskr/frontend/index.js',
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'flaskr/static/dist'),
@@ -12,6 +12,16 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        },
         {
           test: /\.css$/i,
           resourceQuery: /raw/,
