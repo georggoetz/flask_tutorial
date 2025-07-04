@@ -1,7 +1,10 @@
 import click
+import random
+from faker import Faker
 from flask import g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 migrate = Migrate(db=db)
@@ -38,8 +41,29 @@ def init_db_command():
   click.echo('Initialized database')
 
 
+@click.command('seed-db')
+def seed_db_command():
+    from flaskr.models import User, Post
+    fake = Faker()
+    users = []
+    for _ in range(10):
+        user = User(username=fake.user_name(), password=generate_password_hash('secret'))
+        db.session.add(user)
+        users.append(user)
+        print(user.username)
+    db.session.commit()
+    for user in users:
+        for _ in range(3):
+            length = random.randint(100, 5000)
+            post = Post(title=fake.sentence(), body=fake.text(max_nb_chars=length), author_id=user.id)
+            db.session.add(post)
+    db.session.commit()
+    click.echo('Seeded 10 users with je 3 Posts (Faker)')
+
+
 def init_app(app):
   db.init_app(app)
   migrate.init_app(app, db)
   setup_transaction_middleware(app, db)
   app.cli.add_command(init_db_command)
+  app.cli.add_command(seed_db_command)
