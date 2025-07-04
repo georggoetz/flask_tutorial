@@ -43,22 +43,22 @@ def init_db_command():
 
 @click.command('seed-db')
 def seed_db_command():
-    from flaskr.models import User, Post
-    fake = Faker()
-    users = []
-    for _ in range(10):
-        user = User(username=fake.user_name(), password=generate_password_hash('secret'))
-        db.session.add(user)
-        users.append(user)
-        print(user.username)
-    db.session.commit()
-    for user in users:
-        for _ in range(3):
-            length = random.randint(100, 5000)
-            post = Post(title=fake.sentence(), body=fake.text(max_nb_chars=length), author_id=user.id)
-            db.session.add(post)
-    db.session.commit()
-    click.echo('Seeded 10 users with je 3 Posts (Faker)')
+  from flaskr.models import User, Post
+  fake = Faker()
+  users = []
+  for _ in range(10):
+    user = User(username=fake.user_name(), password=generate_password_hash('secret'))
+    db.session.add(user)
+    users.append(user)
+    print(user.username)
+  db.session.commit()
+  for user in users:
+    for _ in range(3):
+      length = random.randint(100, 5000)
+      post = Post(title=fake.sentence(), body=fake.text(max_nb_chars=length), author_id=user.id)
+      db.session.add(post)
+  db.session.commit()
+  click.echo('Seeded 10 users with je 3 Posts (Faker)')
 
 
 def init_app(app):

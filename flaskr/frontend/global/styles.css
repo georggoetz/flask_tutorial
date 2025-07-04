@@ -135,3 +135,11 @@ input[type=submit] {
   align-self: start;
   min-width: 10em;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}

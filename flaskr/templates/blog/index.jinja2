@@ -27,8 +27,18 @@
     </x-likes>  
   </section>
 </article>
-{% if not loop.last %}
 <hr>
-{% endif %}
 {% endfor %}
+
+{% set has_prev = page > 1 %}
+{% set has_next = page < total_pages %}
+<div class="pagination" style="">
+  {% if has_prev %}
+    <a href="{{ url_for('blog.page', page=page-1) if page > 2 else url_for('blog.index') }}">« Previous</a>
+  {% endif %}
+  <span>Page {{ page }} of {{ total_pages }}</span>
+  {% if has_next %}
+    <a href="{{ url_for('blog.page', page=page+1) }}">Next »</a>
+  {% endif %}
+</div>
 {% endblock %}

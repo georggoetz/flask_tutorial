@@ -7,14 +7,31 @@ from sqlalchemy.sql import desc
 bp = Blueprint('blog', __name__)
 
 
+POSTS_PER_PAGE = 5
+
+
 @bp.route('/', methods=('GET',))
 @bp.route('/<int:id>', methods=('GET',))
 def index(id=None):
   if id is None:
-    posts = g.db_session.query(Post).order_by(desc(Post.created), Post.id).all()
-    return render_template('blog/index.jinja2', posts=posts, request=request)
+    return redirect(url_for('blog.page', page=1))
   post = get_post(id, check_author=False)
   return render_template('blog/post.jinja2', post=post, request=request)
+
+
+@bp.route('/page/<int:page>', methods=('GET',))
+def page(page):
+  posts_query = g.db_session.query(Post).order_by(desc(Post.created), Post.id)
+  total_posts = posts_query.count()
+  posts = posts_query.offset((page - 1) * POSTS_PER_PAGE).limit(POSTS_PER_PAGE).all()
+  total_pages = (total_posts + POSTS_PER_PAGE - 1) // POSTS_PER_PAGE
+  return render_template(
+    'blog/index.jinja2',
+    posts=posts,
+    request=request,
+    page=page,
+    total_pages=total_pages
+  )
 
 
 @bp.route('/create', methods=('GET', 'POST'))
