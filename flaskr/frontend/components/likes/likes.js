@@ -81,6 +81,7 @@ export default class Likes extends HTMLElement {
     this.counter.textContent = `${this.count}`
     //this.counter.classList.toggle('likes__counter--hidden', this.count <= 0)
     this.counter.classList.toggle('likes__counter--liked', this.isLiked)
+    this.counter.classList.toggle('likes__counter--disabled', this.isDisabled)
 
     const heart = this.button.querySelector('.likes__heart')
     if (heart) {

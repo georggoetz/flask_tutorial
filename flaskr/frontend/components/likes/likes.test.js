@@ -36,7 +36,6 @@ describe('Likes Web Component', () => {
     const heart = element.shadowRoot.querySelector('.likes__heart')
     expect(heart.classList.contains('likes__heart--liked')).toBe(false)
     element.isLiked = true
-    element.updateDOM()
     expect(heart.classList.contains('likes__heart--liked')).toBe(true)
   })
 
@@ -44,7 +43,20 @@ describe('Likes Web Component', () => {
     const heart = element.shadowRoot.querySelector('.likes__heart')
     expect(heart.classList.contains('likes__heart--disabled')).toBe(false)
     element.setAttribute('disabled', 'true')
-    element.updateDOM()
     expect(heart.classList.contains('likes__heart--disabled')).toBe(true)
+  })
+
+  it ('toggles like class on counter', () => {
+    const counter = element.shadowRoot.querySelector('.likes__counter')
+    expect(counter.classList.contains('likes__counter--liked')).toBe(false)
+    element.isLiked = true
+    expect(counter.classList.contains('likes__counter--liked')).toBe(true)
+  })
+
+  it ('toggles disabled class on counter', () => {
+    const counter = element.shadowRoot.querySelector('.likes__counter')
+    expect(counter.classList.contains('likes__counter--disabled')).toBe(false)
+    element.setAttribute('disabled', 'true')
+    expect(counter.classList.contains('likes__counter--disabled')).toBe(true)
   })
 })
