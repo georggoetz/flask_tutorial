@@ -1,0 +1,75 @@
+.likes {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &__counter {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: slategray;
+    letter-spacing: 0.03em;
+    vertical-align: middle;
+
+    &--disabled {
+      opacity: 0.5;
+    }
+    &--hidden {
+      display: none;
+    }
+    &--liked {
+      color: hotpink;
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+    overflow: visible;
+    line-height: 0;
+  }
+}
+
+.likes__heart {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: slategray;
+  display: inline-block;
+  position: relative;
+  transform: rotate(-45deg);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 0.25rem;
+
+  &::before,
+  &::after {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: slategray;
+    border-radius: 50%;
+    position: absolute;
+  }
+  &::before {
+    top: -0.25rem;
+    left: 0;
+  }
+  &::after {
+    left: 0.25rem;
+    top: 0;
+  }
+  &--disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+  &--liked,
+  &--liked::before,
+  &--liked::after {
+    background-color: hotpink;
+  }
+}

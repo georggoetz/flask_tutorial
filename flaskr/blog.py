@@ -57,7 +57,7 @@ def create():
 
 
 def get_post(id, check_author=True):
-  post = g.db_session.query(Post).get(id)
+  post = g.db_session.get(Post, id)
 
   if post is None:
     abort(404, f"Post id {id} doesn't exist.")

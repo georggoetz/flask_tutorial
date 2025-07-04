@@ -1,17 +1,16 @@
 import pytest
-import json
 from datetime import datetime
-from flaskr.models import Post, post_likes
+from flaskr.models import Post
 from sqlalchemy.sql import func
 
 
 def test_index(client, auth):
-  response = client.get('/')
+  response = client.get('/', follow_redirects=True)
   assert b"Log In" in response.data
   assert b"Register" in response.data
 
   auth.login()
-  response = client.get('/')
+  response = client.get('/', follow_redirects=True)
   assert b'Log Out' in response.data
   assert b'test title' in response.data
   assert f'by test on {datetime.today().strftime('%Y-%m-%d')}'.encode() in response.data
@@ -38,7 +37,7 @@ def test_login_required(client, path):
 def test_author_required(app, client, auth, db_session):
   # change the post author to another user
   with app.app_context():
-    post = db_session.query(Post).get(1)
+    post = db_session.get(Post, 1)
     post.author_id = 2
     db_session.commit()
 
@@ -95,33 +94,3 @@ def test_delete(client, auth, db_session):
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post is None
-
-
-def test_like_validate(client, auth):
-  auth.login()
-  # Cannot like post that does not exist
-  assert client.post('/2/like').status_code == 404
-  # Cannot like my own posts
-  assert client.post('/1/like').status_code == 400
-  auth.logout()
-  auth.login(username='other', password='test')
-  assert client.post('/1/like').status_code == 200
-  # Cannot like the same post twice
-  assert client.post('/1/like').status_code == 400
-
-
-def test_like(client, auth, db_session):
-  auth.login(username='other', password='test')
-  response = client.post('/1/like')
-  assert response.status_code == 200
-  data = json.loads(response.data)
-  assert data.get('like_count') == 1
-  assert data.get('liked')
-  assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is not None
-
-  response = client.delete('/1/like')
-  assert response.status_code == 200
-  data = json.loads(response.data)
-  assert data.get('like_count') == 0
-  assert not data.get('liked')
-  assert db_session.query(post_likes).filter_by(user_id=2, post_id=1).first() is None

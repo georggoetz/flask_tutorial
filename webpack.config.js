@@ -23,14 +23,14 @@ module.exports = (env, argv) => {
           }
         },
         {
-          test: /\.css$/i,
+          test: /\.(c|sa|sc)ss$/i,
           resourceQuery: /raw/,
-          use: 'raw-loader'
+          use: ['raw-loader', 'sass-loader']
         },
         {
-          test: /\.css$/i,
+          test: /\.(c|sa|sc)ss$/i,
           resourceQuery: { not: [/raw/] },
-          use: ['style-loader', 'css-loader']
+          use: ['style-loader', 'css-loader', 'sass-loader']
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/i,

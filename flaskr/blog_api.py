@@ -23,6 +23,8 @@ def like(id):
     g.user.like_post(post)
 
   elif request.method == 'DELETE':
+    if not g.user.likes_post(post):
+      return jsonify(error='You have not liked that post!'), 400
     g.user.unlike_post(post)
 
   g.db_session.commit()

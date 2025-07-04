@@ -5,7 +5,8 @@ description = "The basic blog app built in the Flask tutorial."
 dependencies = [
     "flask",
     "flask_sqlalchemy",
-    "flask_migrate"
+    "flask_migrate",
+    "faker"
 ]
 
 [project.optional-dependencies]

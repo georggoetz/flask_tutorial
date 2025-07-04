@@ -27,6 +27,8 @@
     "globals": "^15.13.0",
     "happy-dom": "^18.0.1",
     "raw-loader": "^4.0.2",
+    "sass": "^1.89.2",
+    "sass-loader": "^16.0.5",
     "style-loader": "^4.0.0",
     "vitest": "^3.2.4",
     "webpack": "^5.99.9",

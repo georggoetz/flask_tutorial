@@ -1,22 +1,22 @@
 {% extends 'base.jinja2' %}
 
 {% block header %}
-<h1>{% block title %}Posts{% endblock %}</h1>
+<h1 class="heading-1">{% block title %}Posts{% endblock %}</h1>
 {% if g.user %}
-<a class="action" href="{{ url_for('blog.create') }}">New</a>
+<a class="nav__header-action" href="{{ url_for('blog.create') }}">New</a>
 {% endif %}
 {% endblock %}
 
 {% block content %}
 {% for post in posts %}
 <article class="post">
-  <header>
+  <header class="post__header">
     <div>
       <h1><a href="{{ url_for('blog.index', id=post.id) }}">{{ post.title }}</a></h1>
-      <div class="about">by {{ post.author.username }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
+      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
     </div>
     {% if g.user.id == post['author_id'] %}
-    <a class="action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
+    <a class="nav__header-action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
     {% endif %}
   </header>
   <section>
@@ -27,12 +27,12 @@
     </x-likes>  
   </section>
 </article>
-<hr>
+<hr class="hr">
 {% endfor %}
 
 {% set has_prev = page > 1 %}
 {% set has_next = page < total_pages %}
-<div class="pagination" style="">
+<div class="pagination">
   {% if has_prev %}
     <a href="{{ url_for('blog.page', page=page-1) if page > 2 else url_for('blog.index') }}">« Previous</a>
   {% endif %}
