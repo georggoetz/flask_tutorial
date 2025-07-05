@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+instance/
+htmlcov/
+node_modules/
+static/dist/
+.env
+.env.*
+.DS_Store
+*.log
+migrations/versions/__pycache__/

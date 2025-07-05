@@ -3,7 +3,7 @@ from flaskr.models import Post
 
 def test_like_post(client, auth, db_session):
   auth.login(username='other')
-  
+
   # Like post 1
   response = client.post('/api/blog/1/like')
   assert response.status_code == 200
