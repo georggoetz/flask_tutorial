@@ -4,7 +4,7 @@ PIP = $(VENV)/bin/pip
 FLASK = $(VENV)/bin/flask
 NPM = npm
 WEBPACK = npx webpack
-WEBPACK_DEV = npx webpack serve --mode development --hot
+WEBPACK_DEV = npx webpack --watch --mode development
 FLAKE8 = $(VENV)/bin/flake8
 
 .PHONY: help

@@ -28,14 +28,19 @@ body {
 }
 
 .nav {
+  a {
+    color: #377ba8;
+  }
   background: lightgray;
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
 
   &__title {
+    color: #377ba8;
+    font-family: serif;
     flex: auto;
-    margin: 0;
+    margin: 1rem 0;
     a {
       text-decoration: none;
       padding: 0.25rem 0.5rem;
@@ -52,6 +57,7 @@ body {
   &__header-action {
     display: block;
     padding: 0.5rem;
+    color: #377ba8;
   }
 }
 
@@ -102,7 +108,18 @@ body {
   border: 1px solid #377ba8;
 }
 
+.post-header {
+  a {
+    display: block;
+    padding: 0.5rem;
+    color: #377ba8;
+  }
+}
+
 .post {
+  a {
+    color: #377ba8;
+  }
   &__header {
     display: flex;
     align-items: flex-end;
@@ -115,6 +132,12 @@ body {
       margin-bottom: 0;
     }
   }
+  &__title {
+    color: #377ba8;
+    font-family: serif;
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+  }
   &__about {
     color: slategray;
     font-style: italic;
@@ -125,6 +148,9 @@ body {
 }
 
 .pagination {
+  a {
+    color: #377ba8;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
