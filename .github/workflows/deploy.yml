@@ -57,6 +57,7 @@ jobs:
         with:
           name: coverage-html
           path: htmlcov/
+          retention-days: 7
 
       - name: Deploy to Fly.io
         if: ${{ success() }}
