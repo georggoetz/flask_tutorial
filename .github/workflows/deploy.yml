@@ -14,7 +14,39 @@ jobs:
       - name: Set up Fly.io CLI
         uses: superfly/flyctl-actions/setup-flyctl@v1
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install .[dev]
+          pip install .
+          npm install
+
+      - name: Lint Python
+        run: .venv/bin/flake8
+
+      - name: Lint JS
+        run: npm run eslint
+
+      - name: Run JS tests
+        run: npm run test:ci
+
+      - name: Run Python tests
+        run: .venv/bin/pytest -v
+
+      # Deploy nur, wenn alles oben erfolgreich war
       - name: Deploy to Fly.io
+        if: ${{ success() }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: flyctl deploy --remote-only
