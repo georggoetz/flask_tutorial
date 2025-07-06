@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "pip_requirements": {
+    "enabled": true
+  },
+  "python": {
+    "enabled": true
+  },
+  "npm": {
+    "enabled": true
+  },
+  "schedule": ["after 6am and before 10pm every weekday"],
+  "automerge": false,
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 5,
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
