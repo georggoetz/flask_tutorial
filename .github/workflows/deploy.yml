@@ -44,7 +44,20 @@ jobs:
       - name: Run Python tests
         run: .venv/bin/pytest -v
 
-      # Deploy nur, wenn alles oben erfolgreich war
+      - name: Run Python coverage
+        run: |
+          .venv/bin/coverage run -m pytest
+          .venv/bin/coverage report
+
+      - name: Generate coverage HTML report
+        run: .venv/bin/coverage html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov/
+
       - name: Deploy to Fly.io
         if: ${{ success() }}
         env:
