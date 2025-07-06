@@ -27,6 +27,9 @@ help:
 	@echo "  make docker-compose-logs  		- View logs from Docker containers"
 	@echo "  make docker-compose-init-db 	- Initialize the database"
 	@echo "  make docker-compose-seed-db  - Seed the database"
+	@echo "  make fly-db-create   					- Create Fly.io Postgres database"
+	@echo "  make fly-db-connect  					- Connect to Fly.io Postgres database"
+	@echo "  make fly-db-status   					- Check Fly.io Postgres database status"
 
 venv:
 	python3 -m venv $(VENV)
@@ -98,3 +101,12 @@ docker-compose-init-db:
 
 docker-compose-seed-db:
 	docker-compose exec web flask seed-db
+
+fly-db-create:
+	fly postgres create --name flask-tutorial-db --org personal --region fra --initial-cluster-size 1
+
+fly-db-connect:
+	fly postgres connect -a flask-tutorial-db
+
+fly-db-status:
+	fly postgres list
