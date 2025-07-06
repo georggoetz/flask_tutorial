@@ -17,6 +17,9 @@ RUN python -m build --wheel
 
 FROM python:3.12-slim AS production
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 COPY --from=backend-build /app/dist/*.whl /tmp/
 COPY --from=backend-build /app /app
 RUN pip install --no-cache-dir /tmp/*.whl
