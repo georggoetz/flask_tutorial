@@ -14,15 +14,18 @@
     @include heading-style;
     text-decoration: none;
   }
+
   &__actions {
     display: flex;
     gap: 1rem;
     align-items: center;
   }
+
   &__action {
     @include neumorphic-button();
     @include button-spacing;
   }
+  
   &__user {
     font-family: $font-family-base;
     color: $color-text;

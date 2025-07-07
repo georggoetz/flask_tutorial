@@ -17,13 +17,9 @@
   color: $color-text;
   transition: all 0.3s;
 
-  &:hover {
-    filter: brightness(1.04);
-  }
-
   &:active {
+    box-shadow: none;
     filter: brightness(0.96);
-    transform: scale(0.96);
   }
 
   span {

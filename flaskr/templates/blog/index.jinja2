@@ -11,8 +11,11 @@
     <div class="post__meta">
       <span class="post__author">by {{ post.author.username }}</span>
       <span class="post__date">
-        <svg class="post__date-icon" width="1.1em" height="1.1em" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 0.2em;"><rect x="3" y="5" width="14" height="12" rx="2" fill="#bbb"/><rect x="7" y="9" width="6" height="2" rx="1" fill="#fff"/><rect x="3" y="3" width="14" height="2" rx="1" fill="#377ba8"/></svg>
-        {{ post.created.strftime('%Y-%m-%d') }}
+        <svg class="post__date-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path
+            d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z" />
+        </svg>
+        {{ post.created.strftime('%-d %B %Y') }}
       </span>
     </div>
     {% if g.user.id == post['author_id'] %}
@@ -20,26 +23,25 @@
     {% endif %}
   </header>
   <section>
-    <x-likes liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
-             count="{{ post.like_count }}" 
-             url="{{ url_for('blog_api.like', id=post.id) }}"
-             disabled="{{ 'true' if not g.user else 'false' }}">
-    </x-likes>  
+    <div class="post__preview">
+      {{ post.content.body[:200] }}{% if post.content.body|length > 200 %}...{% endif %}
+    </div>
+    <div class="post__actions">
+      <a class="button" href="{{ url_for('blog.index', id=post.id) }}">Read more</a>
+      <x-likes liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
+               count="{{ post.like_count }}" 
+               url="{{ url_for('blog_api.like', id=post.id) }}"
+               disabled="{{ 'true' if not g.user else 'false' }}">
+      </x-likes>
+    </div>
   </section>
 </article>
 {% endfor %}
 
-{% set has_prev = page > 1 %}
-{% set has_next = page < total_pages %}
-<div class="pagination">
-  {% if has_prev %}
-    <a href="{{ url_for('blog.page', page=page-1) if page > 2 else url_for('blog.index') }}">« Previous</a>
-  {% endif %}
-  <span>Page {{ page }} of {{ total_pages }}</span>
-  {% if has_next %}
-    <a href="{{ url_for('blog.page', page=page+1) }}">Next »</a>
-  {% endif %}
-</div>
+{% with page=page, total_pages=total_pages, url_endpoint='blog.page' %}
+{% include 'components/pagination.jinja2' %}
+{% endwith %}
+
 {% if g.user %}
 <a class="fab" href="{{ url_for('blog.create') }}" title="Neuer Post">
   <svg class="fab__icon" width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">

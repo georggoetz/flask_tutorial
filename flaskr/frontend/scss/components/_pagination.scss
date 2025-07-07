@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0 0 0;
+  font-size: 1.1rem;
+
+  &__button,
+  &__page {
+    @include neumorphic-button($radius: 0);
+    border-radius: 0;
+    padding: 0.4rem 0.4rem;
+    margin: 0;
+    min-width: 2.2rem;
+    text-align: center;
+  }
+
+  &__button:first-child {
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+  }
+  &__button:last-child {
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+  }
+}

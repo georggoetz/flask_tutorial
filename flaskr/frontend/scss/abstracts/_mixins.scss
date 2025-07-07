@@ -33,12 +33,26 @@
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
+
+  &:hover {
+    background: color.adjust($color-bg, $lightness: 6%);
+  }
+
+  &.is-active,
   &:active {
     box-shadow: $shadow-inset;
     transform: scale(0.96);
   }
-  &:hover {
-    background: color.adjust($color-bg, $lightness: 6%);
+  
+  &.is-disabled,
+  &[disabled],
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+    &:hover, &:active {
+      background: $color-bg;
+    }
   }
 }
 
