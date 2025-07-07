@@ -1,19 +1,19 @@
 {% extends 'base.jinja2' %}
 
 {% block header %}
-<h1 class="heading-1">{% block title %}Posts{% endblock %}</h1>
-{% if g.user %}
-<a class="nav__header-action" href="{{ url_for('blog.create') }}">New</a>
-{% endif %}
 {% endblock %}
 
 {% block content %}
 {% for post in posts %}
 <article class="post">
   <header class="post__header">
-    <div>
-      <h1 class="post__title"><a href="{{ url_for('blog.index', id=post.id) }}">{{ post.title }}</a></h1>
-      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
+    <h1 class="post__title">{{ post.title }}</h1>
+    <div class="post__meta">
+      <span class="post__author">by {{ post.author.username }}</span>
+      <span class="post__date">
+        <svg class="post__date-icon" width="1.1em" height="1.1em" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 0.2em;"><rect x="3" y="5" width="14" height="12" rx="2" fill="#bbb"/><rect x="7" y="9" width="6" height="2" rx="1" fill="#fff"/><rect x="3" y="3" width="14" height="2" rx="1" fill="#377ba8"/></svg>
+        {{ post.created.strftime('%Y-%m-%d') }}
+      </span>
     </div>
     {% if g.user.id == post['author_id'] %}
     <a class="nav__header-action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
@@ -27,7 +27,6 @@
     </x-likes>  
   </section>
 </article>
-<hr class="hr">
 {% endfor %}
 
 {% set has_prev = page > 1 %}
@@ -41,4 +40,12 @@
     <a href="{{ url_for('blog.page', page=page+1) }}">Next »</a>
   {% endif %}
 </div>
+{% if g.user %}
+<a class="fab" href="{{ url_for('blog.create') }}" title="Neuer Post">
+  <svg class="fab__icon" width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <rect x="11" y="7" width="2" height="10" rx="1" fill="currentColor"/>
+    <rect x="7" y="11" width="10" height="2" rx="1" fill="currentColor"/>
+  </svg>
+</a>
+{% endif %}
 {% endblock %}

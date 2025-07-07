@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <title>{% block title %}{% endblock %}</title>
 <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
-<nav class="nav">
-  <h1 class="nav__title">Flaskr</h1>
-  <ul class="nav__list">
-    {% if g.user %}
-    <li><span class="nav__item-span">{{ g.user.username }}</span></li>
-    <li><a class="nav__item-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
-    {% else %}
-    <li><a class="nav__item-link" href="{{ url_for('auth.register') }}">Register</a>
-    <li><a class="nav__item-link" href="{{ url_for('auth.login') }}">Log In</a>
-      {% endif %}
-  </ul>
-</nav>
-<section class="content">
-  <header class="content__header">
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-  <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+<div class="container">
+  <nav class="nav">
+    <div class="nav-bar">
+      <a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a>
+      <div class="nav-bar__actions">
+        {% if g.user %}
+        <span class="nav-bar__user">Welcome, {{ g.user.username }}</span>
+        <a class="nav-bar__action" href="{{ url_for('auth.logout') }}">Log Out</a>
+        {% else %}
+        <a class="nav-bar__action" href="{{ url_for('auth.register') }}">Register</a>
+        <a class="nav-bar__action" href="{{ url_for('auth.login') }}">Log In</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <section class="content">
+    <header class="content__header">
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</div>

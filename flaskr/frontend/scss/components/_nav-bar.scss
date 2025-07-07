@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use 'sass:color';
+
+.nav-bar {
+  @include neumorphic();
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+
+  &__title {
+    @include heading-style;
+    text-decoration: none;
+  }
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  &__action {
+    @include neumorphic-button();
+    @include button-spacing;
+  }
+  &__user {
+    font-family: $font-family-base;
+    color: $color-text;
+  }
+}

@@ -1,0 +1,24 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+html, body {
+  background: $color-bg;
+  color: $color-text;
+  font-family: $font-family-base, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem;
+  font-family: $font-family-base, sans-serif;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  color: $color-text;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid $color-shadow-dark;
+  margin: 2rem 0;
+}

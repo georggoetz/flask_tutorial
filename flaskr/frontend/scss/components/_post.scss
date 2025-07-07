@@ -1,0 +1,14 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.post {
+  @include neumorphic();
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  &__title {
+    @include heading-style;
+    margin: 0 0 0.5rem 0;
+    color: $color-heading;
+  }
+}

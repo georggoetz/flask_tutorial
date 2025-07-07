@@ -1,0 +1,57 @@
+@use 'variables' as *;
+@use 'sass:color';
+
+@mixin neumorphic(
+  $inset: false,
+  $bg: $color-bg,
+  $radius: $radius,
+  $shadow: $shadow,
+  $shadow-inset: $shadow-inset,
+  $color: $color-text,
+  $transition: all 0.3s
+) {
+  background: $bg;
+  border-radius: $radius;
+  box-shadow: if($inset, $shadow-inset, $shadow);
+  color: $color;
+  transition: $transition;
+}
+
+@mixin neumorphic-inset($args...) {
+  @include neumorphic($inset: true, $args...);
+}
+
+@mixin neumorphic-button($radius: $radius) {
+  @include neumorphic($radius: $radius);
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  border: none;
+  border-radius: $radius;
+  background: $color-bg;
+  box-shadow: $shadow;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  &:active {
+    box-shadow: $shadow-inset;
+    transform: scale(0.96);
+  }
+  &:hover {
+    background: color.adjust($color-bg, $lightness: 6%);
+  }
+}
+
+@mixin button-spacing {
+  margin-left: 0.2rem;
+  padding: 0.5rem 1.2rem;
+}
+
+@mixin heading-style {
+  font-family: $font-family-heading, sans-serif;
+  font-size: $font-size-heading;
+  font-weight: $font-weight-heading;
+  color: $color-heading;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}

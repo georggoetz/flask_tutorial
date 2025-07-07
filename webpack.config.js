@@ -30,7 +30,18 @@ module.exports = (env, argv) => {
         {
           test: /\.(c|sa|sc)ss$/i,
           resourceQuery: { not: [/raw/] },
-          use: ['style-loader', 'css-loader', 'sass-loader']
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: [path.resolve(__dirname, 'flaskr/frontend/scss')]
+                }
+              }
+            }
+          ]
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/i,
