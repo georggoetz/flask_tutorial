@@ -1,3 +1,5 @@
+[![Deploy to Fly.io](https://github.com/georggoetz/flask_tutorial/actions/workflows/deploy.yml/badge.svg)](https://github.com/georggoetz/flask_tutorial/actions/workflows/deploy.yml)
+
 # Getting started
 
 * ```python3 -m venv .venv```
