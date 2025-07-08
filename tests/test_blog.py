@@ -1,5 +1,5 @@
 import pytest
-from datetime import datetime
+from datetime import datetime, timezone
 from flaskr.models import Post
 from sqlalchemy.sql import func
 
@@ -14,14 +14,14 @@ def test_index(client, auth):
   assert b'Log Out' in response.data
   assert b'test title' in response.data
   assert b'by test' in response.data
-  assert f'{datetime.today().strftime('%-d %B %Y')}'.encode() in response.data
+  assert f'{datetime.now(timezone.utc).strftime('%-d %B %Y')}'.encode() in response.data
   assert b'href="/1/update"' in response.data
 
   response = client.get('/1')
   assert b'Log Out' in response.data
   assert b'test title' in response.data
   assert b'by test' in response.data
-  assert f'{datetime.today().strftime('%-d %B %Y')}'.encode() in response.data
+  assert f'{datetime.now(timezone.utc).strftime('%-d %B %Y')}'.encode() in response.data
   assert b'href="/1/update"' in response.data
   assert b'test\nbody' in response.data
 
