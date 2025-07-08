@@ -25,6 +25,9 @@ def create_app(test_config=None):
   except OSError:
     pass
 
+  app.jinja_env.trim_blocks = True
+  app.jinja_env.lstrip_blocks = True
+
   from . import db
   db.init_app(app)
 
