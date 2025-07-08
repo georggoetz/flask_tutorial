@@ -15,7 +15,8 @@ dev = [
   "pytest",
   "coverage",
   "flake8",
-  "flake8-pyproject"
+  "flake8-pyproject",
+  "flask-wtf"
 ]
 
 [build-system]

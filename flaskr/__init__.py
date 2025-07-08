@@ -1,9 +1,12 @@
 import os
 from flask import Flask
+from flask_wtf import CSRFProtect
 
 
 def create_app(test_config=None):
   app = Flask(__name__, instance_relative_config=True)
+
+  CSRFProtect(app)
 
   secret_key = os.environ.get("SECRET_KEY", "dev")
   db_url = os.environ.get("DATABASE_URL")
