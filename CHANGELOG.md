@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/georggoetz/flask_tutorial/compare/v0.3.0...v0.3.1) (2025-07-08)
+
+
+### Bug Fixes
+
+* **csfr:** added flask-wtf as runtime dependency ([5e15eb6](https://github.com/georggoetz/flask_tutorial/commit/5e15eb6e093425aeb1789f4868632fb3316b4713))
+
 ## [0.3.0](https://github.com/georggoetz/flask_tutorial/compare/v0.2.0...v0.3.0) (2025-07-08)
 
 
