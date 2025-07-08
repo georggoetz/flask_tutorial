@@ -2,7 +2,7 @@
 {% set has_next = page < total_pages %}
 {% set page_window = 2 %}
 <div class="pagination">
-  <a class="pagination__button{% if not has_prev %} is-disabled{% endif %}" href="{{ url_for(url_endpoint, page=page-1) if has_prev else '#' }}" {% if not has_prev %}tabindex="-1" aria-disabled="true"{% endif %}>Previous</a>
+  <a class="button pagination__button{% if not has_prev %} is-disabled{% endif %}" href="{{ url_for(url_endpoint, page=page-1) if has_prev else '#' }}" {% if not has_prev %}tabindex="-1" aria-disabled="true"{% endif %}>Previous</a>
   {% set start_page = [1, page - page_window]|max %}
   {% set end_page = [total_pages, page + page_window]|min %}
   {% if end_page - start_page < 4 and total_pages >= 5 %}
@@ -11,10 +11,10 @@
   {% endif %}
   {% for p in range(start_page, end_page + 1) %}
     {% if p == page %}
-      <span class="pagination__page is-active">{{ p }}</span>
+      <span class="button pagination__page is-active">{{ p }}</span>
     {% else %}
-      <a class="pagination__page" href="{{ url_for(url_endpoint, page=p) }}">{{ p }}</a>
+      <a class="button pagination__page" href="{{ url_for(url_endpoint, page=p) }}">{{ p }}</a>
     {% endif %}
   {% endfor %}
-  <a class="pagination__button{% if not has_next %} is-disabled{% endif %}" href="{{ url_for(url_endpoint, page=page+1) if has_next else '#' }}" {% if not has_next %}tabindex="-1" aria-disabled="true"{% endif %}>Next</a>
+  <a class="button pagination__button {% if not has_next %} is-disabled{% endif %}" href="{{ url_for(url_endpoint, page=page+1) if has_next else '#' }}" {% if not has_next %}tabindex="-1" aria-disabled="true"{% endif %}>Next</a>
 </div>

@@ -10,5 +10,7 @@
 @use 'components/post';
 @use 'components/nav-bar';
 @use 'components/pagination';
-@use 'components/login-form' as *;
+@use 'components/login-form';
+@use 'components/edit-form';
+@use 'components/inputs';
 // Weitere Komponenten, Layouts, Themes nach Bedarf

@@ -2,7 +2,6 @@
 @use '../abstracts/variables' as *;
 
 .post {
-  @include neumorphic();
   padding: 2rem;
   margin-bottom: 2rem;
 
@@ -40,5 +39,9 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.8rem;
+  }
+
+  &__action {
+    @include default-spacing;
   }
 }

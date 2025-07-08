@@ -3,7 +3,6 @@
 @use 'sass:color';
 
 .nav-bar {
-  @include neumorphic();
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,13 +15,13 @@
   }
 
   &__actions {
+    @include default-spacing;
     display: flex;
     gap: 1rem;
     align-items: center;
   }
 
   &__action {
-    @include neumorphic-button();
     @include default-spacing;
     display: inline-block;
   }

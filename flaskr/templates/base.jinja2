@@ -3,15 +3,15 @@
 <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
 <div class="container">
   <nav class="nav">
-    <div class="nav-bar">
+    <div class="card nav-bar">
       <a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a>
       <div class="nav-bar__actions">
         {% if g.user %}
         <span class="nav-bar__user">Welcome, {{ g.user.username }}</span>
-        <a class="nav-bar__action" href="{{ url_for('auth.logout') }}">Log Out</a>
+        <a class="button nav-bar__action" href="{{ url_for('auth.logout') }}">Log Out</a>
         {% else %}
-        <a class="nav-bar__action" href="{{ url_for('auth.register') }}">Register</a>
-        <a class="nav-bar__action" href="{{ url_for('auth.login') }}">Log In</a>
+        <a class="button nav-bar__action" href="{{ url_for('auth.register') }}">Register</a>
+        <a class="button nav-bar__action" href="{{ url_for('auth.login') }}">Log In</a>
         {% endif %}
       </div>
     </div>

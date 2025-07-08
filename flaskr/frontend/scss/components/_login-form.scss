@@ -28,7 +28,6 @@
   }
 
   &__input {
-    @include neumorphic-input;
     @include default-spacing;
     
     width: 100%;
@@ -38,7 +37,6 @@
   }
 
   &__submit {
-    @include neumorphic-button;
     @include default-spacing;
     
     width: 100%;
