@@ -4,5 +4,5 @@
 
 .button {
   @include neumorphic-button;
-  @include button-spacing;
+  @include default-spacing;
 }

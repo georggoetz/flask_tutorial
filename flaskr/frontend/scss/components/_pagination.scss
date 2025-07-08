@@ -12,6 +12,7 @@
   &__button,
   &__page {
     @include neumorphic-button($radius: 0);
+    display: inline-block;
     border-radius: 0;
     padding: 0.4rem 0.4rem;
     margin: 0;

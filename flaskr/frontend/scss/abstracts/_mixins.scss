@@ -3,18 +3,28 @@
 
 @mixin neumorphic(
   $inset: false,
-  $bg: $color-bg,
+  $color-bg: $color-bg,
+  $color-text: $color-text,
   $radius: $radius,
   $shadow: $shadow,
   $shadow-inset: $shadow-inset,
-  $color: $color-text,
-  $transition: all 0.3s
+  $transition: all 0.3s,
+  $border: none,
+  $font-family: $font-family-base,
+  $font-size: $font-size-base,
+  $font-weight: $font-weight-base,
+  $text-decoration: none
 ) {
-  background: $bg;
+  background: $color-bg;
+  color: $color-text;
   border-radius: $radius;
   box-shadow: if($inset, $shadow-inset, $shadow);
-  color: $color;
   transition: $transition;
+  border: $border;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  text-decoration: $text-decoration;
 }
 
 @mixin neumorphic-inset($args...) {
@@ -23,16 +33,7 @@
 
 @mixin neumorphic-button($radius: $radius) {
   @include neumorphic($radius: $radius);
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  font-weight: $font-weight-base;
-  border: none;
-  border-radius: $radius;
-  background: $color-bg;
-  box-shadow: $shadow;
   cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
 
   &:hover {
     background: color.adjust($color-bg, $lightness: 6%);
@@ -43,7 +44,7 @@
     box-shadow: $shadow-inset;
     transform: scale(0.96);
   }
-  
+
   &.is-disabled,
   &[disabled],
   &.disabled {
@@ -56,7 +57,17 @@
   }
 }
 
-@mixin button-spacing {
+@mixin neumorphic-input($args...) {
+  @include neumorphic-inset($args...);
+
+  &:focus {
+    border: none;
+    outline: none;
+    filter: brightness(1.04);
+  }
+}
+
+@mixin default-spacing {
   margin-left: 0.2rem;
   padding: 0.5rem 1.2rem;
 }

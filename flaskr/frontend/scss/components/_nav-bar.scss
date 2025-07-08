@@ -23,9 +23,10 @@
 
   &__action {
     @include neumorphic-button();
-    @include button-spacing;
+    @include default-spacing;
+    display: inline-block;
   }
-  
+
   &__user {
     font-family: $font-family-base;
     color: $color-text;
