@@ -28,10 +28,11 @@
       {% if g.user.id == post['author_id'] %}
       <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
       {% endif %}
-      <x-likes liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
-               count="{{ post.like_count }}" 
-               url="{{ url_for('blog_api.like', id=post.id) }}"
-               disabled="{{ 'true' if not g.user else 'false' }}">
+      <x-likes 
+        liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
+        count="{{ post.like_count }}" 
+        url="{{ url_for('blog_api.like', id=post.id) }}"
+        disabled="{{ 'true' if not g.user else 'false' }}">
       </x-likes>
     </div>
   </section>

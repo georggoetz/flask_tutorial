@@ -13,7 +13,9 @@
     </div>
     <div class="edit-form__field">
       <label for="body" class="edit-form__label">Body</label>
-      <textarea class="textarea edit-form__textarea" name="body" id="body" rows="12">{{ request.form['body'] or post.content.body }}</textarea>
+      <textarea class="textarea edit-form__textarea" name="body" id="body" rows="12">
+        {{ request.form['body'] or post.content.body }}
+      </textarea>
     </div>
     <div class="edit-form__actions">
       <input class="button edit-form__submit" type="submit" value="Save">

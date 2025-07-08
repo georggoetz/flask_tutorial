@@ -6,17 +6,20 @@
     <div>
       <h1 class="post__title">{{ post.title }}</h1>
       <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
-    </div>
-    {% if g.user and g.user.id == post.author.id %}
-    <a class="nav__header-action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
-    {% endif %}
+    </div> 
   </header>
   <section>
-    <x-likes liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
-             count="{{ post.like_count }}"
-             url="{{ url_for('blog_api.like', id=post.id) }}" 
-             disabled="{{ 'true' if not g.user else 'false' }}">
-    </x-likes>
+    <div class="post__actions">
+      {% if g.user and g.user.id == post.author.id %}
+      <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
+      {% endif %}
+      <x-likes 
+        liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
+        count="{{ post.like_count }}"
+        url="{{ url_for('blog_api.like', id=post.id) }}" 
+        disabled="{{ 'true' if not g.user else 'false' }}">
+      </x-likes>
+    </div>
   </section>
   <section>
     <p class="post__body">{{ post.content.body }}</p>
