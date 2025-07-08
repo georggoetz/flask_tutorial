@@ -8,7 +8,7 @@
 <div class="card card--narrow">
   <h1 class="card__heading">{% block title %}Log In{% endblock %}</h1>
   <form method="post" class="login-form">
-    {{ csrf_token() }}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="login-form__field">
       <label for="username" class="login-form__label">Username</label>
       <div class="login-form__input-group">
