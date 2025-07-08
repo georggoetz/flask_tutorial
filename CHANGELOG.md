@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/georggoetz/flask_tutorial/compare/v0.3.1...v0.4.0) (2025-07-08)
+
+
+### Features
+
+* add pipeline status to readme ([1439a70](https://github.com/georggoetz/flask_tutorial/commit/1439a70d68b6b8cef61c1a16349381dab7403b5c))
+
 ## [0.3.1](https://github.com/georggoetz/flask_tutorial/compare/v0.3.0...v0.3.1) (2025-07-08)
 
 
