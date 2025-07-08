@@ -7,7 +7,8 @@ dependencies = [
     "flask_sqlalchemy",
     "flask_migrate",
     "faker",
-    "psycopg2-binary"
+    "psycopg2-binary",
+    "flask-wtf"
 ]
 
 [project.optional-dependencies]
@@ -15,8 +16,7 @@ dev = [
   "pytest",
   "coverage",
   "flake8",
-  "flake8-pyproject",
-  "flask-wtf"
+  "flake8-pyproject"
 ]
 
 [build-system]
