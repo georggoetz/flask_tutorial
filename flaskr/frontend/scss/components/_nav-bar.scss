@@ -1,0 +1,32 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+
+  &__title {
+    @include heading-style;
+    text-decoration: none;
+  }
+
+  &__actions {
+    @include default-spacing;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &__action {
+    @include default-spacing;
+    display: inline-block;
+  }
+
+  &__user {
+    font-family: $font-family-base;
+    color: $color-text;
+  }
+}

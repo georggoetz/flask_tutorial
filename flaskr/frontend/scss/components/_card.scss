@@ -1,0 +1,21 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.card {
+  @include neumorphic();
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  &__heading {
+    @include heading-style;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.card--narrow {
+  width: 100%;
+  max-width: $card-narrow-width;
+  margin-left: auto;
+  margin-right: auto;
+}

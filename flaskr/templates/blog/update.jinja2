@@ -1,19 +1,28 @@
 {% extends 'base.jinja2' %}
 
 {% block header %}
-<h1 class="heading-1">{% block title %}Edit "{{ post.title }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<form method="post" class="content__form">
-  <label for="title">Title</label>
-  <input name="title" id="title" value="{{ request.form['title'] or post.title }}" required>
-  <label for="body">Body</label>
-  <textarea name="body" id="body">{{ request.form['body'] or post.content.body }}</textarea>
-  <input type="submit" value="Save">
-</form>
-<hr class="hr">
-<form action="{{ url_for('blog.delete', id=post.id) }}" method="post">
-  <input class="input--danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-</form>
+<div class="card">
+  <h1 class="card__heading">{% block title %}Edit "{{ post.title }}"{% endblock %}</h1>
+  <form method="post" class="edit-form">
+    <div class="edit-form__field">
+      <label for="title" class="edit-form__label">Title</label>
+      <input class="input edit-form__input" name="title" id="title" value="{{ request.form['title'] or post.title }}" required>
+    </div>
+    <div class="edit-form__field">
+      <label for="body" class="edit-form__label">Body</label>
+      <textarea class="textarea edit-form__textarea" name="body" id="body" rows="12">
+        {{ request.form['body'] or post.content.body }}
+      </textarea>
+    </div>
+    <div class="edit-form__actions">
+      <input class="button edit-form__submit" type="submit" value="Save">
+      <form action="{{ url_for('blog.delete', id=post.id) }}" method="post" style="display:inline;">
+        <input class="button edit-form__delete" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+      </form>
+    </div>
+  </form>
+</div>
 {% endblock %}

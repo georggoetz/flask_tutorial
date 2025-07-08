@@ -1,0 +1,47 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  label {
+    margin-bottom: 0.2rem;
+  }
+
+  &__input-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    color: $color-text;
+    position: absolute;
+    left: 1rem;
+    z-index: 2;
+    pointer-events: none;
+    height: 100%;
+  }
+
+  &__input {
+    @include default-spacing;
+    
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding-left: 2.5rem;
+  }
+
+  &__submit {
+    @include default-spacing;
+    
+    width: 100%;
+    display: block;
+    margin-top: 1.2rem;
+    box-sizing: border-box;
+  }
+}

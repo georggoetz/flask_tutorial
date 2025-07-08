@@ -3,4 +3,4 @@ const requireAll = require.context('./', true, /^(?!.*\.(spec|test)\.js$).*\.js$
 requireAll.keys().forEach(requireAll)
 
 // Import global styles
-import './global/styles.scss'
+import './scss/main.scss'

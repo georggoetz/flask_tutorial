@@ -1,0 +1,49 @@
+@use '../abstracts/mixins' as *;
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__label {
+    margin-bottom: 0.2rem;
+  }
+
+  &__input {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    padding: 0.7rem 1rem;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 12rem;
+    resize: vertical;
+    padding: 1rem 1rem;
+    box-sizing: border-box;
+    line-height: 1.5;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+
+  &__submit {
+    @include default-spacing;
+  }
+
+  &__delete {
+    @include default-spacing;
+  }
+}

@@ -1,0 +1,9 @@
+@use '../abstracts/mixins' as *;
+
+.input {
+  @include neumorphic-input;
+}
+
+.textarea {
+  @include neumorphic-input;
+}

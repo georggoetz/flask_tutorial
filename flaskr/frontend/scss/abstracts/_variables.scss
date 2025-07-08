@@ -1,0 +1,21 @@
+@use 'sass:color';
+@use './functions' as *;
+
+$color-bg: #e0e0e0;
+$color-shadow-light: color.adjust($color-bg, $lightness: 15%);
+$color-shadow-dark: color.adjust($color-bg, $lightness: -15%);
+$color-heading: contrast-tone($color-bg, 60%);
+$color-text: contrast-tone($color-bg, 40%);
+$radius: 0.75rem;
+$shadow-distance: 4px;
+$shadow-blur: 4px;
+$shadow: $shadow-distance $shadow-distance $shadow-blur $color-shadow-dark, (-$shadow-distance) (-$shadow-distance) $shadow-blur $color-shadow-light;
+$shadow-inset: inset $shadow-distance $shadow-distance $shadow-blur $color-shadow-dark, inset (-$shadow-distance) (-$shadow-distance) $shadow-blur $color-shadow-light;
+$font-family-base: 'Segoe UI', 'Roboto', Arial, sans-serif;
+$font-family-heading: 'Segoe UI', 'Roboto', Arial, sans-serif;
+$font-size-base: 1rem;
+$font-size-heading: 1.5rem;
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$container-max-width: 960px;
+$card-narrow-width: 340px;

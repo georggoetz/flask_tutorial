@@ -1,0 +1,47 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.post {
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  &__title {
+    @include heading-style;
+    margin: 0 0 0.5rem 0;
+    color: $color-heading;
+  }
+
+  &__date-icon {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.2em;
+    color: $color-text;
+    fill: currentColor;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__header {
+    margin-bottom: 1.2rem;
+  }
+
+  &__preview {
+    margin-bottom: 1.2rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  &__action {
+    @include default-spacing;
+  }
+}
