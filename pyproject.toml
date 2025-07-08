@@ -1,6 +1,6 @@
 [project]
 name = "flaskr"
-version = "0.2.0"
+version = "0.3.0"
 description = "The basic blog app built in the Flask tutorial."
 dependencies = [
     "flask",

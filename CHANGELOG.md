@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/georggoetz/flask_tutorial/compare/v0.2.0...v0.3.0) (2025-07-08)
+
+
+### Features
+
+* **csrf:** added test to check if all forms have the CSFR token ([7370177](https://github.com/georggoetz/flask_tutorial/commit/737017786e9b304e6758bdb87ce12c2996849660))
+
+
+### Bug Fixes
+
+* **csfr:** forms require a hidden input field to store the csfr token ([629e1e8](https://github.com/georggoetz/flask_tutorial/commit/629e1e8fb54b2bb0d6755441b9bbbc6995e809b7))
+* improved time dependent test by  getting the current time in UTC ([7370177](https://github.com/georggoetz/flask_tutorial/commit/737017786e9b304e6758bdb87ce12c2996849660))
+
 ## [0.2.0](https://github.com/georggoetz/flask_tutorial/compare/v0.1.0...v0.2.0) (2025-07-08)
 
 
