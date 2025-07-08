@@ -1,4 +1,4 @@
-import cssText from './likes.scss?raw'
+import cssText from '../../scss/components/_likes.scss?raw'
 import { adoptStyleSheet } from '../../global/adopt-style-sheet.js'
 
 export default class Likes extends HTMLElement {

@@ -1,4 +1,4 @@
-// 7+1 Pattern: Neumorphismus-Design
+// 7+1 Pattern: Neumorphic design
 @use 'abstracts/variables';
 @use 'abstracts/mixins';
 @use 'base/base';
@@ -13,4 +13,4 @@
 @use 'components/login-form';
 @use 'components/edit-form';
 @use 'components/inputs';
-// Weitere Komponenten, Layouts, Themes nach Bedarf
+@use 'components/likes';
