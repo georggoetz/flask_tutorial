@@ -13,13 +13,15 @@ def test_index(client, auth):
   response = client.get('/', follow_redirects=True)
   assert b'Log Out' in response.data
   assert b'test title' in response.data
-  assert f'by test on {datetime.today().strftime('%Y-%m-%d')}'.encode() in response.data
+  assert b'by test' in response.data
+  assert f'{datetime.today().strftime('%-d %B %Y')}'.encode() in response.data
   assert b'href="/1/update"' in response.data
 
   response = client.get('/1')
   assert b'Log Out' in response.data
   assert b'test title' in response.data
-  assert f'by test on {datetime.today().strftime('%Y-%m-%d')}'.encode() in response.data
+  assert b'by test' in response.data
+  assert f'{datetime.today().strftime('%-d %B %Y')}'.encode() in response.data
   assert b'href="/1/update"' in response.data
   assert b'test\nbody' in response.data
 

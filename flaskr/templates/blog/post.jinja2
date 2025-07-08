@@ -5,7 +5,7 @@
   <header class="post__header">
     <div>
       <h1 class="post__title">{{ post.title }}</h1>
-      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%Y-%m-%d') }}</div>
+      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%-d %B %Y') }}</div>
     </div> 
   </header>
   <section>
