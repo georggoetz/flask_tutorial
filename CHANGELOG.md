@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/georggoetz/flask_tutorial/compare/v0.4.0...v0.4.1) (2025-07-09)
+
+
+### Bug Fixes
+
+* **csfr:** Added CSRF token to post and delete requests. ([890b2f9](https://github.com/georggoetz/flask_tutorial/commit/890b2f97ec6f01eec4c4679a6ede83ec3300dd1a))
+* **jinja:** Own template for post likes ([890b2f9](https://github.com/georggoetz/flask_tutorial/commit/890b2f97ec6f01eec4c4679a6ede83ec3300dd1a))
+
 ## [0.4.0](https://github.com/georggoetz/flask_tutorial/compare/v0.3.1...v0.4.0) (2025-07-08)
 
 
