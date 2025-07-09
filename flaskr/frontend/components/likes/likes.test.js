@@ -16,6 +16,7 @@ describe('Likes Web Component', () => {
   it('initializes with default attributes', () => {
     expect(element.isLiked).toBe(false)
     expect(element.count).toBe(0)
+    expect(element.url).toBe(null)
     expect(element.isDisabled).toBe(false)
   })
 

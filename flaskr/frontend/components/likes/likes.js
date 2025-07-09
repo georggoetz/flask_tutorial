@@ -67,6 +67,11 @@ export default class Likes extends HTMLElement {
 
     this.shadowRoot.appendChild(this.wrapper)
 
+    const metaCsrf = document.querySelector('meta[name="csrf-token"]')
+    if (metaCsrf) {
+      this.csrfToken = metaCsrf.getAttribute('content')
+    }
+
     return true
   }
 
@@ -91,8 +96,16 @@ export default class Likes extends HTMLElement {
   }
 
   async handleClick() {
+    if (this.isDisabled) {
+      return
+    }
     try {
-      const response = await fetch(this.url, { method: this.isLiked ? 'DELETE' : 'POST' })
+      const response = await fetch(this.url, { method: this.isLiked ? 'DELETE' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': this.csrfToken
+        }
+      })
       const data = await response.json()
 
       if (response.ok) {
