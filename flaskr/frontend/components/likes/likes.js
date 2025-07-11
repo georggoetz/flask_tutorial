@@ -1,5 +1,6 @@
 import cssText from '../../scss/components/_likes.scss?raw'
 import { adoptStyleSheet } from '../../global/adopt-style-sheet.js'
+import {post, del} from '../../global/requests.js'
 
 export default class Likes extends HTMLElement {
   
@@ -100,22 +101,11 @@ export default class Likes extends HTMLElement {
       return
     }
     try {
-      const response = await fetch(this.url, { method: this.isLiked ? 'DELETE' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': this.csrfToken
-        }
-      })
-      const data = await response.json()
-
-      if (response.ok) {
-        this.isLiked = data.isLiked
-        this.count = data.count
-      } else {       
-        console.error(`${response.statusText} (${response.status}): ${data?.error || 'Unknown error'}`)
-      }
+      const response = await (this.isLiked ? del(this.url) : post(this.url))
+      this.isLiked = response.isLiked
+      this.count = response.count
     } catch (error) {
-      console.error(`Network error: ${error.message}`)
+      console.error(`Error updating likes: ${error.message}`)
     }
   }
 }
