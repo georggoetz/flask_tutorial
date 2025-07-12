@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://github.com/georggoetz/flask_tutorial/compare/v0.4.1...v0.5.0) (2025-07-12)
+
+
+### Features
+
+* **error-handling:** created a toast component. Flash messages an JS errors will be displayed there. ([9cadd58](https://github.com/georggoetz/flask_tutorial/commit/9cadd58bbb361fdd244bc2243fb8db674ac81e43))
+* **error-handling:** extracted requests into their own JS module with common error handling. Handle CSRF token for post and delete requests. ([9ad9d14](https://github.com/georggoetz/flask_tutorial/commit/9ad9d142c6ff4211b97e1fe4974b40593ee24dec))
+* **error-handling:** fixed eslint warning ([c3bb6a0](https://github.com/georggoetz/flask_tutorial/commit/c3bb6a06312fc2c87d17ef24b1e53d1b4d5d2c7b))
+
 ## [0.4.1](https://github.com/georggoetz/flask_tutorial/compare/v0.4.0...v0.4.1) (2025-07-09)
 
 
