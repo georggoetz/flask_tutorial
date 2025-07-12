@@ -1,6 +1,8 @@
 function getCsrfToken() {
   const meta = document.querySelector('meta[name="csrf-token"]')
-  if (!meta) throw new Error('CSRF token not found in document')
+  if (!meta) {
+    throw new Error('CSRF token not found in document')
+  }
   return meta.getAttribute('content')
 }
 
@@ -25,7 +27,7 @@ export async function get(url, options = {}) {
 
 export async function post(url, body = {}, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...options.headers }
-  headers['X-CSRFToken'] = getCsrfToken();
+  headers['X-CSRFToken'] = getCsrfToken()
   const response = await fetch(url, {
     method: 'POST',
     headers,
