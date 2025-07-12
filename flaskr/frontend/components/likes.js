@@ -1,6 +1,7 @@
-import cssText from '../../scss/components/_likes.scss?raw'
-import { adoptStyleSheet } from '../../global/adopt-style-sheet.js'
-import {post, del} from '../../global/requests.js'
+import cssText from '../scss/components/_likes.scss?raw'
+import { adoptStyleSheet } from '../global/adopt-style-sheet.js'
+import {post, del} from '../global/requests.js'
+import { showToast } from './toast.js'
 
 export default class Likes extends HTMLElement {
   
@@ -68,11 +69,6 @@ export default class Likes extends HTMLElement {
 
     this.shadowRoot.appendChild(this.wrapper)
 
-    const metaCsrf = document.querySelector('meta[name="csrf-token"]')
-    if (metaCsrf) {
-      this.csrfToken = metaCsrf.getAttribute('content')
-    }
-
     return true
   }
 
@@ -85,7 +81,6 @@ export default class Likes extends HTMLElement {
     this.button.setAttribute('aria-disabled', this.isDisabled ? 'true' : 'false')
     
     this.counter.textContent = `${this.count}`
-    //this.counter.classList.toggle('likes__counter--hidden', this.count <= 0)
     this.counter.classList.toggle('likes__counter--liked', this.isLiked)
     this.counter.classList.toggle('likes__counter--disabled', this.isDisabled)
 
@@ -105,7 +100,7 @@ export default class Likes extends HTMLElement {
       this.isLiked = response.isLiked
       this.count = response.count
     } catch (error) {
-      console.error(`Error updating likes: ${error.message}`)
+      showToast(error.message || 'Error updating likes')
     }
   }
 }

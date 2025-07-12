@@ -1,16 +1,17 @@
 // 7+1 Pattern: Neumorphic design
-@use 'abstracts/variables';
 @use 'abstracts/mixins';
+@use 'abstracts/variables';
 @use 'base/base';
-@use 'layout/container';
-@use 'layout/nav';
-@use 'components/button';
-@use 'components/fab';
 @use 'components/card';
-@use 'components/post';
-@use 'components/nav-bar';
-@use 'components/pagination';
-@use 'components/login-form';
 @use 'components/edit-form';
+@use 'components/fab';
 @use 'components/inputs';
 @use 'components/likes';
+@use 'components/login-form';
+@use 'components/nav-bar';
+@use 'components/pagination';
+@use 'components/post';
+@use 'components/toast';
+@use 'components/button';
+@use 'layout/container';
+@use 'layout/nav';

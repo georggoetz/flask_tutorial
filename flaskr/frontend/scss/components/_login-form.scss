@@ -22,7 +22,7 @@
     color: $color-text;
     position: absolute;
     left: 1rem;
-    z-index: 2;
+    z-index: $z-base + 1;
     pointer-events: none;
     height: 100%;
   }
