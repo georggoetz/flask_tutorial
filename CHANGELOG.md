@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/georggoetz/flask_tutorial/compare/v0.5.0...v0.6.0) (2025-07-12)
+
+
+### Features
+
+* **error-handling:** added error handlers and an error page for Flask ([27f42dc](https://github.com/georggoetz/flask_tutorial/commit/27f42dcf3f283c66fd8a257c4ea0d59ef317bf2e))
+
 ## [0.5.0](https://github.com/georggoetz/flask_tutorial/compare/v0.4.1...v0.5.0) (2025-07-12)
 
 
