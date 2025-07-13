@@ -78,11 +78,11 @@ jobs:
       - name: Initialize database
         run: make init-db
 
-      - name: Run end-to-end tests (Cypress)
-        run: make cypress-run
-
       - name: Build frontend assets
         run: make webpack
+
+      - name: Run end-to-end tests (Cypress)
+        run: make cypress-run
 
       - name: Deploy to Fly.io
         if: github.ref == 'refs/heads/master' && success()
