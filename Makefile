@@ -27,9 +27,11 @@ help:
 	@echo "  make docker-compose-logs  		- View logs from Docker containers"
 	@echo "  make docker-compose-init-db 	- Initialize the database"
 	@echo "  make docker-compose-seed-db  - Seed the database"
-	@echo "  make fly-db-create   					- Create Fly.io Postgres database"
-	@echo "  make fly-db-connect  					- Connect to Fly.io Postgres database"
-	@echo "  make fly-db-status   					- Check Fly.io Postgres database status"
+	@echo "  make fly-db-create   				- Create Fly.io Postgres database"
+	@echo "  make fly-db-connect  				- Connect to Fly.io Postgres database"
+	@echo "  make fly-db-status   				- Check Fly.io Postgres database status"
+	@echo "  make cypress-open     				- Open Cypress UI"
+	@echo "  make cypress-run      				- Run Cypress tests"
 
 venv:
 	python3 -m venv $(VENV)
@@ -110,3 +112,9 @@ fly-db-connect:
 
 fly-db-status:
 	fly postgres list
+
+cypress-open:
+	$(NPM) run cypress:open
+
+cypress-run:
+	$(NPM) run cypress:run
