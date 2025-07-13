@@ -13,7 +13,7 @@
     "watch": "npx webpack --watch --mode development",
     "cypress:open": "start-server-and-test flask http://localhost:5000 \"cypress open\"",
     "cypress:run": "start-server-and-test flask http://localhost:5000 \"cypress run\"",
-    "flask": "FLASK_APP=flaskr FLASK_ENV=development python -m flask run"
+    "flask": "FLASK_APP=flaskr FLASK_ENV=development .venv/bin/python -m flask run"
   },
   "keywords": [],
   "author": "",
