@@ -1,9 +1,7 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'http://localhost:5000',
-    setupNodeEvents(on, config) {
-    },
-  },
-});
+    baseUrl: 'http://localhost:5000'
+  }
+})
