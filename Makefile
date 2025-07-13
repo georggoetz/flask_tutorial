@@ -118,3 +118,9 @@ cypress-open:
 
 cypress-run:
 	$(NPM) run cypress:run
+
+init-db:
+	.venv/bin/flask --app flaskr init-db
+
+seed-db:
+	.venv/bin/flask --app flaskr seed-db
