@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.7.0](https://github.com/georggoetz/flask_tutorial/compare/v0.6.0...v0.7.0) (2025-07-13)
+
+
+### Features
+
+* **cypress:** added end-to-end tests ([dcc3e22](https://github.com/georggoetz/flask_tutorial/commit/dcc3e2292e35582296da6e6149efe74de9058473))
+* **cypress:** added end-to-end tests. [#24](https://github.com/georggoetz/flask_tutorial/issues/24) ([dcc3e22](https://github.com/georggoetz/flask_tutorial/commit/dcc3e2292e35582296da6e6149efe74de9058473))
+* **cypress:** Added tests for creating, editing and liking posts. ([2e31455](https://github.com/georggoetz/flask_tutorial/commit/2e3145528c62e094ab07415bd33fde11a128ac5d))
+* **cypress:** Added tests for register and login flows. ([4fb8b99](https://github.com/georggoetz/flask_tutorial/commit/4fb8b99b282d4bb9cd63ea86815ae1b2c78ef98a))
+* **cypress:** Adjusted database URL in Github action. ([2649b0c](https://github.com/georggoetz/flask_tutorial/commit/2649b0ce997e16113375c2ed4b71d3896d6b1d84))
+* **cypress:** Fixed eslint warnings ([4a8ee8f](https://github.com/georggoetz/flask_tutorial/commit/4a8ee8f461aa8d83a3a0c5bafc72ef3130882009))
+* **cypress:** Fixed syntax error in Github action. ([47be8ec](https://github.com/georggoetz/flask_tutorial/commit/47be8ecd862565bee29697a808218e61bcf09d2e))
+* **cypress:** Forgot Flask app. ([7b6e7ec](https://github.com/georggoetz/flask_tutorial/commit/7b6e7ec7792953ab3fa3851e9ce639b0d17a3bc2))
+* **cypress:** Forgot to initialize database. ([d256fd1](https://github.com/georggoetz/flask_tutorial/commit/d256fd1ef1710956e159ae1ce22febd79247677b))
+* **cypress:** Frontend assets before cypress tests. ([8b29fbf](https://github.com/georggoetz/flask_tutorial/commit/8b29fbf95ba11d28e1eae653d13b5e2089a2bc22))
+* **cypress:** Install and configure Cypress. Add a first test. Integrate into Github action. Action now runs on feature branches as well but deoplys on master only. ([5b99095](https://github.com/georggoetz/flask_tutorial/commit/5b99095c46e84a413282027e10375b07c292ef0f))
+* **cypress:** Run python from venv in Github action. ([afff020](https://github.com/georggoetz/flask_tutorial/commit/afff020f429eabc9a51759f200cbcb52c9ac2b1d))
+
 ## [0.6.0](https://github.com/georggoetz/flask_tutorial/compare/v0.5.0...v0.6.0) (2025-07-12)
 
 
