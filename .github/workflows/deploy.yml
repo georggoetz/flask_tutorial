@@ -75,6 +75,9 @@ jobs:
           path: htmlcov/
           retention-days: 7
 
+      - name: Initialize database
+        run: .venv/bin/flask init-db
+
       - name: Run end-to-end tests (Cypress)
         run: make cypress-run
 
