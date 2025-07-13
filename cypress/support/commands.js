@@ -1,25 +1,19 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('registerTestUser', (username, password) => {
+  username = username || 'testuser_' + Date.now()
+  password = password || 'TestPassword!123'
+
+  cy.visit('/auth/register')
+  cy.get('#username').type(username)
+  cy.get('#password').type(password)
+  cy.get('.login-form__submit').click()
+  cy.url().should('include', '/auth/login')
+
+  return cy.wrap({ username, password })
+})
+
+Cypress.Commands.add('loginTestUser', (username, password) => {
+  cy.visit('/auth/login')
+  cy.get('#username').type(username)
+  cy.get('#password').type(password)
+  cy.get('.login-form__submit').click()
+})
