@@ -1,3 +1,13 @@
+function logA11yViolations(violations) {
+  violations.forEach(v => {
+    cy.log(`${v.id}: ${v.help} (${v.nodes.length} nodes)`)
+    v.nodes.forEach(node => {
+      cy.log(`Selector: ${node.target.join(', ')}`)
+      cy.log(`Failure Summary: ${node.failureSummary}`)
+    })
+  })
+}
+
 describe('Accessibility Checks', () => {
   const pages = [
     '/',
@@ -10,7 +20,7 @@ describe('Accessibility Checks', () => {
     it(`checks ${url} is accessible`, () => {
       cy.visit(url, { failOnStatusCode: false })
       cy.injectAxe()
-      cy.checkA11y()
+      cy.checkA11y(null, null, logA11yViolations)
     })
   })
 })
@@ -30,12 +40,12 @@ describe('Accessibility Checks (auth required)', () => {
   it('checks /${postId} is accessible', () => {
     cy.visit(`/${postId}`)
     cy.injectAxe()
-    cy.checkA11y()
+    cy.checkA11y(null, null, logA11yViolations)
   })
 
   it('checks /${postId}/update is accessible', () => {
     cy.visit(`/${postId}/update`)
     cy.injectAxe()
-    cy.checkA11y()
+    cy.checkA11y(null, null, logA11yViolations)
   })
 })
