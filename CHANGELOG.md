@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.8.0](https://github.com/georggoetz/flask_tutorial/compare/v0.7.0...v0.8.0) (2025-07-14)
+
+
+### Features
+
+* **aria:** Better logging of a11y violations. Github action: upload screenshots after cypress run. ([92adb0c](https://github.com/georggoetz/flask_tutorial/commit/92adb0ca321109d935388e7a551716a56f875aef))
+* **aria:** Made all pages accessible. Added cypress-axe tests to check accessibility. ([cff0f9d](https://github.com/georggoetz/flask_tutorial/commit/cff0f9dd845782c45a109bbf8b3b87e25b104ddc))
+* **aria:** merge feature branch [#28](https://github.com/georggoetz/flask_tutorial/issues/28) [#23](https://github.com/georggoetz/flask_tutorial/issues/23) ([bf696a0](https://github.com/georggoetz/flask_tutorial/commit/bf696a0bf334410873c97486b0cfc4ba97485e71))
+
+
+### Bug Fixes
+
+* **aria:** Logging not goot for axe. Upload screenshots even if Cypress failed. [#23](https://github.com/georggoetz/flask_tutorial/issues/23) ([850ce05](https://github.com/georggoetz/flask_tutorial/commit/850ce059bbb609ef8b4950b8aeb8f582ec4e7601))
+* **aria:** Trying to fix "page must have a level one heading". [#23](https://github.com/georggoetz/flask_tutorial/issues/23) ([6832168](https://github.com/georggoetz/flask_tutorial/commit/683216816132410b5398598dd2305f059dddb0f6))
+
 ## [0.7.0](https://github.com/georggoetz/flask_tutorial/compare/v0.6.0...v0.7.0) (2025-07-13)
 
 
