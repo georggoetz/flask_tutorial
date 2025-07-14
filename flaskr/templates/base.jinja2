@@ -11,7 +11,7 @@
     <div class="container">
       <nav class="nav" role="navigation" aria-label="Main navigation">
         <div class="card nav-bar">
-          <a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a>
+          <h1><a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a></h1>
           <div class="nav-bar__actions">
             {% if g.user %}
             <span class="nav-bar__user">Welcome, {{ g.user.username }}</span>
