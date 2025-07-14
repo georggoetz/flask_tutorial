@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/georggoetz/flask_tutorial/compare/v0.8.0...v0.8.1) (2025-07-14)
+
+
+### Bug Fixes
+
+* Fixed eslint warning ([9455566](https://github.com/georggoetz/flask_tutorial/commit/9455566093780b89c009e099a7ea826630ff82d1))
+
 ## [0.8.0](https://github.com/georggoetz/flask_tutorial/compare/v0.7.0...v0.8.0) (2025-07-14)
 
 
