@@ -54,12 +54,15 @@ export default class Likes extends HTMLElement {
   createDOM() {
     this.button = document.createElement('button')
     this.button.type = 'button'
-    this.button.innerHTML = '<span class="likes__heart"></span>'
+    this.button.innerHTML = '<span class="likes__heart" aria-hidden="true"></span>'
+    this.button.setAttribute('aria-label', 'Like')
+    this.button.setAttribute('role', 'button')
     this.button.setAttribute('aria-pressed', this.isLiked)
     this.button.addEventListener('click', () => { this.handleClick() })
 
     this.counter = document.createElement('span')
     this.counter.classList.add('likes__counter')
+    this.counter.setAttribute('aria-live', 'polite')
 
     this.wrapper = document.createElement('div')
     this.wrapper.classList.add('likes')

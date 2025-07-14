@@ -42,7 +42,7 @@ install: venv
 	$(NPM) install
 
 flask:
-	FLASK_ENV=development FLASK_APP=flaskr $(FLASK) run
+	FLASK_ENV=production FLASK_APP=flaskr $(FLASK) run
 
 webpack:
 	$(WEBPACK)

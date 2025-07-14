@@ -1,7 +1,7 @@
 {% set has_prev = page > 1 %}
 {% set has_next = page < total_pages %}
 {% set page_window = 2 %}
-<div class="pagination">
+<div class="pagination" role="navigation" aria-label="Page navigation">
   <a 
     class="button pagination__button{% if not has_prev %} is-disabled{% endif %}" 
     href="{{ url_for(url, page=page-1) if has_prev else '#' }}" 
@@ -20,7 +20,7 @@
   {% endif %}
   {% for p in range(start_page, end_page + 1) %}
     {% if p == page %}
-      <span class="button pagination__page is-active">{{ p }}</span>
+      <span class="button pagination__page is-active" aria-current="page">{{ p }}</span>
     {% else %}
       <a class="button pagination__page" href="{{ url_for(url, page=p) }}">{{ p }}</a>
     {% endif %}

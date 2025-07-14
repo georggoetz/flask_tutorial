@@ -14,7 +14,7 @@ export default class Toast extends HTMLElement {
 
   createDOM() {
     this.shadowRoot.innerHTML = `
-      <div class="toast">
+      <div class="toast" role="status" aria-live="assertive" aria-atomic="true">
         <slot></slot>
         <button class="toast__close" aria-label="Close">&times;</button>
       </div>
