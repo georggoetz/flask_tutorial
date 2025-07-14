@@ -1,9 +1,18 @@
-<title>Error</title>
-<script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
-<div class="container">
-  <div class="card error-card">
-    <h2>{{ error_code }}: {{ error_name }}</h2>
-    <p>{{ error_message }}</p>
-    <a href="{{ url_for('blog.index') }}" class="button" style="margin-top:2rem;display:inline-block;">Back to Home</a>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Error</title>
+    <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
+  </head>
+  <body>
+    <main role="main">
+      <div class="container">
+        <div class="card error-card" role="alert" aria-live="assertive">
+          <h1 tabindex="0">{{ error_code }}: {{ error_name }}</h1>
+          <p>{{ error_message }}</p>
+          <a href="{{ url_for('blog.index') }}" class="button" style="margin-top:2rem;display:inline-block;">Back to Home</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

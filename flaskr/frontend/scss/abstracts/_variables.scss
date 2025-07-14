@@ -4,8 +4,8 @@
 $color-bg: #e0e0e0;
 $color-shadow-light: color.adjust($color-bg, $lightness: 15%);
 $color-shadow-dark: color.adjust($color-bg, $lightness: -15%);
-$color-heading: contrast-tone($color-bg, 60%);
-$color-text: contrast-tone($color-bg, 40%);
+$color-heading: contrast-tone($color-bg, 70%);
+$color-text: contrast-tone($color-bg, 50%);
 $radius: 0.75rem;
 $shadow-distance: 4px;
 $shadow-blur: 4px;

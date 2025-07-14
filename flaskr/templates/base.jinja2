@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<title>{% block title %}{% endblock %}</title>
-<script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
-<div class="container">
-  <nav class="nav">
-    <div class="card nav-bar">
-      <a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a>
-      <div class="nav-bar__actions">
-        {% if g.user %}
-        <span class="nav-bar__user">Welcome, {{ g.user.username }}</span>
-        <a class="button nav-bar__action" href="{{ url_for('auth.logout') }}">Log Out</a>
-        {% else %}
-        <a class="button nav-bar__action" href="{{ url_for('auth.register') }}">Register</a>
-        <a class="button nav-bar__action" href="{{ url_for('auth.login') }}">Log In</a>
-        {% endif %}
-      </div>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A Flask blog application">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}Flask blog{% endblock %}</title>
+    <script src="{{ url_for('static', filename='dist/bundle.js') }}"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="card nav-bar">
+          <h1><a href="{{ url_for('blog.index') }}" class="nav-bar__title">Flaskr</a></h1>
+          <div class="nav-bar__actions">
+            {% if g.user %}
+            <span class="nav-bar__user">Welcome, {{ g.user.username }}</span>
+            <a class="button nav-bar__action" href="{{ url_for('auth.logout') }}">Log Out</a>
+            {% else %}
+            <a class="button nav-bar__action" href="{{ url_for('auth.register') }}">Register</a>
+            <a class="button nav-bar__action" href="{{ url_for('auth.login') }}">Log In</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+      <main role="main">
+        <section class="content">
+          <header class="content__header">
+            {% block header %}{% endblock %}
+          </header>
+          {% block content %}{% endblock %}
+        </section>
+      </main>
     </div>
-  </nav>
-  <section class="content">
-    <header class="content__header">
-      {% block header %}{% endblock %}
-    </header>
-    {% block content %}{% endblock %}
-  </section>
-</div>
-<div class="toast-stack">
-  {% for message in get_flashed_messages() %}
-  <x-toast>{{ message }}</x-toast>
-  {% endfor %}
-</div>
+    <div class="toast-stack" role="alert" aria-live="assertive">
+      {% for message in get_flashed_messages() %}
+      <x-toast>{{ message }}</x-toast>
+      {% endfor %}
+    </div>
+  </body>
+</html>

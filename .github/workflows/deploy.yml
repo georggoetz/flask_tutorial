@@ -84,6 +84,14 @@ jobs:
       - name: Run end-to-end tests (Cypress)
         run: make cypress-run
 
+      - name: Upload Cypress Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots/
+          retention-days: 7
+
       - name: Deploy to Fly.io
         if: github.ref == 'refs/heads/master' && success()
         env:
