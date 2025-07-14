@@ -1,9 +1,9 @@
 function logA11yViolations(violations) {
   violations.forEach(v => {
-    cy.log(`${v.id}: ${v.help} (${v.nodes.length} nodes)`)
+    cy.task('log', `${v.id}: ${v.help} (${v.nodes.length} nodes)`)
     v.nodes.forEach(node => {
-      cy.log(`Selector: ${node.target.join(', ')}`)
-      cy.log(`Failure Summary: ${node.failureSummary}`)
+      cy.task('log', `Selector: ${node.target.join(', ')}`)
+      cy.task('log', `Failure Summary: ${node.failureSummary}`)
     })
   })
 }
