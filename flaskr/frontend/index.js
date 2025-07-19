@@ -5,7 +5,7 @@ requireAll.keys().forEach(requireAll)
 import './scss/main.scss'
 
 import { showModal } from './components/modal.js'
-import { postForm } from './global/requests.js'
+import { get, postForm } from './global/requests.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.addEventListener('click', async e => {
