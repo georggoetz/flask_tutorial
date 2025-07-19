@@ -1,9 +1,10 @@
-import functools
 
-from flask import Blueprint, g, request, session, flash, redirect, render_template, url_for
+import functools
+from flask import Blueprint, g, request, session, flash, render_template, url_for
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.models import User
+from .utils import safe_redirect
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -31,7 +32,7 @@ def register():
         error = f'User {username} is already registered!'
       else:
         flash(f'User {username} successfully registered!')
-        return redirect(url_for('auth.login'))
+        return safe_redirect(url_for('auth.login'))
 
     flash(error)
 
@@ -57,7 +58,11 @@ def login():
       session.clear()
       session['user_id'] = user.id
       next_page = request.args.get('next')
-      return redirect(next_page or url_for('index'))
+
+      if next_page is None:
+        next_page = url_for('index')
+
+      return safe_redirect(next_page)
 
     flash(error)
 
@@ -79,14 +84,14 @@ def clear_logged_in_user(response):
 @bp.route('/logout')
 def logout():
   session.clear()
-  return redirect(url_for('index'))
+  return safe_redirect(url_for('index'))
 
 
 def login_required(view):
   @functools.wraps(view)
   def wrapped_view(**kwargs):
     if g.user is None:
-      return redirect(url_for('auth.login', next=request.url))
+      return safe_redirect(url_for('auth.login', next=request.url))
 
     return view(**kwargs)
 

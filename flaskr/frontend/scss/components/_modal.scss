@@ -1,0 +1,59 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: $z-overlay;
+  background: rgba($color-bg, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.modal {
+  @include neumorphic();
+  position: relative;
+  z-index: $z-modal;
+  min-width: $card-narrow-width;
+  max-width: 90vw;
+  min-height: 120px;
+  max-height: 80vh;
+  overflow: auto;
+  word-break: break-word;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: $color-bg;
+  border-radius: $radius;
+
+  &__close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    color: $color-text;
+    font-size: 1.5rem;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.modal[open] {
+  display: flex;
+}
+
+.modal:not([open]) {
+  display: none;
+}

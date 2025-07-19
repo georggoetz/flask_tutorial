@@ -10,6 +10,11 @@ export default class Toast extends HTMLElement {
   connectedCallback() {
     adoptStyleSheet(this.shadowRoot, cssText)
     this.createDOM()
+    this.closeBtn.addEventListener('click', this.#onClose)
+  }
+
+  disconnectedCallback() {
+    this.closeBtn.removeEventListener('click', this.#onClose)
   }
 
   createDOM() {
@@ -20,11 +25,10 @@ export default class Toast extends HTMLElement {
       </div>
     `
     this.closeBtn = this.shadowRoot.querySelector('.toast__close')
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => {
-        this.remove()
-      })
-    }
+  }
+
+  #onClose = () => {
+    this.remove()
   }
 }
 

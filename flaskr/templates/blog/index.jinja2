@@ -25,11 +25,15 @@
     </div>
     <div class="post__actions">
       <a class="button post__action" href="{{ url_for('blog.index', id=post.id) }}" aria-label="Read more about {{ post.title }}">Read more</a>
+      
       {% if g.user.id == post['author_id'] %}
       <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}" aria-label="Edit post: {{ post.title }}">Edit</a>
-      {% endif %}
+      {% endif %}     
       {% with post=post %}
       {% include 'components/post_likes.jinja2' %}
+      {% endwith %}
+      {% with post=post %}
+      {% include 'components/comments.jinja2' %}
       {% endwith %}
     </div>
   </section>

@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="card">
-  <h1 class="card__heading" id="form-title">{% block title %}Edit "{{ post.title }}"{% endblock %}</h1>
+  <h1 class="card__heading" id="form-title">{% block title %}{{ post.title }}{% endblock %}</h1>
   <form method="post" class="edit-form" aria-labelledby="form-title">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="edit-form__field">
