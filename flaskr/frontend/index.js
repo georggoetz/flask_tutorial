@@ -3,63 +3,18 @@ const requireAll = require.context('./', true, /^(?!.*\.(spec|test)\.js$).*\.js$
 requireAll.keys().forEach(requireAll)
 
 import './scss/main.scss'
-
-import { showModal } from './components/modal.js'
-import { get, postForm } from './global/requests.js'
+import { registerPostCommentModal, registerScrollToComments } from './components/comments.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.addEventListener('click', async e => {
-    const btn = e.target.closest('[data-post-comment]')
-    if (btn) {
-      e.preventDefault()
-      const postId = btn.dataset.postId
-      const html = await get(`/${postId}/comment/create`)
-      const modal = showModal(html)
-      const form = modal.querySelector('form')
-      
-      if (form) {
-        form.addEventListener('submit', async ev => {
-          ev.preventDefault()
-          const formData = new FormData(form)
-          
-          try {
-            const commentHtml = await postForm(form.action, formData)
-            const commentsSection = document.querySelector('#comments')
-
-            if (commentsSection) {
-              commentsSection.insertAdjacentHTML('beforeend', commentHtml)
-            }
-
-            modal.close()
-            
-            const match = commentHtml.match(/id="comment-(\d+)"/)
-            if (match) {
-              const commentId = match[1]
-              window.location.replace(`/${postId}#comment-${commentId}`)
-            } else {
-              window.location.replace(`/${postId}#comments`)
-            }
-          } catch (err) {
-            showToast(err.message || 'Error submitting comment')
-          }
-        })
-      }
+  registerPostCommentModal()
+  registerScrollToComments()
+  
+  // Force the page to reload when hitting the back or forward button. Otherwise, interactive elements will not perform
+  // fetch requests but retrieve results from the cache.
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) {
+      window.location.reload()
     }
   })
-
-  function scrollToComments() {
-    if (window.location.hash === '#comments') {
-      const commentsSection = document.getElementById('comments')
-      const navbar = document.querySelector('.nav-bar')
-      const offset = navbar ? navbar.offsetHeight : 0
-      if (commentsSection) {
-        const top = commentsSection.getBoundingClientRect().top + window.scrollY - offset
-        window.scrollTo({ top, behavior: 'smooth' })
-      }
-    }
-  }
-
-  scrollToComments()
-  window.addEventListener('load', scrollToComments)
 })
 

@@ -2,8 +2,8 @@ from flask import Blueprint, Response, g, request, flash, render_template, url_f
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.models import Post, Comment, Content
+from flaskr.utils import safe_redirect
 from sqlalchemy.sql import desc
-from .utils import safe_redirect
 
 bp = Blueprint('blog', __name__)
 
