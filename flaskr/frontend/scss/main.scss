@@ -3,11 +3,13 @@
 @use 'abstracts/variables';
 @use 'base/base';
 @use 'components/card';
+@use 'components/comments';
 @use 'components/edit-form';
 @use 'components/fab';
 @use 'components/inputs';
 @use 'components/likes';
 @use 'components/login-form';
+@use 'components/modal';
 @use 'components/nav-bar';
 @use 'components/pagination';
 @use 'components/post';

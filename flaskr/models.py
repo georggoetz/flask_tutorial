@@ -59,9 +59,13 @@ class Post(db.Model):
 
 
 class Comment(db.Model):
+
   __tablename__ = 'comments'
 
   id = mapped_column(Integer, primary_key=True, autoincrement=True)
+  created = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
+  author_id = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+  author = relationship('User', back_populates='comments')
   post_id = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
   post = relationship('Post', back_populates='comments')
   comment_id = mapped_column(Integer, ForeignKey('comments.id'))
@@ -69,6 +73,12 @@ class Comment(db.Model):
   replies = relationship('Comment', back_populates='reply_to', cascade='all, delete')
   content_id = mapped_column(Integer, ForeignKey('content.id'), nullable=False)
   content = relationship('Content', back_populates='comment', uselist=False, cascade='all, delete')
+
+  def __init__(self, author_id=None, post_id=None, content=None, comment_id=None):
+    self.author_id = author_id
+    self.post_id = post_id
+    self.content = content
+    self.comment_id = comment_id
 
 
 class Content(db.Model):
@@ -94,6 +104,7 @@ class User(db.Model):
   username = mapped_column(String, unique=True, nullable=False)
   password = mapped_column(String, nullable=False)
   posts = relationship('Post', back_populates='author', cascade='all, delete')
+  comments = relationship('Comment', back_populates='author', cascade='all, delete')
   liked_posts = relationship('Post',
                              secondary=post_likes,
                              back_populates='liked_by',

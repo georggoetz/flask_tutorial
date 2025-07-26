@@ -1,6 +1,6 @@
 <x-likes 
   liked="{{ 'true' if g.user and g.user.likes_post(post) else 'false' }}" 
   count="{{ post.like_count }}"
-  url="{{ url_for('blog_api.like', id=post.id) }}"
+  url="{{ url_for('blog_api.like', post_id=post.id) }}"
   disabled="{{ 'true' if not g.user or g.user.id == post.author_id else 'false' }}">
 </x-likes>

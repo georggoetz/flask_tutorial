@@ -30,7 +30,7 @@ export default [
       /* === Style Guidelines === */
       'semi': ['error', 'never'],        // No semicolons at the end of statements
       'quotes': ['error', 'single'],     // Enforce the use of single quotes
-      'indent': ['error', 2],            // Enforce 4-space indentation
+      'indent': ['error', 2],            // Enforce 2-space indentation
       'space-before-function-paren': ['error', 'never'],  // No pace before function parentheses
       'comma-dangle': ['error', 'never'], // Disallow trailing commas
 

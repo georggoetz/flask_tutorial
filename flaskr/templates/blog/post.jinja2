@@ -2,12 +2,11 @@
 
 {% block content %}
 <article class="card post" aria-label="Blog post">
-  <header class="post__header">
-    <div>
-      <h1 class="post__title">{{ post.title }}</h1>
-      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%-d %B %Y') }}</div>
-    </div> 
-  </header>
+  
+  {% with post=post %}
+  {% include 'components/post_header.jinja2' %}
+  {% endwith %}
+
   <section>
     <div class="post__actions">
       {% if g.user and g.user.id == post.author.id %}
@@ -18,8 +17,29 @@
       {% endwith %}
     </div>
   </section>
+
   <section>
     <p class="post__body">{{ post.content.body }}</p>
   </section>
+
+  {% if g.user %}
+    <section class="post__comment-action">
+      <button class="button post__action" type="button" data-post-comment data-post-id="{{ post.id }}">Post Comment</button>
+    </section>
+  {% endif %}
+
+  <section class="post__comments" id="comments">
+    <h2 class="post__title">Comments</h2>
+    {% if post.comments %}
+      {% for comment in post.comments %}
+        {% with comment=comment %}
+        {% include 'components/comment.jinja2' %}
+        {% endwith %}
+      {% endfor %}
+    {% else %}
+      <p class="comment__empty">No comments yet.</p>
+    {% endif %}
+  </section>
+
 </article>
 {% endblock %}

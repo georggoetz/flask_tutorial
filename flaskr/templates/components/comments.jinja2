@@ -1,0 +1,11 @@
+<div class="comments">
+  <a class="comments__button" href="{{ url_for('blog.index', id=post.id) }}#comments" aria-label="Show comments for {{ post.title }}">
+    <svg class="comments-icon" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none"
+      xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g transform="matrix(1,0,0,1,0,1)">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="currentColor" />
+      </g>
+    </svg>
+    <x-comments count="{{ post.comments|length }}" data-post-id="{{ post.id }}"></x-comments>
+  </a>
+</div>

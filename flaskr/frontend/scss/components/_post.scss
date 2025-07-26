@@ -44,4 +44,8 @@
   &__action {
     @include default-spacing;
   }
+
+  &__comments {
+    margin-top: 2rem;
+  }
 }
