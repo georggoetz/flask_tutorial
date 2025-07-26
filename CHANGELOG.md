@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.0](https://github.com/georggoetz/flask_tutorial/compare/v0.8.1...v0.9.0) (2025-07-26)
+
+
+### Features
+
+* **comments:** basic comments implemented ([695a434](https://github.com/georggoetz/flask_tutorial/commit/695a43480ff41e7e8b286b19387fa6a86d330749))
+* **comments:** Make comments basically work ([71374ef](https://github.com/georggoetz/flask_tutorial/commit/71374ef65b491cec23ad4fd281a87be458154b1e))
+
+
+### Bug Fixes
+
+* **comments:** Added missing import ([02d1953](https://github.com/georggoetz/flask_tutorial/commit/02d1953448732c5b26510abae729f8d4721baf3b))
+* **comments:** Handle back and forward button. ([612d135](https://github.com/georggoetz/flask_tutorial/commit/612d135976919899209359f924a3cd8114185190))
+
 ## [0.8.1](https://github.com/georggoetz/flask_tutorial/compare/v0.8.0...v0.8.1) (2025-07-14)
 
 
