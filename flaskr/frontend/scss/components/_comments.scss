@@ -47,10 +47,10 @@
       vertical-align: middle;
     }
 
-    &.comments__button:not(.comments__button--disabled):hover {
+    &:not(&--disabled):hover {
       .comments__counter,
       svg {
-        color: brightess(1.15);
+        filter: brightness(1.15);
         transform: scale(1.2);
         transition: all 0.2s;
       }

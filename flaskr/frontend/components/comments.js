@@ -48,7 +48,26 @@ export default class Comments extends HTMLElement {
     try {
       const response = await get(`/api/blog/${postId}/comments/count`)
       if (response.ok) {
-        const data = await res.json()
+        const data = await response.json()
+        this.count = data.count
+      }
+    } catch (error) {
+      showToast(error.message || 'Error fetching comment count')
+    }
+  }
+
+  // Public method for forced refresh (bypassing any cache)
+  async forceRefresh() {
+    const postId = this.getAttribute('data-post-id')
+    if (!postId) {
+      return
+    }
+    try {
+      // Force fresh data with cache busting
+      const timestamp = Date.now()
+      const response = await get(`/api/blog/${postId}/comments/count?t=${timestamp}`)
+      if (response.ok) {
+        const data = await response.json()
         this.count = data.count
       }
     } catch (error) {

@@ -9,12 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
   registerPostCommentModal()
   registerScrollToComments()
   
-  // Force the page to reload when hitting the back or forward button. Otherwise, interactive elements will not perform
-  // fetch requests but retrieve results from the cache.
+  // Anti-bfcache strategy - more aggressive approach
+  window.addEventListener('beforeunload', () => {
+    // Empty beforeunload handler prevents bfcache
+  })
+  
+  // If bfcache still occurs, force complete refresh
   window.addEventListener('pageshow', event => {
     if (event.persisted) {
+      // bfcache detected - force page reload as last resort
+      console.log('bfcache detected, forcing reload')
       window.location.reload()
     }
   })
 })
-

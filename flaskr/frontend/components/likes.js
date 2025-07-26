@@ -110,6 +110,13 @@ export default class Likes extends HTMLElement {
       showToast(error.message || 'Error updating likes')
     }
   }
+
+  // Public method for forced refresh (for bfcache scenarios)
+  async forceRefresh() {
+    // For likes, we don't need to fetch initial state as it's user-driven
+    // But we can reset to a clean state if needed
+    this.updateDOM()
+  }
 }
 
 customElements.define('x-likes', Likes)

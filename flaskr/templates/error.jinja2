@@ -10,7 +10,7 @@
         <div class="card error-card" role="alert" aria-live="assertive">
           <h1 tabindex="0">{{ error_code }}: {{ error_name }}</h1>
           <p>{{ error_message }}</p>
-          <a href="{{ url_for('blog.index') }}" class="button" style="margin-top:2rem;display:inline-block;">Back to Home</a>
+          <a href="{{ url_for('blog.index') }}" class="button error-card__button">Back to Home</a>
         </div>
       </div>
     </main>

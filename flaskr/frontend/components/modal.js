@@ -32,7 +32,7 @@ export default class Modal extends HTMLElement {
   createDOM() {
     this.shadowRoot.innerHTML = `
       <div class="modal-overlay">
-        <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal modal--hidden" role="dialog" aria-modal="true">
           <button class="modal__close" aria-label="Close">&times;</button>
           <slot></slot>
         </div>
@@ -47,12 +47,14 @@ export default class Modal extends HTMLElement {
   }
 
   open() {
-    this.modal.setAttribute('open', '')
+    this.modal.classList.add('modal--open')
+    this.modal.classList.remove('modal--hidden')
     this.focus()
   }
 
   close() {
-    this.modal.removeAttribute('open')
+    this.modal.classList.remove('modal--open')
+    this.modal.classList.add('modal--hidden')
     this.dispatchEvent(new CustomEvent('close', { bubbles: true }))
   }
 

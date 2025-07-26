@@ -20,8 +20,10 @@
   margin-right: auto;
 }
 
-.error-card .button {
-  @include default-spacing;
-  margin-top: 2rem;
-  display: inline-block;
+.error-card {
+  &__button {
+    @include default-spacing;
+    margin-top: 2rem;
+    display: inline-block;
+  }
 }

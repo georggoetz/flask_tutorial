@@ -48,12 +48,12 @@
       opacity: 1;
     }
   }
-}
 
-.modal[open] {
-  display: flex;
-}
+  &--open {
+    display: flex;
+  }
 
-.modal:not([open]) {
-  display: none;
+  &--hidden {
+    display: none;
+  }
 }

@@ -3,12 +3,9 @@
 {% block content %}
 <article class="card post" aria-label="Blog post">
   
-  <header class="post__header">
-    <div>
-      <h1 class="post__title">{{ post.title }}</h1>
-      <div class="post__about">by {{ post.author.username }} on {{ post.created.strftime('%-d %B %Y') }}</div>
-    </div> 
-  </header>
+  {% with post=post %}
+  {% include 'components/post_header.jinja2' %}
+  {% endwith %}
 
   <section>
     <div class="post__actions">
@@ -19,8 +16,6 @@
       {% include 'components/post_likes.jinja2' %}
       {% endwith %}
     </div>
-
-
   </section>
 
   <section>
@@ -34,7 +29,7 @@
   {% endif %}
 
   <section class="post__comments" id="comments">
-    <h2 class="visually-hidden">Comments</h2>
+    <h2 class="post__title">Comments</h2>
     {% if post.comments %}
       {% for comment in post.comments %}
         {% with comment=comment %}
