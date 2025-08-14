@@ -8,7 +8,8 @@ dependencies = [
     "flask_migrate",
     "faker",
     "psycopg2-binary",
-    "flask-wtf"
+    "flask-wtf",
+    "flask-compress"
 ]
 
 [project.optional-dependencies]
