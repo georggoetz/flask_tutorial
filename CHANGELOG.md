@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0](https://github.com/georggoetz/flask_tutorial/compare/v0.9.0...v0.10.0) (2025-08-14)
+
+
+### Features
+
+* **comments:** Better handling of the bfcache. Fire an event to relo… ([39abcec](https://github.com/georggoetz/flask_tutorial/commit/39abcecf1d0b9f1f261afbbc436b484f73e4b4c4))
+* **comments:** Better handling of the bfcache. Fire an event to reload components dynamically, when a page is retrieved from bfcache. Added JSDoc to Javascript components. Refactorings. ([1ad690a](https://github.com/georggoetz/flask_tutorial/commit/1ad690a9560973ff0beb0387223120f73e3c372f))
+
 ## [0.9.0](https://github.com/georggoetz/flask_tutorial/compare/v0.8.1...v0.9.0) (2025-07-26)
 
 
