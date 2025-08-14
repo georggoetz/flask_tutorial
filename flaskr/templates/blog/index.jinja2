@@ -23,10 +23,10 @@
       <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}" aria-label="Edit post: {{ post.title }}">Edit</a>
       {% endif %}     
       {% with post=post %}
-      {% include 'components/post_likes.jinja2' %}
+      {% include 'components/post_likes_counter.jinja2' %}
       {% endwith %}
       {% with post=post %}
-      {% include 'components/comments.jinja2' %}
+      {% include 'components/comments_counter.jinja2' %}
       {% endwith %}
     </div>
   </section>

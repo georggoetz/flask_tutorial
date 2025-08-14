@@ -3,23 +3,17 @@ const requireAll = require.context('./', true, /^(?!.*\.(spec|test)\.js$).*\.js$
 requireAll.keys().forEach(requireAll)
 
 import './scss/main.scss'
-import { registerPostCommentModal, registerScrollToComments } from './components/comments.js'
+import { registerPostCommentModal, registerScrollToCommentsSection } from './components/comments-counter.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   registerPostCommentModal()
-  registerScrollToComments()
-  
-  // Anti-bfcache strategy - more aggressive approach
-  window.addEventListener('beforeunload', () => {
-    // Empty beforeunload handler prevents bfcache
-  })
-  
-  // If bfcache still occurs, force complete refresh
-  window.addEventListener('pageshow', event => {
-    if (event.persisted) {
-      // bfcache detected - force page reload as last resort
-      console.log('bfcache detected, forcing reload')
-      window.location.reload()
-    }
-  })
+  registerScrollToCommentsSection()
+})
+
+// Handle browser back/forward cache (bfcache)
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    // Page was restored from cache, refresh dynamic content
+    window.dispatchEvent(new CustomEvent('refresh-dynamic-content'))
+  }
 })

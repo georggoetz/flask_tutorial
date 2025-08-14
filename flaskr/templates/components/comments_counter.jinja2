@@ -6,6 +6,6 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="currentColor" />
       </g>
     </svg>
-    <x-comments count="{{ post.comments|length }}" data-post-id="{{ post.id }}"></x-comments>
+    <x-comments-counter count="{{ post.comments|length }}" url="{{ url_for('blog_api.comments_count', post_id=post.id) }}"></x-comments-counter>
   </a>
 </div>

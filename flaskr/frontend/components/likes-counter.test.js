@@ -1,16 +1,36 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import './likes.js'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import './likes-counter.js'
+
+// Mock dependencies
+vi.mock('../scss/components/_likes.scss?raw', () => ({
+  default: '.likes { color: red; }'
+}))
+
+vi.mock('../global/adopt-style-sheet.js', () => ({
+  adoptStyleSheet: vi.fn()
+}))
+
+vi.mock('../global/requests.js', () => ({
+  get: vi.fn(),
+  post: vi.fn(),
+  del: vi.fn()
+}))
+
+vi.mock('./toast.js', () => ({
+  showToast: vi.fn()
+}))
 
 describe('Likes Web Component', () => {
   let element
 
   beforeEach(() => {
-    element = document.createElement('x-likes')
+    element = document.createElement('x-likes-counter')
     document.body.appendChild(element)
   })
 
   afterEach(() => {
     document.body.innerHTML = ''
+    vi.clearAllMocks()
   })
 
   it('initializes with default attributes', () => {
