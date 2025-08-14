@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/georggoetz/flask_tutorial/compare/v0.10.0...v0.11.0) (2025-08-14)
+
+
+### Features
+
+* **compression:** Enabled compression for static resources. Enabled … ([1506b05](https://github.com/georggoetz/flask_tutorial/commit/1506b05e9925d97daa67e5dd92f2e63efdc3b566))
+
 ## [0.10.0](https://github.com/georggoetz/flask_tutorial/compare/v0.9.0...v0.10.0) (2025-08-14)
 
 
