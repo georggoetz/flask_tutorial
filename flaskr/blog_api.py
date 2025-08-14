@@ -6,13 +6,19 @@ from flaskr.models import Post
 bp = Blueprint('blog_api', __name__, url_prefix='/api/blog')
 
 
-@bp.route('/<int:post_id>/like', methods=('POST', 'DELETE',))
+@bp.route('/<int:post_id>/like', methods=('GET', 'POST', 'DELETE',))
 @login_required
 def like(post_id):
   post = get_post(post_id, check_author=False)
 
   if post is None:
     return jsonify(error='Post not found!'), 404
+
+  if request.method == 'GET':
+    return jsonify({
+      'count': post.like_count,
+      'isLiked': g.user.likes_post(post)
+    })
 
   if g.user.id == post.author.id:
     return jsonify(error='You cannot like your own posts!'), 400

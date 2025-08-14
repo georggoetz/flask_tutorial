@@ -31,8 +31,9 @@ describe('Toast component', () => {
     showToast('Closable message')
     const stack = getToastStack()
     const toast = stack.children[0]
-    expect(toast.closeBtn).toBeTruthy()
-    toast.closeBtn.click()
+    const closeBtn = toast.shadowRoot.querySelector('.toast__close')
+    expect(closeBtn).toBeTruthy()
+    closeBtn.click()
     expect(stack.children.length).toBe(0)
   })
 })

@@ -1,6 +1,7 @@
 VENV = .venv
 PYTHON = $(VENV)/bin/python
 PIP = $(VENV)/bin/pip
+COVERAGE = $(VENV)/bin/coverage
 FLASK = $(VENV)/bin/flask
 NPM = npm
 WEBPACK = npx webpack
@@ -56,7 +57,7 @@ dev:
 test:
 	$(NPM) run test:ci
 	$(PYTHON) -m pytest -v
-	coverage run -m pytest
+	$(COVERAGE) run -m pytest
 
 lint-python:
 	$(FLAKE8)

@@ -13,7 +13,7 @@
       <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
       {% endif %}
       {% with post=post %}
-      {% include 'components/post_likes.jinja2' %}
+      {% include 'components/post_likes_counter.jinja2' %}
       {% endwith %}
     </div>
   </section>
@@ -24,7 +24,7 @@
 
   {% if g.user %}
     <section class="post__comment-action">
-      <button class="button post__action" type="button" data-post-comment data-post-id="{{ post.id }}">Post Comment</button>
+      <button class="button post__action" type="button" data-comment-url="{{ url_for('blog.create_comment', post_id=post.id) }}">Post Comment</button>
     </section>
   {% endif %}
 

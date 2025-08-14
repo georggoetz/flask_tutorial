@@ -1,10 +1,14 @@
 import globals from 'globals';
+import jsdoc from 'eslint-plugin-jsdoc';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
     files: ['**/*.js'],
     ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*', 'flaskr/static/dist/**/*'],
+    plugins: {
+      jsdoc: jsdoc
+    },
     languageOptions: {
       sourceType: 'module',
       ecmaVersion: 'latest',
@@ -33,6 +37,13 @@ export default [
       'indent': ['error', 2],            // Enforce 2-space indentation
       'space-before-function-paren': ['error', 'never'],  // No pace before function parentheses
       'comma-dangle': ['error', 'never'], // Disallow trailing commas
+
+      /* === JSDoc Rules === */
+      'jsdoc/require-description': 'warn',      // Require descriptions in JSDoc comments
+      'jsdoc/require-param-description': 'warn', // Require parameter descriptions
+      'jsdoc/require-returns-description': 'warn', // Require return descriptions
+      'jsdoc/check-param-names': 'error',       // Check parameter names match function signature
+      'jsdoc/check-types': 'warn',              // Validate JSDoc types
 
       /* === Strict Mode === */
       'strict': ['error', 'global']      // Enforce 'use strict' at the global level
