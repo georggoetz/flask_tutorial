@@ -25,7 +25,7 @@ jobs:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@localhost:5432/flask_tutorial
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Fly.io CLI
         uses: superfly/flyctl-actions/setup-flyctl@v1
