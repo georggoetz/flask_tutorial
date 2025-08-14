@@ -1,4 +1,5 @@
 const path = require('path')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = (env, argv) => {
   const isDev = argv.mode === 'development'
@@ -52,6 +53,15 @@ module.exports = (env, argv) => {
         }
       ]
     },
+    plugins: [
+      new CompressionPlugin({
+        filename: '[path][base].gz',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 8192,
+        minRatio: 0.8
+      })
+    ],
     devtool: isDev ? 'inline-source-map' : false,
     devServer: {
       static: {

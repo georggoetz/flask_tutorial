@@ -1,12 +1,14 @@
 import os
 from flask import Flask
 from flask_wtf import CSRFProtect
+from flask_compress import Compress
 
 
 def create_app(test_config=None):
   app = Flask(__name__, instance_relative_config=True)
 
   CSRFProtect(app)
+  Compress(app)
 
   secret_key = os.environ.get("SECRET_KEY", "dev")
   db_url = os.environ.get("DATABASE_URL")
@@ -45,5 +47,8 @@ def create_app(test_config=None):
 
   from . import errors
   errors.init_app(app)
+
+  from . import static_assets
+  static_assets.init_app(app)
 
   return app
