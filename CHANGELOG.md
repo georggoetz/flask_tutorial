@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.1](https://github.com/georggoetz/flask_tutorial/compare/v0.12.0...v0.12.1) (2025-08-15)
+
+
+### Bug Fixes
+
+* **release-please:** Prevent redundant deplyoment when pushing to mas… ([98b6b6c](https://github.com/georggoetz/flask_tutorial/commit/98b6b6c00470514fd1c475bff74cb5c7b8fc3984))
+* **release-please:** Prevent redundant deplyoment when pushing to master. First Release-please creates a tag that triggers the deployment. ([28b6d13](https://github.com/georggoetz/flask_tutorial/commit/28b6d137191882dae32ae618c66a98c3ce2a8185))
+
 ## [0.12.0](https://github.com/georggoetz/flask_tutorial/compare/v0.11.0...v0.12.0) (2025-08-15)
 
 
