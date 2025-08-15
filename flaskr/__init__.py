@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_wtf import CSRFProtect
 from flask_compress import Compress
@@ -10,28 +9,11 @@ def create_app(test_config=None):
   CSRFProtect(app)
   Compress(app)
 
-  secret_key = os.environ.get("SECRET_KEY", "dev")
-  db_url = os.environ.get("DATABASE_URL")
-  if db_url is None and test_config is None:
-    db_url = 'sqlite:///' + os.path.join(app.instance_path, 'flaskr.sqlite')
-
-  app.config.from_mapping(
-    SECRET_KEY=secret_key,
-    SQLALCHEMY_DATABASE_URI=db_url,
-  )
-
-  if test_config is not None:
-    app.config.from_mapping(test_config)
-  else:
-    app.config.from_pyfile('config.py', silent=True)
-
-  try:
-    os.makedirs(app.instance_path)
-  except OSError:
-    pass
-
   app.jinja_env.trim_blocks = True
   app.jinja_env.lstrip_blocks = True
+
+  from . import config
+  config.init_app(app, test_config)
 
   from . import db
   db.init_app(app)
@@ -50,5 +32,8 @@ def create_app(test_config=None):
 
   from . import static_assets
   static_assets.init_app(app)
+
+  from . import swagger
+  swagger.init_app(app)
 
   return app

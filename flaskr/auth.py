@@ -1,6 +1,6 @@
-
+import base64
 import functools
-from flask import Blueprint, g, request, session, flash, render_template, url_for
+from flask import Blueprint, g, request, session, flash, render_template, url_for, jsonify
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.models import User
@@ -72,7 +72,31 @@ def login():
 @bp.before_app_request
 def load_logged_in_user():
   user_id = session.get('user_id')
-  g.user = None if user_id is None else g.db_session.get(User, user_id)
+
+  if user_id is None:
+    g.user = basic_auth()
+  else:
+    g.user = g.db_session.get(User, user_id)
+
+
+def basic_auth():
+  auth_header = request.headers.get('Authorization')
+  if not auth_header or not auth_header.startswith('Basic '):
+    return None
+
+  try:
+    credentials = base64.b64decode(auth_header[6:]).decode('utf-8')
+    username, password = credentials.split(':', 1)
+
+    user = g.db_session.query(User).filter(User.username == username).first()
+    if user and check_password_hash(user.password, password):
+      session['user_id'] = user.id
+      return user
+
+  except (ValueError, UnicodeDecodeError, AttributeError):
+    pass
+
+  return None
 
 
 @bp.teardown_app_request
@@ -87,11 +111,34 @@ def logout():
   return safe_redirect(url_for('index'))
 
 
+@bp.route('/swagger-oauth')
+def swagger_oauth():
+  """OAuth-style authorization for Swagger UI."""
+  if g.user:
+    # User is already logged in, redirect back to Swagger with success fragment
+    return safe_redirect('/apidocs/#/')
+  else:
+    # Redirect to login with return URL pointing back to this endpoint
+    return safe_redirect(url_for('auth.login', next=url_for('auth.swagger_oauth')))
+
+
 def login_required(view):
   @functools.wraps(view)
   def wrapped_view(**kwargs):
     if g.user is None:
       return safe_redirect(url_for('auth.login', next=request.url))
+
+    return view(**kwargs)
+
+  return wrapped_view
+
+
+def api_login_required(view):
+  """Login required decorator for API endpoints that returns JSON responses."""
+  @functools.wraps(view)
+  def wrapped_view(**kwargs):
+    if g.user is None:
+      return jsonify(error='Authentication required to access this API endpoint.'), 401
 
     return view(**kwargs)
 

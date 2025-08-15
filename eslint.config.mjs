@@ -4,8 +4,20 @@ import jsdoc from 'eslint-plugin-jsdoc';
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
+    ignores: [
+      'node_modules/**/*',
+      'dist/**/*', 
+      'build/**/*',
+      '.venv/**/*',
+      'venv/**/*',
+      'htmlcov/**/*',
+      'flaskr/static/dist/**/*',
+      '**/.venv/**/*',
+      '**/venv/**/*'
+    ]
+  },
+  {
     files: ['**/*.js'],
-    ignores: ['node_modules/**/*', 'dist/**/*', 'build/**/*', '.venv/**/*', 'htmlcov/**/*', 'flaskr/static/dist/**/*'],
     plugins: {
       jsdoc: jsdoc
     },
