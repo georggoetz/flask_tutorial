@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.2](https://github.com/georggoetz/flask_tutorial/compare/v0.12.1...v0.12.2) (2025-08-15)
+
+
+### Documentation
+
+* improve README title and description ([26af217](https://github.com/georggoetz/flask_tutorial/commit/26af21762cf56f2f320f3c0a4ed5abae9fac835f))
+* improve README title and description ([ac074e5](https://github.com/georggoetz/flask_tutorial/commit/ac074e5550a679eb1c4635e3e78eb31e51c10b3a))
+
 ## [0.12.1](https://github.com/georggoetz/flask_tutorial/compare/v0.12.0...v0.12.1) (2025-08-15)
 
 
