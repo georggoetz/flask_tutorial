@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.3](https://github.com/georggoetz/flask_tutorial/compare/v0.12.2...v0.12.3) (2025-08-15)
+
+
+### Bug Fixes
+
+* use personal access token for release please to trigger workflows ([85dcd95](https://github.com/georggoetz/flask_tutorial/commit/85dcd95ccafaa1e4618b79e1e948898084442f28))
+* use personal access token for release please to trigger workflows ([11daf25](https://github.com/georggoetz/flask_tutorial/commit/11daf25fbdae0d167c60f94f29580798122399fa))
+
 ## [0.12.2](https://github.com/georggoetz/flask_tutorial/compare/v0.12.1...v0.12.2) (2025-08-15)
 
 
