@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.0](https://github.com/georggoetz/flask_tutorial/compare/v0.11.0...v0.12.0) (2025-08-15)
+
+
+### Features
+
+* **swagger:** Added swagger for API endpoint documentation. ([ea0e6d3](https://github.com/georggoetz/flask_tutorial/commit/ea0e6d3b0a2bc9dc6a0c509537efc6473bd14249))
+* **swagger:** Added swagger for API endpoint documentation. ([eb74a9a](https://github.com/georggoetz/flask_tutorial/commit/eb74a9a611ced3f6fc69331461aae2619d214bd6))
+
 ## [0.11.0](https://github.com/georggoetz/flask_tutorial/compare/v0.10.0...v0.11.0) (2025-08-14)
 
 
