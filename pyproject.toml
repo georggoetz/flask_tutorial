@@ -9,7 +9,8 @@ dependencies = [
     "faker",
     "psycopg2-binary",
     "flask-wtf",
-    "flask-compress"
+    "flask-compress",
+    "flasgger"
 ]
 
 [project.optional-dependencies]
