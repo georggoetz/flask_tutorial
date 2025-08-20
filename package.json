@@ -27,7 +27,7 @@
     "babel-loader": "^10.0.0",
     "compression-webpack-plugin": "^11.1.0",
     "css-loader": "^7.1.2",
-    "cypress": "^14.5.1",
+    "cypress": "^15.0.0",
     "cypress-axe": "^1.6.0",
     "depcheck": "^1.4.7",
     "eslint": "^9.16.0",
