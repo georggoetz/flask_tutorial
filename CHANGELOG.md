@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.12.3](https://github.com/georggoetz/flask_tutorial/compare/v0.12.2...v0.12.3) (2025-08-15)
+
+
+### Bug Fixes
+
+* use personal access token for release please to trigger workflows ([85dcd95](https://github.com/georggoetz/flask_tutorial/commit/85dcd95ccafaa1e4618b79e1e948898084442f28))
+* use personal access token for release please to trigger workflows ([11daf25](https://github.com/georggoetz/flask_tutorial/commit/11daf25fbdae0d167c60f94f29580798122399fa))
+
+## [0.12.2](https://github.com/georggoetz/flask_tutorial/compare/v0.12.1...v0.12.2) (2025-08-15)
+
+
+### Documentation
+
+* improve README title and description ([26af217](https://github.com/georggoetz/flask_tutorial/commit/26af21762cf56f2f320f3c0a4ed5abae9fac835f))
+* improve README title and description ([ac074e5](https://github.com/georggoetz/flask_tutorial/commit/ac074e5550a679eb1c4635e3e78eb31e51c10b3a))
+
+## [0.12.1](https://github.com/georggoetz/flask_tutorial/compare/v0.12.0...v0.12.1) (2025-08-15)
+
+
+### Bug Fixes
+
+* **release-please:** Prevent redundant deplyoment when pushing to mas… ([98b6b6c](https://github.com/georggoetz/flask_tutorial/commit/98b6b6c00470514fd1c475bff74cb5c7b8fc3984))
+* **release-please:** Prevent redundant deplyoment when pushing to master. First Release-please creates a tag that triggers the deployment. ([28b6d13](https://github.com/georggoetz/flask_tutorial/commit/28b6d137191882dae32ae618c66a98c3ce2a8185))
+
+## [0.12.0](https://github.com/georggoetz/flask_tutorial/compare/v0.11.0...v0.12.0) (2025-08-15)
+
+
+### Features
+
+* **swagger:** Added swagger for API endpoint documentation. ([ea0e6d3](https://github.com/georggoetz/flask_tutorial/commit/ea0e6d3b0a2bc9dc6a0c509537efc6473bd14249))
+* **swagger:** Added swagger for API endpoint documentation. ([eb74a9a](https://github.com/georggoetz/flask_tutorial/commit/eb74a9a611ced3f6fc69331461aae2619d214bd6))
+
 ## [0.11.0](https://github.com/georggoetz/flask_tutorial/compare/v0.10.0...v0.11.0) (2025-08-14)
 
 
