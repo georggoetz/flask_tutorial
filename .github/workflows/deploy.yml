@@ -1,9 +1,8 @@
 name: Deploy to Fly.io
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]  # Triggert bei GitHub Release statt Tag
   workflow_dispatch:
 
 permissions:
