@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.1](https://github.com/georggoetz/flask_tutorial/compare/v0.13.0...v0.13.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* **double-deployment:** Adjusted Github actions to only trigger deployments when a release-please PR is merged to master. ([0ee5d13](https://github.com/georggoetz/flask_tutorial/commit/0ee5d137cc61ccbbfdaa30c855b9a616deac36df))
+
+
+### Documentation
+
+* Update README to mention automated CI/CD workflows ([85e348f](https://github.com/georggoetz/flask_tutorial/commit/85e348f7c5e4b831557a5a2dfa5836f7f114d79f))
+
 ## [0.13.0](https://github.com/georggoetz/flask_tutorial/compare/v0.12.3...v0.13.0) (2025-09-08)
 
 
