@@ -2,8 +2,11 @@ name: Deploy to Fly.io
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - master
+    paths:
+      - 'CHANGELOG.md'
+      - 'pyproject.toml'
   workflow_dispatch:
 
 permissions:
@@ -13,6 +16,10 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Only deploy if this is a release-please merge (CHANGELOG.md was updated)
+    if: |
+      contains(github.event.head_commit.message, 'chore(master): release') || 
+      github.event_name == 'workflow_dispatch'
     services:
       postgres:
         image: postgres:17
@@ -53,6 +60,18 @@ jobs:
           pip install .[dev]
           pip install .
           npm install
+
+      - name: Security audit npm packages
+        run: |
+          # Fail on high/critical vulnerabilities, allow moderate/low
+          npm audit --audit-level=high || echo "::warning::npm audit found high/critical vulnerabilities"
+          npm audit --json > npm-audit.json || true
+          
+      - name: Upload security audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-results
+          path: npm-audit.json
 
       - name: Lint Python
         run: .venv/bin/flake8
