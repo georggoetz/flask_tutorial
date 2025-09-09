@@ -2,7 +2,7 @@
 
 # Flask Tutorial
 
-A comprehensive Flask web application with modern development practices.
+A comprehensive Flask web application with modern development practices and automated CI/CD workflows.
 
 ## Getting started
 
