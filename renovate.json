@@ -24,6 +24,8 @@
   "commitMessageExtra": "to {{newVersion}}",
   "semanticCommitType": "chore",
   "semanticCommitScope": "deps",
+  "groupName": "Dependencies",
+  "separateMinorPatch": false,
   "packageRules": [
     {
       "matchCategories": [
@@ -36,13 +38,15 @@
         "minor",
         "patch"
       ],
-      "automerge": true
+      "automerge": true,
+      "groupName": "Non-major dependencies"
     },
     {
       "matchUpdateTypes": [
         "major"
       ],
-      "automerge": false
+      "automerge": false,
+      "groupName": "Major dependencies"
     }
   ]
 }
