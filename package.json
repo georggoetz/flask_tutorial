@@ -1,6 +1,6 @@
 {
   "name": "flask_tutorial",
-  "version": "1.0.0",
+  "version": "0.13.2",
   "main": "index.js",
   "directories": {
     "test": "tests"
