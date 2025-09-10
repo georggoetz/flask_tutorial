@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.2](https://github.com/georggoetz/flask_tutorial/compare/v0.13.1...v0.13.2) (2025-09-10)
+
+
+### Bug Fixes
+
+* **release-please:** add required manifest and config files ([930f043](https://github.com/georggoetz/flask_tutorial/commit/930f04314e6b2493c152074b518e7ebac414087f))
+
 ## [0.13.1](https://github.com/georggoetz/flask_tutorial/compare/v0.13.0...v0.13.1) (2025-09-09)
 
 
