@@ -1,9 +1,24 @@
 {
+  "python.pythonPath": "./.venv/bin/python",
+  "python.defaultInterpreterPath": "./.venv/bin/python",
   "python.testing.pytestArgs": [
     "tests"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.fixAll": [
+    "source.unusedImports",
+    "source.convertImportFormat"
+  ],
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll.pylance": "explicit"
+    },
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
   "autopep8.args": [
     "--max-line-length=120",
     "--indent-size=2",

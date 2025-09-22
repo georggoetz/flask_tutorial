@@ -1,10 +1,13 @@
 import click
 import random
+
 from faker import Faker
 from flask import g
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash
+
+from flaskr.logger import log_exception
 
 db = SQLAlchemy()
 migrate = Migrate(db=db)
@@ -22,7 +25,8 @@ def setup_transaction_middleware(app, db):
       if exception is None:
         try:
           db_session.commit()
-        except Exception:
+        except Exception as e:
+          log_exception(f"Database session: Commit failed - {e}")
           db_session.rollback()
           raise
       else:

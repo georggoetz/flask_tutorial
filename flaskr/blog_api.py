@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify, g
+
 from flaskr.auth import api_login_required
 from flaskr.blog import get_post
 from flaskr.models import Post
+from flaskr.logger import log_user_action
 
 bp = Blueprint('blog_api', __name__, url_prefix='/api/blog')
 
@@ -69,17 +71,23 @@ def like(post_id):
     })
 
   if g.user.id == post.author.id:
+    log_user_action('Failed to like own post',
+                    user_id=g.user.id,
+                    additional_info=f'Post ID: {post_id}',
+                    level='warning')
     return jsonify(error='You cannot like your own posts!'), 400
 
   if request.method == 'POST':
     if g.user.likes_post(post):
       return jsonify(error='You already liked that post!'), 400
     g.user.like_post(post)
+    log_user_action(f'Post liked: {post_id}', user_id=g.user.id)
 
   elif request.method == 'DELETE':
     if not g.user.likes_post(post):
       return jsonify(error='You have not liked that post!'), 400
     g.user.unlike_post(post)
+    log_user_action(f'Post unliked: {post_id}', user_id=g.user.id)
 
   g.db_session.commit()
 
@@ -171,7 +179,7 @@ def comments_count(post_id):
   """
   post = g.db_session.get(Post, post_id)
   if not post:
-      return jsonify({'count': 0}), 404
+    return jsonify({'count': 0}), 404
   return jsonify({'count': len(post.comments)})
 
 

@@ -1,9 +1,11 @@
 from flask import Blueprint, Response, g, request, flash, render_template, url_for
 from werkzeug.exceptions import abort
+from sqlalchemy.sql import desc
+
 from flaskr.auth import login_required
 from flaskr.models import Post, Comment, Content
 from flaskr.utils import safe_redirect
-from sqlalchemy.sql import desc
+from flaskr.logger import log_user_action
 
 bp = Blueprint('blog', __name__)
 
@@ -54,8 +56,10 @@ def create():
     if error is not None:
       flash(error)
     else:
-      g.db_session.add(Post(title, g.user.id, body))
+      post = Post(title, g.user.id, body)
+      g.db_session.add(post)
       g.db_session.commit()
+      log_user_action(f'Post created: {title}', user_id=g.user.id)
 
       return safe_redirect(url_for('blog.index'))
 
@@ -81,6 +85,7 @@ def create_comment(post_id):
       comment = Comment(author_id=g.user.id, post_id=post_id, content=content)
       g.db_session.add(comment)
       g.db_session.commit()
+      log_user_action(f'Comment created on post {post_id}', user_id=g.user.id)
 
       if request.form.get('ajax') == '1':
         html = render_template('components/comment.jinja2', comment=comment)
@@ -124,6 +129,7 @@ def update(id):
 
       post.verified = True
       g.db_session.commit()
+      log_user_action(f'Post updated: ID {id}, Title: {title}', user_id=g.user.id)
 
       return safe_redirect(url_for('blog.index'))
 
@@ -134,9 +140,11 @@ def update(id):
 @login_required
 def delete(id):
   post = get_post(id)
+  post_title = post.title  # Store title before deletion
 
   g.db_session.delete(post)
   g.db_session.commit()
+  log_user_action(f'Post deleted: ID {id}, Title: {post_title}', user_id=g.user.id)
 
   return safe_redirect(url_for('blog.index'))
 

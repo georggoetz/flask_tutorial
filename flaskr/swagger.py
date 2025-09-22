@@ -1,26 +1,19 @@
-"""
-Swagger/OpenAPI configuration for the Flaskr blog API.
-"""
-
 import os
 import importlib.metadata
+
 from flasgger import Swagger
 
 
 def get_version():
-  """Get the version from the package metadata."""
   try:
     return importlib.metadata.version('flaskr')
   except importlib.metadata.PackageNotFoundError:
-    return "0.0.0"  # Fallback for development
+    return "0.0.0"
 
 
 def init_app(app):
-  """Initialize Swagger documentation for the Flask application."""
   version = get_version()
 
-  # For production (fly.io), use HTTPS since the platform provides it
-  # For development, use HTTP
   is_production = os.environ.get('FLY_APP_NAME') is not None
   scheme = 'https' if is_production else 'http'
 
