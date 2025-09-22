@@ -9,17 +9,22 @@ RUN npm run build
 FROM python:3.13-slim AS backend-build
 WORKDIR /app
 RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml .
+RUN pip install --upgrade pip && pip install build
+
 COPY . .
 COPY --from=frontend-build /app/flaskr/static/dist ./flaskr/static/dist
 
-RUN pip install --upgrade pip && pip install build
+RUN pip install --no-cache-dir .
 RUN python -m build --wheel
 
 FROM python:3.13-slim AS production
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=backend-build /app/dist/*.whl /tmp/
 COPY --from=backend-build /app /app
 RUN pip install --no-cache-dir /tmp/*.whl

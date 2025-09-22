@@ -45,7 +45,6 @@ venv:
 
 install: venv
 	$(PIP) install .[dev]
-	$(PIP) install .
 	$(NPM) install
 
 flask:

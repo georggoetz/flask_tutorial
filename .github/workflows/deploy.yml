@@ -14,7 +14,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Only deploy if Build succeeded and this is a release commit
     if: |
       (github.event.workflow_run.conclusion == 'success' && 
        contains(github.event.workflow_run.head_commit.message, 'chore(master): release')) || 
