@@ -133,12 +133,9 @@ def logout():
 
 @bp.route('/swagger-oauth')
 def swagger_oauth():
-  """OAuth-style authorization for Swagger UI."""
   if g.user:
-    # User is already logged in, redirect back to Swagger with success fragment
     return safe_redirect('/apidocs/#/')
   else:
-    # Redirect to login with return URL pointing back to this endpoint
     return safe_redirect(url_for('auth.login', next=url_for('auth.swagger_oauth')))
 
 
@@ -154,7 +151,6 @@ def login_required(view):
 
 
 def api_login_required(view):
-  """Login required decorator for API endpoints that returns JSON responses."""
   @functools.wraps(view)
   def wrapped_view(**kwargs):
     if g.user is None:

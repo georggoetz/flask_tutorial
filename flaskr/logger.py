@@ -2,6 +2,7 @@ import logging
 import sys
 import os
 import time
+import uuid
 
 from flask import request, current_app, g
 
@@ -67,9 +68,10 @@ def init_app(app):
   if flask_env != 'testing':
     @app.before_request
     def log_request():
+      g.request_id = str(uuid.uuid4())[:8]
       g.request_start_time = time.time()
 
-      log_msg = f'Request: {request.method} {request.path} from {request.remote_addr}'
+      log_msg = f'Request [{g.request_id}]: {request.method} {request.path} from {request.remote_addr}'
 
       user_agent = request.headers.get("User-Agent", "Unknown")
       log_msg += f' User-Agent: {user_agent}'
@@ -87,12 +89,13 @@ def init_app(app):
 
     @app.after_request
     def log_response(response):
+      request_id = getattr(g, 'request_id', 'unknown')
       duration = 0
       if hasattr(g, 'request_start_time'):
         duration = round((time.time() - g.request_start_time) * 1000, 2)
 
       app.logger.info(
-        f'Response: {request.method} {request.path} '
+        f'Response [{request_id}]: {request.method} {request.path} '
         f'Status: {response.status_code} '
         f'Size: {response.content_length or 0} bytes '
         f'Duration: {duration}ms'
@@ -101,10 +104,13 @@ def init_app(app):
 
 
 def log_user_action(action, user_id=None, level='info'):
+  request_id = getattr(g, 'request_id', None)
+  request_context = f' [{request_id}]' if request_id else ''
+
   if user_id:
-    log_msg = f'User Action (User ID: {user_id}): {action}'
+    log_msg = f'User Action{request_context} (User ID: {user_id}): {action}'
   else:
-    log_msg = f'User Action: {action}'
+    log_msg = f'User Action{request_context}: {action}'
 
   if level.lower() == 'warning':
     current_app.logger.warning(log_msg)
@@ -114,17 +120,30 @@ def log_user_action(action, user_id=None, level='info'):
     current_app.logger.info(log_msg)
 
 
+def get_request_id():
+  """Get the current request ID for correlation purposes."""
+  return getattr(g, 'request_id', None)
+
+
 def log_info(message):
-  current_app.logger.info(message)
+  request_id = get_request_id()
+  request_context = f' [{request_id}]' if request_id else ''
+  current_app.logger.info(f'{message}{request_context}')
 
 
 def log_warning(message):
-  current_app.logger.warning(message)
+  request_id = get_request_id()
+  request_context = f' [{request_id}]' if request_id else ''
+  current_app.logger.warning(f'{message}{request_context}')
 
 
 def log_error(message):
-  current_app.logger.error(message)
+  request_id = get_request_id()
+  request_context = f' [{request_id}]' if request_id else ''
+  current_app.logger.error(f'{message}{request_context}')
 
 
 def log_exception(error):
-  current_app.logger.exception(error)
+  request_id = get_request_id()
+  request_context = f' [{request_id}]' if request_id else ''
+  current_app.logger.exception(f'{error}{request_context}')
