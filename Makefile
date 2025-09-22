@@ -21,6 +21,7 @@ help:
 	@echo "  make lint         						- Run all linters (Python, JS)"
 	@echo "  make security     						- Run all security scans (Python, JS, Dependencies)"
 	@echo "  make security-python					- Run Python security scan (Bandit)"
+	@echo "  make security-python-sarif		- Run Python security scan with SARIF output (for CI)"
 	@echo "  make security-js  					  - Run JavaScript security scan (ESLint Security)"
 	@echo "  make security-deps-js				- Run JavaScript dependency security audit (npm audit)"
 	@echo "  make security-deps-python		- Run Python dependency security audit (pip-audit)"
@@ -75,6 +76,9 @@ lint: lint-python lint-js
 
 security-python:
 	$(BANDIT) -r flaskr/ -ll -f txt
+
+security-python-sarif:
+	$(BANDIT) -r flaskr/ -ll -f json -o bandit-results.json || true
 
 security-js:
 	$(NPM) run security-eslint

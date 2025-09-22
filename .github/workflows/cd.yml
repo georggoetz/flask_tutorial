@@ -1,0 +1,101 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'CHANGELOG.md'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  # Wait for CI to complete and succeed
+  check-ci-status:
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, 'chore(master): release') || 
+      github.event_name == 'workflow_dispatch'
+    outputs:
+      ci-passed: ${{ steps.check-ci.outputs.ci-passed }}
+    steps:
+      - name: Check CI status
+        id: check-ci
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const sha = context.sha;
+            
+            // Get workflow runs for this commit
+            const response = await github.rest.actions.listWorkflowRunsForRepo({
+              owner,
+              repo,
+              head_sha: sha,
+              per_page: 100
+            });
+            
+            const ciRun = response.data.workflow_runs.find(run => 
+              run.name === 'CI' && run.head_sha === sha
+            );
+            
+            if (!ciRun) {
+              console.log('No CI run found for this commit');
+              core.setOutput('ci-passed', 'false');
+              return;
+            }
+            
+            if (ciRun.status !== 'completed') {
+              console.log('CI is still running, waiting...');
+              core.setOutput('ci-passed', 'false');
+              return;
+            }
+            
+            if (ciRun.conclusion === 'success') {
+              console.log('CI passed successfully');
+              core.setOutput('ci-passed', 'true');
+            } else {
+              console.log(`CI failed with conclusion: ${ciRun.conclusion}`);
+              core.setOutput('ci-passed', 'false');
+            }
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: check-ci-status
+    if: needs.check-ci-status.outputs.ci-passed == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Fly.io CLI
+        uses: superfly/flyctl-actions/setup-flyctl@v1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -e .[dev]
+          npm ci
+
+      - name: Build frontend assets
+        run: make webpack
+
+      - name: Deploy to Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl deploy --remote-only
