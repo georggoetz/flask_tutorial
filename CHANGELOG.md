@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.1](https://github.com/georggoetz/flask_tutorial/compare/v0.14.0...v0.14.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* invalid call to log_user_action. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([15fb7f1](https://github.com/georggoetz/flask_tutorial/commit/15fb7f15132a478e46dcad6a1aca39e113e165bc))
+* invalid call to log_user_action. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([298d143](https://github.com/georggoetz/flask_tutorial/commit/298d1431ed41188c026ae75ac80c7e424ef1c619))
+
 ## [0.14.0](https://github.com/georggoetz/flask_tutorial/compare/v0.13.2...v0.14.0) (2025-09-22)
 
 
