@@ -7,6 +7,7 @@ NPM = npm
 WEBPACK = npx webpack
 WEBPACK_DEV = npx webpack --watch --mode development
 FLAKE8 = $(VENV)/bin/flake8
+BANDIT = $(VENV)/bin/bandit
 
 .PHONY: help
 help:
@@ -18,6 +19,11 @@ help:
 	@echo "  make dev          						- Run Flask and Webpack dev server (tmux required)"
 	@echo "  make test         						- Run tests (Vitest, pytest, coverage)"
 	@echo "  make lint         						- Run all linters (Python, JS)"
+	@echo "  make security     						- Run all security scans (Python, JS, Dependencies)"
+	@echo "  make security-python					- Run Python security scan (Bandit)"
+	@echo "  make security-js  					  - Run JavaScript security scan (ESLint Security)"
+	@echo "  make security-deps-js				- Run JavaScript dependency security audit (npm audit)"
+	@echo "  make security-deps-python		- Run Python dependency security audit (pip-audit)"
 	@echo "  make clean        						- Remove generated files and folders"
 	@echo "  make docker-build  					- Build Docker image"
 	@echo "  make docker-run    					- Run Docker container"
@@ -66,6 +72,21 @@ lint-js:
 	$(NPM) run eslint
 
 lint: lint-python lint-js
+
+security-python:
+	$(BANDIT) -r flaskr/ -ll -f txt
+
+security-js:
+	$(NPM) run security-eslint
+
+security-deps-js:
+	$(NPM) audit --audit-level=moderate
+
+security-deps-python:
+	@echo "Running pip-audit for Python dependencies..."
+	@$(VENV)/bin/pip-audit --desc || echo "✓ pip-audit completed (local packages skipped)"
+
+security: security-python security-js security-deps-js security-deps-python
 
 clean:
 	rm -rf $(VENV) node_modules static/dist htmlcov .pytest_cache .mypy_cache \

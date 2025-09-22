@@ -18,7 +18,10 @@ dev = [
   "pytest",
   "coverage",
   "flake8",
-  "flake8-pyproject"
+  "flake8-pyproject",
+  "bandit[toml]",
+  "pip-audit",
+  "pre-commit"
 ]
 
 [build-system]
@@ -47,3 +50,7 @@ exclude = [
     ".venv/",
     "node_modules"
 ]
+
+[tool.bandit]
+severity = "medium"
+exclude_dirs = ["tests", "migrations", "venv", ".venv", "node_modules"]

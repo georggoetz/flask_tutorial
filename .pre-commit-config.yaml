@@ -1,0 +1,27 @@
+repos:
+  - repo: local
+    hooks:
+      - id: security-python
+        name: security-python
+        entry: make
+        language: system
+        pass_filenames: false
+        args: [security-python]
+      - id: security-js
+        name: security-js
+        entry: make
+        language: system
+        pass_filenames: false
+        args: [security-js]
+      - id: security-deps-js
+        name: security-deps-js
+        entry: make
+        language: system
+        pass_filenames: false
+        args: [security-deps-js]
+      - id: security-deps-python
+        name: security-deps-python
+        entry: make
+        language: system
+        pass_filenames: false
+        args: [security-deps-python]

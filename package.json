@@ -1,5 +1,5 @@
 {
-  "name": "flask_tutorial",
+  "nam    \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",   \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",   \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",": "flask_tutorial",
   "version": "1.0.0",
   "main": "index.js",
   "directories": {
@@ -7,6 +7,7 @@
   },
   "scripts": {
     "eslint": "npx eslint .",
+    "security-eslint": "npx eslint flaskr/frontend",
     "test": "vitest",
     "test:ci": "vitest run",
     "build": "npx webpack --mode production",
@@ -32,6 +33,7 @@
     "depcheck": "^1.4.7",
     "eslint": "^9.16.0",
     "eslint-plugin-jsdoc": "^55.0.0",
+    "eslint-plugin-security": "^3.0.1",
     "globals": "^16.0.0",
     "happy-dom": "^18.0.1",
     "raw-loader": "^4.0.2",
