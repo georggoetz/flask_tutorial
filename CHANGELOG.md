@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.16.0](https://github.com/georggoetz/flask_tutorial/compare/v0.15.0...v0.16.0) (2025-09-22)
+
+
+### Features
+
+* **security:** feat(security):  ([ddbb096](https://github.com/georggoetz/flask_tutorial/commit/ddbb0963a23036b6dc460e1cb4b7addb16a83ab7))
+
+
+### Bug Fixes
+
+* add pytest-cov dependency for CI coverage. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([8c138cb](https://github.com/georggoetz/flask_tutorial/commit/8c138cb634f8297d536bdf9b1884649140081059))
+* CI venv path consistency - use .venv in all jobs ([ed23c30](https://github.com/georggoetz/flask_tutorial/commit/ed23c3022b294b6adde1af22cd9284055beb77de))
+* **ci/cd:** add package-lock.json. ([bcd4f9e](https://github.com/georggoetz/flask_tutorial/commit/bcd4f9e7f79f8e9f22f7f1dcfa1b7d31ae8e6466))
+* **ci/cd:** fix CI/CD pipeline ([ff6bcd5](https://github.com/georggoetz/flask_tutorial/commit/ff6bcd551a31711d70532c4d47feee2d16c32cfe))
+
 ## [0.15.0](https://github.com/georggoetz/flask_tutorial/compare/v0.14.1...v0.15.0) (2025-09-22)
 
 
