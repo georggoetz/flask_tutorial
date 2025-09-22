@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.15.0](https://github.com/georggoetz/flask_tutorial/compare/v0.14.1...v0.15.0) (2025-09-22)
+
+
+### Features
+
+* **logging:** Add request IDs for concurrent request correlation. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([71bbab1](https://github.com/georggoetz/flask_tutorial/commit/71bbab1d37bcd61575d51b471033cc1126206863))
+* **logging:** Add request IDs for concurrent request correlation. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([0ed836f](https://github.com/georggoetz/flask_tutorial/commit/0ed836fb5966377bfced18e30927b567ceb17bb5))
+
 ## [0.14.1](https://github.com/georggoetz/flask_tutorial/compare/v0.14.0...v0.14.1) (2025-09-22)
 
 
