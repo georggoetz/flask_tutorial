@@ -15,6 +15,12 @@ def create_app(test_config=None):
   from . import config
   config.init_app(app, test_config)
 
+  from . import logger
+  logger.init_app(app)
+
+  from . import errors
+  errors.init_app(app)
+
   from . import db
   db.init_app(app)
 
@@ -27,13 +33,13 @@ def create_app(test_config=None):
   from . import blog_api
   blog_api.init_app(app)
 
-  from . import errors
-  errors.init_app(app)
-
   from . import static_assets
   static_assets.init_app(app)
 
   from . import swagger
   swagger.init_app(app)
+
+  from . import health_api
+  health_api.init_app(app)
 
   return app

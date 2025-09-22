@@ -1,10 +1,13 @@
 import base64
 import functools
+
 from flask import Blueprint, g, request, session, flash, render_template, url_for, jsonify
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
+
 from flaskr.models import User
-from .utils import safe_redirect
+from flaskr.utils import safe_redirect
+from flaskr.logger import log_user_action, log_exception
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -27,10 +30,13 @@ def register():
                         password=generate_password_hash(password))
         g.db_session.add(new_user)
         g.db_session.commit()
-      except IntegrityError:
+      except IntegrityError as e:
         g.db_session.rollback()
+        log_exception(f'User registration: Database constraint failed - {e}')
+        log_user_action(f'Registration failed: Username already exists: {username}', level='warning')
         error = f'User {username} is already registered!'
       else:
+        log_user_action(f'User registered: {username}', user_id=new_user.id)
         flash(f'User {username} successfully registered!')
         return safe_redirect(url_for('auth.login'))
 
@@ -50,13 +56,19 @@ def login():
       User.username == username).first()
 
     if user is None:
+      log_user_action(f'Failed login attempt: Unknown username: {username}, IP: {request.remote_addr}',
+                      level='warning')
       error = 'Incorrect username!'
     elif not check_password_hash(user.password, password):
+      log_user_action(f'Failed login attempt: Incorrect password, IP: {request.remote_addr}',
+                      user_id=user.id,
+                      level='warning')
       error = 'Incorrect password!'
 
     if error is None:
       session.clear()
       session['user_id'] = user.id
+      log_user_action(f'Successful login: {username}', user_id=user.id)
       next_page = request.args.get('next')
 
       if next_page is None:
@@ -90,11 +102,17 @@ def basic_auth():
 
     user = g.db_session.query(User).filter(User.username == username).first()
     if user and check_password_hash(user.password, password):
+      log_user_action(f'Basic auth login: {username}', user_id=user.id)
       session['user_id'] = user.id
       return user
+    else:
+      log_user_action(f'Basic auth failed: {username}, IP: {request.remote_addr}',
+                      level='warning')
 
-  except (ValueError, UnicodeDecodeError, AttributeError):
-    pass
+  except (ValueError, UnicodeDecodeError, AttributeError) as e:
+    log_exception(f'Basic auth: Credential parsing failed - {e}')
+    log_user_action(f'Basic auth error: Malformed credentials, IP: {request.remote_addr}',
+                    level='warning')
 
   return None
 
@@ -107,6 +125,8 @@ def clear_logged_in_user(response):
 
 @bp.route('/logout')
 def logout():
+  if g.user:
+    log_user_action('User logout', user_id=g.user.id)
   session.clear()
   return safe_redirect(url_for('index'))
 
@@ -138,6 +158,8 @@ def api_login_required(view):
   @functools.wraps(view)
   def wrapped_view(**kwargs):
     if g.user is None:
+      log_user_action(f'API access denied: {request.endpoint}, IP: {request.remote_addr}',
+                      level='warning')
       return jsonify(error='Authentication required to access this API endpoint.'), 401
 
     return view(**kwargs)

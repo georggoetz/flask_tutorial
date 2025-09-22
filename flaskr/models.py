@@ -2,6 +2,7 @@ from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, Table, Colu
 from sqlalchemy.sql import exists, and_, desc
 from sqlalchemy.orm import relationship, mapped_column, object_session
 from sqlalchemy.ext.hybrid import hybrid_method
+
 from flaskr.db import db
 
 

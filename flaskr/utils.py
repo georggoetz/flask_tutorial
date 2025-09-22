@@ -1,15 +1,16 @@
-from flask import redirect, request
 from urllib.parse import urlparse, urljoin
+
+from flask import redirect, request
 
 
 def is_safe_url(target):
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
+  ref_url = urlparse(request.host_url)
+  test_url = urlparse(urljoin(request.host_url, target))
+  return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
 def safe_redirect(target):
-    if target and is_safe_url(target):
-        return redirect(target)
-    from flask import abort
-    abort(400, description="Invalid redirect target.")
+  if target and is_safe_url(target):
+    return redirect(target)
+  from flask import abort
+  abort(400, description="Invalid redirect target.")
