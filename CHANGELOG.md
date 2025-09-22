@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.0](https://github.com/georggoetz/flask_tutorial/compare/v0.13.2...v0.14.0) (2025-09-22)
+
+
+### Features
+
+* **logging:** Added logging ([d583178](https://github.com/georggoetz/flask_tutorial/commit/d58317844c642f93dbd6fbe52b095a23c35d3052))
+* **logging:** Added logging ([0b21101](https://github.com/georggoetz/flask_tutorial/commit/0b211014f0b250119a5e16f4f86aaaa78122b662))
+
 ## [0.13.2](https://github.com/georggoetz/flask_tutorial/compare/v0.13.1...v0.13.2) (2025-09-10)
 
 
