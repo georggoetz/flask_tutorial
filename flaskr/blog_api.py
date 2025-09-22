@@ -71,9 +71,8 @@ def like(post_id):
     })
 
   if g.user.id == post.author.id:
-    log_user_action('Failed to like own post',
+    log_user_action(f'Failed to like own post: {post_id}',
                     user_id=g.user.id,
-                    additional_info=f'Post ID: {post_id}',
                     level='warning')
     return jsonify(error='You cannot like your own posts!'), 400
 
