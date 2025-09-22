@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.15.0](https://github.com/georggoetz/flask_tutorial/compare/v0.14.1...v0.15.0) (2025-09-22)
+
+
+### Features
+
+* **logging:** Add request IDs for concurrent request correlation. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([71bbab1](https://github.com/georggoetz/flask_tutorial/commit/71bbab1d37bcd61575d51b471033cc1126206863))
+* **logging:** Add request IDs for concurrent request correlation. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([0ed836f](https://github.com/georggoetz/flask_tutorial/commit/0ed836fb5966377bfced18e30927b567ceb17bb5))
+
+## [0.14.1](https://github.com/georggoetz/flask_tutorial/compare/v0.14.0...v0.14.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* invalid call to log_user_action. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([15fb7f1](https://github.com/georggoetz/flask_tutorial/commit/15fb7f15132a478e46dcad6a1aca39e113e165bc))
+* invalid call to log_user_action. [#68](https://github.com/georggoetz/flask_tutorial/issues/68) ([298d143](https://github.com/georggoetz/flask_tutorial/commit/298d1431ed41188c026ae75ac80c7e424ef1c619))
+
+## [0.14.0](https://github.com/georggoetz/flask_tutorial/compare/v0.13.2...v0.14.0) (2025-09-22)
+
+
+### Features
+
+* **logging:** Added logging ([d583178](https://github.com/georggoetz/flask_tutorial/commit/d58317844c642f93dbd6fbe52b095a23c35d3052))
+* **logging:** Added logging ([0b21101](https://github.com/georggoetz/flask_tutorial/commit/0b211014f0b250119a5e16f4f86aaaa78122b662))
+
+## [0.13.2](https://github.com/georggoetz/flask_tutorial/compare/v0.13.1...v0.13.2) (2025-09-10)
+
+
+### Bug Fixes
+
+* **release-please:** add required manifest and config files ([930f043](https://github.com/georggoetz/flask_tutorial/commit/930f04314e6b2493c152074b518e7ebac414087f))
+
 ## [0.13.1](https://github.com/georggoetz/flask_tutorial/compare/v0.13.0...v0.13.1) (2025-09-09)
 
 

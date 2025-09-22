@@ -1,6 +1,6 @@
 {
-  "nam    \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",   \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",   \"security-eslint\": \"npx eslint . --config eslint-security.config.js\",": "flask_tutorial",
-  "version": "1.0.0",
+  "name": "flask_tutorial",
+  "version": "0.15.0",
   "main": "index.js",
   "directories": {
     "test": "tests"
