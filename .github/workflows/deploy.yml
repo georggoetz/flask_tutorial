@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["Build"]
+    workflows: ["Release Please"]
     types: [completed]
     branches: [master]
   workflow_dispatch:
@@ -15,8 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: |
-      (github.event.workflow_run.conclusion == 'success' && 
-       contains(github.event.workflow_run.head_commit.message, 'chore(master): release')) || 
+      github.event.workflow_run.conclusion == 'success' || 
       github.event_name == 'workflow_dispatch'
     
     steps:
@@ -39,8 +38,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv .venv
+          source .venv/bin/activate
           pip install -e .[dev]
           npm ci
 
