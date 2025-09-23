@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.3](https://github.com/georggoetz/flask_tutorial/compare/v0.20.2...v0.20.3) (2025-09-23)
+
+
+### Bug Fixes
+
+* make npm install more robust for renovate lockfile sync issues ([84d1033](https://github.com/georggoetz/flask_tutorial/commit/84d10336d6489b8a771e97d42402c1d98b91b2c3))
+
 ## [0.20.2](https://github.com/georggoetz/flask_tutorial/compare/v0.20.1...v0.20.2) (2025-09-23)
 
 
