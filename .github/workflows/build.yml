@@ -10,6 +10,7 @@ on:
       - "bugfix/**" 
       - "hotfix/**"
       - "release-please--branches--master"
+  workflow_dispatch:
 
 permissions:
   contents: read
