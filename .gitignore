@@ -9,6 +9,9 @@ instance/
 .coverage
 htmlcov/
 
+# SBOM outputs
+sbom/
+
 dist/
 build/
 *.egg-info/

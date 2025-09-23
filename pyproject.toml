@@ -21,6 +21,7 @@ dev = [
   "flake8-pyproject",
   "bandit[toml]",
   "pip-audit",
+  "cyclonedx-bom",
   "pre-commit"
 ]
 
