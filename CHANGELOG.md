@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.1](https://github.com/georggoetz/flask_tutorial/compare/v0.17.0...v0.17.1) (2025-09-23)
+
+
+### Bug Fixes
+
+* correct deploy trigger condition - remove invalid display_title ([3cea888](https://github.com/georggoetz/flask_tutorial/commit/3cea8883856ee6438741d78c595735144be57562))
+
 ## [0.17.0](https://github.com/georggoetz/flask_tutorial/compare/v0.16.1...v0.17.0) (2025-09-23)
 
 
