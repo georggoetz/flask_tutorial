@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write      # Needed for release access and artifacts
   actions: read
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
             sbom/python-sbom-public.json
             sbom/javascript-sbom-public.json
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Fly.io
         env:
