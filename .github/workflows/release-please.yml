@@ -21,8 +21,5 @@ jobs:
         id: release
         with:
           release-type: python
-          include-v-in-tag: true
-          extra-files: |
-            package.json:$.version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
