@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches-ignore: [ "master", "main" ]  # Avoid double-builds on release merges
+    branches-ignore: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
 
