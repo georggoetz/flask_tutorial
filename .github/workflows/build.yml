@@ -4,8 +4,13 @@ on:
   pull_request:
     branches: [ "master", "main" ]
     types: [opened, synchronize, reopened]
+  pull_request_target:
+    branches: [ "master", "main" ]
+    types: [opened, synchronize, reopened]
   push:
     branches-ignore: [ "master", "main" ]
+  repository_dispatch:
+    types: [manual-build]
   workflow_dispatch:
 
 permissions:
