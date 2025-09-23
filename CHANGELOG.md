@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.20.0](https://github.com/georggoetz/flask_tutorial/compare/v0.19.0...v0.20.0) (2025-09-23)
+
+
+### Features
+
+* re-enable all build jobs for production ([650cc31](https://github.com/georggoetz/flask_tutorial/commit/650cc31e9203f8fb171784969ab8df3e1e27838e))
+* re-enable all build jobs for production ([a8e95ce](https://github.com/georggoetz/flask_tutorial/commit/a8e95cef7add723eb4fcd3881bf1c55fb7a10389))
+
 ## [0.19.0](https://github.com/georggoetz/flask_tutorial/compare/v0.18.0...v0.19.0) (2025-09-23)
 
 
