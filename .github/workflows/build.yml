@@ -5,11 +5,8 @@ on:
     branches: [ "master", "main" ]
     types: [opened, synchronize, reopened, ready_for_review]
   push:
-    branches: 
-      - "feature/**"
-      - "bugfix/**" 
-      - "hotfix/**"
-      - "release-please--branches--master"
+    branches-ignore: [ "master", "main" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
