@@ -15,8 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: |
-      (github.event.workflow_run.conclusion == 'success' && 
-       contains(github.event.workflow_run.display_title, 'chore(master): release')) || 
+      github.event.workflow_run.conclusion == 'success' || 
       github.event_name == 'workflow_dispatch'
     
     steps:
