@@ -25,40 +25,17 @@ jobs:
       - name: Set up Fly.io CLI
         uses: superfly/flyctl-actions/setup-flyctl@v1
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -e .[dev]
-          npm ci
+      - name: Setup environment
+        uses: ./.github/actions/setup.yml
 
       - name: Build frontend assets
         run: make webpack
 
-      - name: Generate Production SBOMs
-        run: |
-          make sbom
-
-      - name: Generate Public SBOMs for Release
-        run: |
-          make sbom-public
-
-      - name: Upload Production SBOM artifacts  
-        uses: actions/upload-artifact@v4
+      - name: Generate SBOM with public versions
+        uses: ./.github/actions/sbom.yml
         with:
-          name: production-sbom-${{ github.sha }}
-          path: sbom/
+          generate-public: true
+          upload-artifacts: true
           retention-days: 90
 
       - name: Upload Public SBOMs to Release
