@@ -3,9 +3,13 @@ name: Build
 on:
   pull_request:
     branches: [ "master", "main" ]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
-    branches-ignore: [ "master", "main" ]
+    branches: 
+      - "feature/**"
+      - "bugfix/**" 
+      - "hotfix/**"
+      - "release-please--branches--master"
 
 permissions:
   contents: read
