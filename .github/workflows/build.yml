@@ -24,7 +24,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    if: false  # TEMP DISABLED for trigger testing
     services:
       postgres:
         image: postgres:17
@@ -52,7 +52,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    if: false  # TEMP DISABLED for trigger testing
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
@@ -65,7 +65,7 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    if: false  # TEMP DISABLED for trigger testing
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
@@ -80,7 +80,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    if: false  # TEMP DISABLED for trigger testing
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
@@ -96,7 +96,7 @@ jobs:
 
   sbom:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'release-please--') }}
+    if: false  # TEMP DISABLED for trigger testing
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
