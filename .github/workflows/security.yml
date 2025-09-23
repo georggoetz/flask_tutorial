@@ -7,15 +7,7 @@ on:
     # Weekly deep scan on Sundays at 3 AM UTC  
     - cron: '0 3 * * 0'
   
-  # PR-triggered scans for dependency changes
-  pull_request:
-    paths:
-      - 'package.json'
-      - 'package-lock.json'
-      - 'requirements.txt'
-      - 'pyproject.toml'
-  
-  # Manual trigger
+  # Manual trigger only - PR scans handled by Build workflow
   workflow_dispatch:
     inputs:
       scan_type:
