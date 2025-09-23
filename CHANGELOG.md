@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.16.1](https://github.com/georggoetz/flask_tutorial/compare/v0.16.0...v0.16.1) (2025-09-23)
+
+
+### Bug Fixes
+
+* build pipeline runs twice on master with release-please. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([626bf3f](https://github.com/georggoetz/flask_tutorial/commit/626bf3ffc3cc4a218653f417da8cf1ffa4789cfa))
+* removed comment. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([0ad380a](https://github.com/georggoetz/flask_tutorial/commit/0ad380ac8bc7a5aefae6e9fadb463eab9075cb9a))
+
 ## [0.16.0](https://github.com/georggoetz/flask_tutorial/compare/v0.15.0...v0.16.0) (2025-09-22)
 
 
