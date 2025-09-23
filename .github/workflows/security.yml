@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v5
 
     - name: Setup environment
-      uses: ./.github/actions/setup.yml
+      uses: ./.github/actions/setup
 
     - name: Determine scan context
       id: context
@@ -70,7 +70,7 @@ jobs:
 
     - name: Run security scans
       id: security
-      uses: ./.github/actions/security.yml
+      uses: ./.github/actions/security
       with:
         upload-artifacts: true
 

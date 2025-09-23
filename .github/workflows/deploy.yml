@@ -26,13 +26,13 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@v1
 
       - name: Setup environment
-        uses: ./.github/actions/setup.yml
+        uses: ./.github/actions/setup
 
       - name: Build frontend assets
         run: make webpack
 
       - name: Generate SBOM with public versions
-        uses: ./.github/actions/sbom.yml
+        uses: ./.github/actions/sbom
         with:
           generate-public: true
           upload-artifacts: true
