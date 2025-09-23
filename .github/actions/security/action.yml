@@ -1,0 +1,70 @@
+name: 'Security Scans'
+description: 'Run security scans (Bandit, npm audit, pip-audit)'
+inputs:
+  upload-artifacts:
+    description: 'Upload security scan artifacts'
+    required: false
+    default: 'true'
+outputs:
+  python-issues:
+    description: 'Python security issues found'
+    value: ${{ steps.python-audit.outputs.python_issues }}
+  js-issues:
+    description: 'JavaScript security issues found'  
+    value: ${{ steps.js-audit.outputs.js_issues }}
+  bandit-issues:
+    description: 'Bandit security issues found'
+    value: ${{ steps.bandit-scan.outputs.bandit_issues }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run Python dependency audit
+      id: python-audit
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        if ! .venv/bin/pip-audit --desc --format=json --output=python-audit.json; then
+          echo "python_issues=true" >> $GITHUB_OUTPUT
+        else
+          echo "python_issues=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run JavaScript dependency audit  
+      id: js-audit
+      shell: bash
+      run: |
+        if ! npm audit --audit-level=moderate --json > js-audit.json; then
+          echo "js_issues=true" >> $GITHUB_OUTPUT
+        else
+          echo "js_issues=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run Bandit security scan
+      id: bandit-scan
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        if ! bandit -r flaskr/ -f json -o bandit-results.json; then
+          echo "bandit_issues=true" >> $GITHUB_OUTPUT
+        else
+          echo "bandit_issues=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run additional security scans
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        make security-python-sarif
+        make security-js
+
+    - name: Upload security scan artifacts
+      if: ${{ inputs.upload-artifacts == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-scan-results-${{ github.sha }}
+        path: |
+          bandit-results.json
+          python-audit.json
+          js-audit.json
+        retention-days: 30

@@ -1,0 +1,33 @@
+name: 'Run Tests'
+description: 'Run Python and JavaScript tests with coverage'
+inputs:
+  database-url:
+    description: 'Database URL for tests'
+    required: false
+    default: 'postgresql://postgres:postgres@localhost:5432/flask_tutorial_test'
+  upload-coverage:
+    description: 'Upload coverage to Codecov'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run Python tests
+      shell: bash
+      run: |
+        source .venv/bin/activate
+        python -m pytest --cov=flaskr --cov-report=xml --cov-report=html
+      env:
+        DATABASE_URL: ${{ inputs.database-url }}
+
+    - name: Run JavaScript tests
+      shell: bash
+      run: npm test
+
+    - name: Upload coverage to Codecov
+      if: ${{ inputs.upload-coverage == 'true' }}
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
