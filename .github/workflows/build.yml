@@ -169,3 +169,38 @@ jobs:
 
     - name: Test Docker build
       run: docker build -t flask-tutorial:${{ github.sha }} .
+
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install -e .[dev]
+        npm ci
+
+    - name: Generate SBOMs
+      run: |
+        make sbom
+
+    - name: Upload SBOM artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sbom-${{ github.sha }}
+        path: sbom/
+        retention-days: 30

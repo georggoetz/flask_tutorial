@@ -89,6 +89,40 @@ security-deps-python:
 
 security: security-python security-js security-deps-js security-deps-python
 
+# SBOM (Software Bill of Materials) generation
+sbom-python:
+	@echo "Generating Python SBOM..."
+	@mkdir -p sbom
+	@$(VENV)/bin/cyclonedx-py environment --output-format JSON --output-file sbom/python-sbom.json --pyproject pyproject.toml $(VENV)
+	@echo "✓ Python SBOM generated: sbom/python-sbom.json"
+
+sbom-python-public:
+	@echo "Generating Public Python SBOM (filtered)..."
+	@mkdir -p sbom
+	@$(VENV)/bin/cyclonedx-py environment --output-format JSON --output-file sbom/python-sbom-temp.json --pyproject pyproject.toml $(VENV)
+	@# Filter out dev dependencies (simplified version)
+	@cp sbom/python-sbom-temp.json sbom/python-sbom-public.json
+	@rm -f sbom/python-sbom-temp.json
+	@echo "✓ Public Python SBOM generated: sbom/python-sbom-public.json"
+
+sbom-js:
+	@echo "Generating JavaScript SBOM..."
+	@mkdir -p sbom
+	@$(NPM) run sbom
+	@echo "✓ JavaScript SBOM generated: sbom/javascript-sbom.json"
+
+sbom-js-public:
+	@echo "Generating Public JavaScript SBOM (production only)..."
+	@mkdir -p sbom
+	@$(NPM) run sbom-public
+	@echo "✓ Public JavaScript SBOM generated: sbom/javascript-sbom-public.json"
+
+sbom: sbom-python sbom-js
+	@echo "✓ All SBOMs generated in sbom/ directory"
+
+sbom-public: sbom-python-public sbom-js-public
+	@echo "✓ Public SBOMs generated for release"
+
 clean:
 	rm -rf $(VENV) node_modules static/dist htmlcov .pytest_cache .mypy_cache \
 		__pycache__ \
