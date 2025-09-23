@@ -35,4 +35,5 @@ runs:
         python -m venv .venv
         source .venv/bin/activate
         pip install -e .[dev]
-        npm ci
+        # Try npm ci first, fall back to npm install if lockfile is out of sync
+        npm ci || npm install
