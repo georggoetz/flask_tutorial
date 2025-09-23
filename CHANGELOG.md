@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.2](https://github.com/georggoetz/flask_tutorial/compare/v0.20.1...v0.20.2) (2025-09-23)
+
+
+### Bug Fixes
+
+* remove redundant PR-triggered security ([1f1e0d7](https://github.com/georggoetz/flask_tutorial/commit/1f1e0d77273ccc435210c85d209702257dc98e9b))
+
 ## [0.20.1](https://github.com/georggoetz/flask_tutorial/compare/v0.20.0...v0.20.1) (2025-09-23)
 
 
