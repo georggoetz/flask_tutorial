@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.20.4](https://github.com/georggoetz/flask_tutorial/compare/v0.20.3...v0.20.4) (2025-09-23)
+
+
+### Documentation
+
+* removed test line from readme I added previously. ([3fb95b4](https://github.com/georggoetz/flask_tutorial/commit/3fb95b4355f203263d1dd5d9722a02eb0ab72435))
+* removed test line from readme I added previously. ([53e1f4b](https://github.com/georggoetz/flask_tutorial/commit/53e1f4b19c627584fd4d407a002d5cfce876b6ea))
+
 ## [0.20.3](https://github.com/georggoetz/flask_tutorial/compare/v0.20.2...v0.20.3) (2025-09-23)
 
 
