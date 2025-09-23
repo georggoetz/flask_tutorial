@@ -1,10 +1,11 @@
 name: Build
 
 on:
-  push:
-    branches-ignore: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
+    types: [opened, synchronize, reopened]
+  push:
+    branches-ignore: [ "master", "main" ]
 
 permissions:
   contents: read
