@@ -134,3 +134,4 @@ regions = ['fra']
 - Dockerfile und fly.toml korrekt konfigurieren
 - GitHub Actions für automatisches Deployment einrichten
 - Nach dem Deploy DB initialisieren und seeden# Pipeline Test Di 23. Sep 15:40:34 CEST 2025
+<- Add SARIF security reporting for better GitHub New feature for release test -->
