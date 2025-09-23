@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://github.com/georggoetz/flask_tutorial/compare/v0.17.1...v0.18.0) (2025-09-23)
+
+
+### Features
+
+* optimize build workflow - fast-track release-please PRs with conditional execution ([86f0b56](https://github.com/georggoetz/flask_tutorial/commit/86f0b563baf3df0c65f6b01345629bab081f97f9))
+
 ## [0.17.1](https://github.com/georggoetz/flask_tutorial/compare/v0.17.0...v0.17.1) (2025-09-23)
 
 
