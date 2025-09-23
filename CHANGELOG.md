@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.20.1](https://github.com/georggoetz/flask_tutorial/compare/v0.20.0...v0.20.1) (2025-09-23)
+
+
+### Bug Fixes
+
+* add contents write permission and PAT fallback for deploy workflow ([af00d62](https://github.com/georggoetz/flask_tutorial/commit/af00d629ac9f4b628b79e47ee7e41b6e46e61346))
+* add contents write permission and PAT fallback for deploy workflow ([279ee17](https://github.com/georggoetz/flask_tutorial/commit/279ee179adf1b7bbc2e040dc70b547cb3f40b2d0))
+* remove duplicate pull_request_target trigger causing double builds ([fcdb226](https://github.com/georggoetz/flask_tutorial/commit/fcdb226472d90f1aec4adad1d70516878021b969))
+
 ## [0.20.0](https://github.com/georggoetz/flask_tutorial/compare/v0.19.0...v0.20.0) (2025-09-23)
 
 
