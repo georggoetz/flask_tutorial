@@ -5,7 +5,10 @@ on:
     branches: [ "master", "main" ]
     types: [opened, synchronize, reopened]
   push:
-    branches-ignore: [ "master", "main" ]
+    branches-ignore: 
+      - "master"
+      - "main"
+      - "release-please--**"
   repository_dispatch:
     types: [manual-build]
   workflow_dispatch:
@@ -16,7 +19,6 @@ permissions:
   security-events: write
 
 jobs:
-  # Quick success job for release-please PRs
   release-check:
     runs-on: ubuntu-latest
     if: startsWith(github.head_ref, 'release-please--')
