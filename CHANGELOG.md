@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.17.0](https://github.com/georggoetz/flask_tutorial/compare/v0.16.1...v0.17.0) (2025-09-23)
+
+
+### Features
+
+* added SBOM generation. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([ee42543](https://github.com/georggoetz/flask_tutorial/commit/ee4254315f2ff35ca98bff4c3bd1f2329b002893))
+* added SBOM generation. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([e52fc23](https://github.com/georggoetz/flask_tutorial/commit/e52fc233d22fd3a24011b580a60aae209b68df51))
+
+
+### Bug Fixes
+
+* adjusted folder structure for actions. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([6d0df4a](https://github.com/georggoetz/flask_tutorial/commit/6d0df4a2f1a853ce8c6b1230734b55ac8eec7f22))
+* don't check twice on PR. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([41ec121](https://github.com/georggoetz/flask_tutorial/commit/41ec121939a2e1c7566d82ad551812fd0b9e73cc))
+* don't check twice on PR. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([07af332](https://github.com/georggoetz/flask_tutorial/commit/07af33230503df76e145ef38b4f8e9e10eb97882))
+* enable build workflow for release-please PRs ([f044053](https://github.com/georggoetz/flask_tutorial/commit/f0440535ac87810ddc5c5e4229dccd57e565d9ef))
+* enable build workflow for release-please PRs ([78cca61](https://github.com/georggoetz/flask_tutorial/commit/78cca618354b8d5661ba750a20d0fbb9c197f6d4))
+* fix references for composite actions. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([bcff161](https://github.com/georggoetz/flask_tutorial/commit/bcff161aab7bd0f777ab1e4168d6fa07de69e875))
+* sbom excluded in gitignore. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([8f6839c](https://github.com/georggoetz/flask_tutorial/commit/8f6839c34f38acd5182ceb400c2388738d91b2a8))
+
 ## [0.16.1](https://github.com/georggoetz/flask_tutorial/compare/v0.16.0...v0.16.1) (2025-09-23)
 
 
