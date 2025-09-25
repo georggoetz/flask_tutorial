@@ -45,7 +45,7 @@ runs:
       shell: bash
       run: |
         source .venv/bin/activate
-        if ! bandit -r flaskr/ -f json -o bandit-results.json; then
+        if ! bandit -r flaskr/ -ll -f json -o bandit-results.json; then
           echo "bandit_issues=true" >> $GITHUB_OUTPUT
         else
           echo "bandit_issues=false" >> $GITHUB_OUTPUT
