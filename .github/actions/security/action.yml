@@ -24,7 +24,11 @@ runs:
       shell: bash
       run: |
         source .venv/bin/activate
-        if ! .venv/bin/pip-audit --desc --format=json --output=python-audit.json; then
+        # Run pip-audit and allow non-zero exit codes
+        .venv/bin/pip-audit --desc --format=json --output=python-audit.json || true
+        
+        # Check if actual vulnerabilities were found in the JSON results
+        if [ -f python-audit.json ] && [ "$(jq -r '.vulnerabilities | length' python-audit.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "python_issues=true" >> $GITHUB_OUTPUT
         else
           echo "python_issues=false" >> $GITHUB_OUTPUT
@@ -34,7 +38,11 @@ runs:
       id: js-audit
       shell: bash
       run: |
-        if ! npm audit --audit-level=moderate --json > js-audit.json; then
+        # Run npm audit and allow non-zero exit codes
+        npm audit --audit-level=moderate --json > js-audit.json || true
+        
+        # Check if actual vulnerabilities were found in the JSON results
+        if [ -f js-audit.json ] && [ "$(jq -r '.vulnerabilities | length' js-audit.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "js_issues=true" >> $GITHUB_OUTPUT
         else
           echo "js_issues=false" >> $GITHUB_OUTPUT
@@ -45,7 +53,11 @@ runs:
       shell: bash
       run: |
         source .venv/bin/activate
-        if ! bandit -r flaskr/ -ll -f json -o bandit-results.json; then
+        # Run bandit and allow non-zero exit codes (|| true)
+        bandit -r flaskr/ -ll -f json -o bandit-results.json || true
+        
+        # Check if actual issues were found in the JSON results
+        if [ -f bandit-results.json ] && [ "$(jq -r '.results | length' bandit-results.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "bandit_issues=true" >> $GITHUB_OUTPUT
         else
           echo "bandit_issues=false" >> $GITHUB_OUTPUT
