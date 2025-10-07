@@ -4,12 +4,6 @@ description: 'Run Python and JavaScript linting'
 runs:
   using: 'composite'
   steps:
-    - name: Run Python linting
+    - name: Run linting
       shell: bash
-      run: |
-        source .venv/bin/activate
-        make lint-python
-
-    - name: Run JavaScript linting
-      shell: bash
-      run: make lint-js
+      run: make lint

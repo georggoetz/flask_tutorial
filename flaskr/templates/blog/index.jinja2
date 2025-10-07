@@ -5,23 +5,28 @@
 
 {% block content %}
 {% for post in posts %}
-<article class="card post" aria-label="Blog post">
+<article class="card post"
+         aria-label="Blog post">
   {% with post=post %}
   {% include 'components/post_header.jinja2' %}
   {% endwith %}
 
   <section>
     <div class="post__preview">
-      {{ post.content.body[:200] }}{% if post.content.body|length > 200 %}...{% endif %}
+      {{ post.body[:200] }}{% if post.body|length > 200 %}...{% endif %}
     </div>
   </section>
-  
+
   <section>
     <div class="post__actions">
-      <a class="button post__action" href="{{ url_for('blog.index', id=post.id) }}" aria-label="Read more about {{ post.title }}">Read more</a>
+      <a class="button post__action"
+         href="{{ url_for('blog.index', id=post.id) }}"
+         aria-label="Read more about {{ post.title }}">Read more</a>
       {% if g.user.id == post['author_id'] %}
-      <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}" aria-label="Edit post: {{ post.title }}">Edit</a>
-      {% endif %}     
+      <a class="button post__action"
+         href="{{ url_for('blog.update', id=post.id) }}"
+         aria-label="Edit post: {{ post.title }}">Edit</a>
+      {% endif %}
       {% with post=post %}
       {% include 'components/post_likes_counter.jinja2' %}
       {% endwith %}
@@ -39,10 +44,29 @@
 {% endwith %}
 
 {% if g.user %}
-<a class="button fab" href="{{ url_for('blog.create') }}" title="New Post">
-  <svg class="fab__icon" width="1.6em" height="1.6em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <rect x="11" y="7" width="2" height="10" rx="1" fill="currentColor"/>
-    <rect x="7" y="11" width="10" height="2" rx="1" fill="currentColor"/>
+<a class="button fab"
+   href="{{ url_for('blog.create') }}"
+   title="New Post">
+  <svg class="fab__icon"
+       width="1.6em"
+       height="1.6em"
+       viewBox="0 0 24 24"
+       fill="none"
+       xmlns="http://www.w3.org/2000/svg"
+       aria-hidden="true"
+       focusable="false">
+    <rect x="11"
+          y="7"
+          width="2"
+          height="10"
+          rx="1"
+          fill="currentColor" />
+    <rect x="7"
+          y="11"
+          width="10"
+          height="2"
+          rx="1"
+          fill="currentColor" />
   </svg>
 </a>
 {% endif %}

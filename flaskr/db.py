@@ -47,22 +47,50 @@ def init_db_command():
 
 @click.command('seed-db')
 def seed_db_command():
-  from flaskr.models import User, Post
+  from flaskr.models import User, Post, Comment
   fake = Faker()
+
   users = []
   for _ in range(10):
     user = User(username=fake.user_name(), password=generate_password_hash('secret'))
     db.session.add(user)
     users.append(user)
-    print(user.username)
+
   db.session.commit()
+
+  posts = []
   for user in users:
     for _ in range(3):
-      length = random.randint(100, 5000)
-      post = Post(title=fake.sentence(), body=fake.text(max_nb_chars=length), author_id=user.id)
+      title = fake.sentence()
+      body_length = random.randint(100, 5000)
+      body = fake.text(max_nb_chars=body_length)
+      excerpt = fake.sentence() if random.choice([True, False]) else None
+      post = Post(
+        title=title,
+        body=body,
+        excerpt=excerpt,
+        author_id=user.id
+      )
       db.session.add(post)
+      posts.append(post)
+
   db.session.commit()
-  click.echo('Seeded 10 users with je 3 Posts (Faker)')
+
+  comment_count = 0
+  for post in posts[:5]:
+    for _ in range(random.randint(1, 4)):
+      user = random.choice(users)
+      comment_text = fake.paragraph(nb_sentences=random.randint(1, 3))
+      comment = Comment(
+        author_id=user.id,
+        post_id=post.id,
+        content=comment_text
+      )
+      db.session.add(comment)
+      comment_count += 1
+
+  db.session.commit()
+  click.echo(f'Seeded {len(users)} users, {len(posts)} posts, and {comment_count} comments')
 
 
 def init_app(app):

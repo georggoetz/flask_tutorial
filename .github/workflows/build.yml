@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.head_ref, 'release-please--')
     steps:
-      - name: Release PR - Skip intensive checks
-        run: echo "✅ Release PR detected - skipping intensive checks"
+      - name: Release PR - Skipping checks
+        run: echo "✅ Release PR detected - skipping checks"
 
   test:
     runs-on: ubuntu-latest
@@ -96,7 +96,7 @@ jobs:
       run: make webpack
 
     - name: Test Docker build
-      run: docker build -t flask-tutorial:${{ github.sha }} .
+      run: make docker-build
 
   sbom:
     runs-on: ubuntu-latest

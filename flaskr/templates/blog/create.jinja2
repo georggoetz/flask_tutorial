@@ -5,19 +5,38 @@
 
 {% block content %}
 <div class="card post">
-  <h1 class="card__heading" id="form-title" id="form-title">{% block title %}New Post{% endblock %}</h1>
-  <form method="post" class="edit-form" aria-labelledby="form-title">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <h1 class="card__heading"
+      id="form-title"
+      id="form-title">{% block title %}New Post{% endblock %}</h1>
+  <form method="post"
+        class="edit-form"
+        aria-labelledby="form-title">
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}" />
     <div class="edit-form__field">
-      <label for="title" class="edit-form__label">Title</label>
-      <input class="input edit-form__input" name="title" id="title" value="{{ request.form['title'] }}" required aria-required="true">
+      <label for="title"
+             class="edit-form__label">Title</label>
+      <input class="input edit-form__input"
+             name="title"
+             id="title"
+             value="{{ request.form['title'] }}"
+             required
+             aria-required="true">
     </div>
     <div class="edit-form__field">
-      <label for="body" class="edit-form__label">Body</label>
-      <textarea class="textarea edit-form__textarea" name="body" id="body" rows="12" aria-required="true">{{ request.form['body'] }}</textarea>
+      <label for="body"
+             class="edit-form__label">Body</label>
+      <textarea class="textarea edit-form__textarea"
+                name="body"
+                id="body"
+                rows="12"
+                aria-required="true">{{ request.form['body'] }}</textarea>
     </div>
     <div class="edit-form__actions">
-      <input class="button edit-form__submit" type="submit" value="Save">
+      <input class="button edit-form__submit"
+             type="submit"
+             value="Save">
     </div>
   </form>
 </div>

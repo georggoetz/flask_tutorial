@@ -1,8 +1,9 @@
 {% extends 'base.jinja2' %}
 
 {% block content %}
-<article class="card post" aria-label="Blog post">
-  
+<article class="card post"
+         aria-label="Blog post">
+
   {% with post=post %}
   {% include 'components/post_header.jinja2' %}
   {% endwith %}
@@ -10,7 +11,8 @@
   <section>
     <div class="post__actions">
       {% if g.user and g.user.id == post.author.id %}
-      <a class="button post__action" href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
+      <a class="button post__action"
+         href="{{ url_for('blog.update', id=post.id) }}">Edit</a>
       {% endif %}
       {% with post=post %}
       {% include 'components/post_likes_counter.jinja2' %}
@@ -19,25 +21,29 @@
   </section>
 
   <section>
-    <p class="post__body">{{ post.content.body }}</p>
+    <p class="post__body">{{ post.body|safe }}</p>
   </section>
 
   {% if g.user %}
-    <section class="post__comment-action">
-      <button class="button post__action" type="button" data-comment-url="{{ url_for('blog.create_comment', post_id=post.id) }}">Post Comment</button>
-    </section>
+  <section class="post__comment-action">
+    <button class="button post__action"
+            type="button"
+            data-comment-url="{{ url_for('blog.create_comment', post_id=post.id) }}">Post
+      Comment</button>
+  </section>
   {% endif %}
 
-  <section class="post__comments" id="comments">
+  <section class="post__comments"
+           id="comments">
     <h2 class="post__title">Comments</h2>
     {% if post.comments %}
-      {% for comment in post.comments %}
-        {% with comment=comment %}
-        {% include 'components/comment.jinja2' %}
-        {% endwith %}
-      {% endfor %}
+    {% for comment in post.comments %}
+    {% with comment=comment %}
+    {% include 'components/comment.jinja2' %}
+    {% endwith %}
+    {% endfor %}
     {% else %}
-      <p class="comment__empty">No comments yet.</p>
+    <p class="comment__empty">No comments yet.</p>
     {% endif %}
   </section>
 
