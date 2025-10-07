@@ -125,7 +125,7 @@ check-fly:
 	@if [ -z "$(FLY_CMD)" ]; then echo "❌ fly CLI not found. Install from https://fly.io/docs/hands-on/install-flyctl/"; exit 1; fi
 
 venv: check-required-tools
-	$(PYTHON) -m venv $(VENV)
+	$(PYTHON3_CMD) -m venv $(VENV)
 
 install: check-required-tools venv
 	$(PIP) install .[dev]
