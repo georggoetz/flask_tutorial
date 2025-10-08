@@ -76,7 +76,7 @@ def test_update(client, auth, db_session):
 
   post = db_session.query(Post).filter(Post.id == 1).first()
   assert post.title == 'updated'
-  assert post.content.body == 'updated'
+  assert post.body == 'updated'
 
 
 @pytest.mark.parametrize('path', (

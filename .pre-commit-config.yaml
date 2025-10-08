@@ -1,4 +1,18 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+
   - repo: local
     hooks:
       - id: security-python
@@ -7,21 +21,25 @@ repos:
         language: system
         pass_filenames: false
         args: [security-python]
+        files: \.py$
       - id: security-js
         name: security-js
         entry: make
         language: system
         pass_filenames: false
         args: [security-js]
+        files: \.(js|ts|jsx|tsx)$
       - id: security-deps-js
         name: security-deps-js
         entry: make
         language: system
         pass_filenames: false
         args: [security-deps-js]
+        files: package(-lock)?\.json$
       - id: security-deps-python
         name: security-deps-python
         entry: make
         language: system
         pass_filenames: false
         args: [security-deps-python]
+        files: (requirements.*\.txt|pyproject\.toml|setup\.(py|cfg)|Pipfile(\.lock)?)$

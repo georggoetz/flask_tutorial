@@ -4,9 +4,9 @@ on:
   schedule:
     # Daily security scan at 6 AM UTC
     - cron: '0 6 * * *'
-    # Weekly deep scan on Sundays at 3 AM UTC  
+    # Weekly deep scan on Sundays at 3 AM UTC
     - cron: '0 3 * * 0'
-  
+
   # Manual trigger only - PR scans handled by Build workflow
   workflow_dispatch:
     inputs:
@@ -33,6 +33,7 @@ jobs:
       python-issues: ${{ steps.security.outputs.python-issues }}
       js-issues: ${{ steps.security.outputs.js-issues }}
       bandit-issues: ${{ steps.security.outputs.bandit-issues }}
+      gitleaks-issues: ${{ steps.security.outputs.gitleaks-issues }}
       scan-context: ${{ steps.context.outputs.scan-context }}
     steps:
     - name: Checkout code
@@ -74,19 +75,21 @@ jobs:
           const pythonIssues = '${{ steps.security.outputs.python-issues }}' === 'true';
           const jsIssues = '${{ steps.security.outputs.js-issues }}' === 'true';
           const banditIssues = '${{ steps.security.outputs.bandit-issues }}' === 'true';
-          
+          const gitleaksIssues = '${{ steps.security.outputs.gitleaks-issues }}' === 'true';
+
           let comment = '## 🔒 Security Scan Results\n\n';
-          
-          if (!pythonIssues && !jsIssues && !banditIssues) {
-            comment += '✅ **No security vulnerabilities detected** in dependency changes.\n\n';
+
+          if (!pythonIssues && !jsIssues && !banditIssues && !gitleaksIssues) {
+            comment += '✅ **No security vulnerabilities detected**.\n\n';
           } else {
             comment += '⚠️ **Security issues detected:**\n\n';
             if (pythonIssues) comment += '❌ Python dependencies have vulnerabilities\n';
             if (jsIssues) comment += '❌ JavaScript dependencies have vulnerabilities\n';
             if (banditIssues) comment += '❌ Code security issues found\n';
+            if (gitleaksIssues) comment += '🔑 Potential secrets detected\n';
             comment += '\n📋 Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for detailed results.\n';
           }
-          
+
           await github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
@@ -100,9 +103,10 @@ jobs:
     # Only create issues for scheduled/manual scans, not PRs
     if: |
       github.event_name != 'pull_request' && (
-        needs.security-scan.outputs.python-issues == 'true' || 
-        needs.security-scan.outputs.js-issues == 'true' || 
-        needs.security-scan.outputs.bandit-issues == 'true'
+        needs.security-scan.outputs.python-issues == 'true' ||
+        needs.security-scan.outputs.js-issues == 'true' ||
+        needs.security-scan.outputs.bandit-issues == 'true' ||
+        needs.security-scan.outputs.gitleaks-issues == 'true'
       )
     steps:
     - name: Create security issue
@@ -113,34 +117,43 @@ jobs:
           const pythonIssues = '${{ needs.security-scan.outputs.python-issues }}' === 'true';
           const jsIssues = '${{ needs.security-scan.outputs.js-issues }}' === 'true';
           const banditIssues = '${{ needs.security-scan.outputs.bandit-issues }}' === 'true';
-          
+          const gitleaksIssues = '${{ needs.security-scan.outputs.gitleaks-issues }}' === 'true';
+
           let issueBody = `## 🚨 Security Vulnerabilities Detected\n\n`;
           issueBody += `**Scan Type:** ${scanContext} scan\n`;
           issueBody += `**Scan Date:** ${new Date().toISOString().split('T')[0]}\n`;
           issueBody += `**Workflow:** [Security Monitoring](${context.payload.repository.html_url}/actions/runs/${context.runId})\n\n`;
-          
+
           issueBody += `### Issues Found:\n`;
           if (pythonIssues) {
             issueBody += `❌ **Python Dependencies**: Vulnerabilities found\n`;
           }
           if (jsIssues) {
             issueBody += `❌ **JavaScript Dependencies**: Vulnerabilities found\n`;
-          }  
+          }
           if (banditIssues) {
             issueBody += `❌ **Code Security (Bandit)**: Issues found\n`;
           }
-          
+          if (gitleaksIssues) {
+            issueBody += `🔑 **Secrets Detection (Gitleaks)**: Potential secrets found\n`;
+          }
+
           issueBody += `\n### Actions Required\n`;
           issueBody += `1. Review security scan artifacts in the workflow run\n`;
           issueBody += `2. Update vulnerable dependencies:\n`;
           issueBody += `   - Python: \`pip-audit --fix\` or manual updates\n`;
           issueBody += `   - JavaScript: \`npm audit fix\`\n`;
           issueBody += `3. Address code security issues identified by Bandit\n`;
-          issueBody += `4. Re-run security scans to verify fixes\n`;
-          issueBody += `5. Close this issue once resolved\n\n`;
+          if (gitleaksIssues) {
+            issueBody += `4. **URGENT**: Review and remove any secrets detected by Gitleaks\n`;
+            issueBody += `   - Rotate any exposed credentials immediately\n`;
+            issueBody += `   - Remove secrets from git history if needed\n`;
+          }
+          issueBody += `${gitleaksIssues ? '5' : '4'}. Re-run security scans to verify fixes\n`;
+          issueBody += `${gitleaksIssues ? '6' : '5'}. Close this issue once resolved\n\n`;
           issueBody += `### Detailed Results\n`;
           issueBody += `Download scan artifacts from the [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})\n`;
-          
+
           // Check if there's already an open security issue
           const existingIssues = await github.rest.issues.listForRepo({
             owner: context.repo.owner,

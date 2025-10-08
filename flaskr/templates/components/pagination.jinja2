@@ -1,38 +1,42 @@
 {% set has_prev = page > 1 %}
 {% set has_next = page < total_pages %}
 {% set page_window = 2 %}
-<div class="pagination" role="navigation" aria-label="Page navigation">
-  <a 
-    class="button pagination__button{% if not has_prev %} is-disabled{% endif %}" 
-    href="{{ url_for(url, page=page-1) if has_prev else '#' }}" 
-    {% if not has_prev %} 
-      tabindex="-1" 
-      aria-disabled="true"
-    {% endif %}
-  >
+
+<div class="pagination"
+     role="navigation"
+     aria-label="Page navigation">
+
+  <a class="button pagination__button{% if not has_prev %} is-disabled{% endif %}"
+     href="{{ url_for(url, page=page-1) if has_prev else '#' }}"
+     {% if not has_prev %}tabindex="-1"
+     aria-disabled="true"
+     {% endif %}>
     Previous
   </a>
+
   {% set start_page = [1, page - page_window]|max %}
   {% set end_page = [total_pages, page + page_window]|min %}
+
   {% if end_page - start_page < 4 and total_pages >= 5 %}
-    {% set start_page = [1, end_page - 4]|max %}
-    {% set end_page = [total_pages, start_page + 4]|min %}
+  {% set start_page = [1, end_page - 4]|max %}
+  {% set end_page = [total_pages, start_page + 4]|min %}
   {% endif %}
+
   {% for p in range(start_page, end_page + 1) %}
-    {% if p == page %}
-      <span class="button pagination__page is-active" aria-current="page">{{ p }}</span>
-    {% else %}
-      <a class="button pagination__page" href="{{ url_for(url, page=p) }}">{{ p }}</a>
-    {% endif %}
+  {% if p == page %}
+  <span class="button pagination__page is-active"
+        aria-current="page">{{ p }}</span>
+  {% else %}
+  <a class="button pagination__page"
+     href="{{ url_for(url, page=p) }}">{{ p }}</a>
+  {% endif %}
   {% endfor %}
-  <a 
-    class="button pagination__button {% if not has_next %} is-disabled{% endif %}" 
-    href="{{ url_for(url, page=page+1) if has_next else '#' }}" 
-    {% if not has_next %}
-      tabindex="-1" 
-      aria-disabled="true"
-    {% endif %}
-  >
+
+  <a class="button pagination__button{% if not has_next %} is-disabled{% endif %}"
+     href="{{ url_for(url, page=page+1) if has_next else '#' }}"
+     {% if not has_next %}tabindex="-1"
+     aria-disabled="true"
+     {% endif %}>
     Next
   </a>
 </div>

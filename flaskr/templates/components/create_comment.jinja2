@@ -1,16 +1,31 @@
 {% block content %}
 
-<h2 class="card__heading" id="form-title" id="form-title">{% block title %}Post Comment{% endblock %}</h2>
-<form method="post" action="/{{ post.id }}/comment/create" class="edit-form" aria-labelledby="form-title">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-  <input type="hidden" name="ajax" value="1" />
+<h2 class="card__heading"
+    id="form-title"
+    id="form-title">{% block title %}Post Comment{% endblock %}</h2>
+<form method="post"
+      action="/{{ post.id }}/comment/create"
+      class="edit-form"
+      aria-labelledby="form-title">
+  <input type="hidden"
+         name="csrf_token"
+         value="{{ csrf_token() }}" />
+  <input type="hidden"
+         name="ajax"
+         value="1" />
   <div class="edit-form__field">
-    <label for="body" class="edit-form__label">Body</label>
-    <textarea class="textarea edit-form__textarea" name="body" id="body" rows="5"
-      aria-required="true">{{ request.form['body'] }}</textarea>
+    <label for="body"
+           class="edit-form__label">Body</label>
+    <textarea class="textarea edit-form__textarea"
+              name="body"
+              id="body"
+              rows="5"
+              aria-required="true">{{ request.form['body'] }}</textarea>
   </div>
   <div class="edit-form__actions">
-    <input class="button edit-form__submit" type="submit" value="Save">
+    <input class="button edit-form__submit"
+           type="submit"
+           value="Save">
   </div>
 </form>
 

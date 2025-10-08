@@ -1,7 +1,8 @@
-<div class="card comment" id="comment-{{ comment.id }}">
+<div class="card comment"
+     id="comment-{{ comment.id }}">
   <div class="comment__meta">
     <span class="comment__author">{{ comment.author.username }}</span>
     <span class="comment__date">{{ comment.created.strftime('%-d %B %Y, %H:%M') }}</span>
   </div>
-  <div class="comment__body">{{ comment.content.body }}</div>
+  <div class="comment__body">{{ comment.content }}</div>
 </div>

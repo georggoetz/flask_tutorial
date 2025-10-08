@@ -10,11 +10,14 @@ outputs:
     description: 'Python security issues found'
     value: ${{ steps.python-audit.outputs.python_issues }}
   js-issues:
-    description: 'JavaScript security issues found'  
+    description: 'JavaScript security issues found'
     value: ${{ steps.js-audit.outputs.js_issues }}
   bandit-issues:
     description: 'Bandit security issues found'
     value: ${{ steps.bandit-scan.outputs.bandit_issues }}
+  gitleaks-issues:
+    description: 'Gitleaks secret detection issues found'
+    value: ${{ steps.gitleaks-check.outputs.gitleaks_issues }}
 
 runs:
   using: 'composite'
@@ -23,10 +26,9 @@ runs:
       id: python-audit
       shell: bash
       run: |
-        source .venv/bin/activate
-        # Run pip-audit and allow non-zero exit codes
-        .venv/bin/pip-audit --desc --format=json --output=python-audit.json || true
-        
+        # Run pip-audit with JSON output and allow non-zero exit codes
+        make security-deps-python JSON_OUTPUT=1 || true
+
         # Check if actual vulnerabilities were found in the JSON results
         if [ -f python-audit.json ] && [ "$(jq -r '.vulnerabilities | length' python-audit.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "python_issues=true" >> $GITHUB_OUTPUT
@@ -34,13 +36,13 @@ runs:
           echo "python_issues=false" >> $GITHUB_OUTPUT
         fi
 
-    - name: Run JavaScript dependency audit  
+    - name: Run JavaScript dependency audit
       id: js-audit
       shell: bash
       run: |
-        # Run npm audit and allow non-zero exit codes
-        npm audit --audit-level=moderate --json > js-audit.json || true
-        
+        # Run npm audit with JSON output and allow non-zero exit codes
+        make security-deps-js JSON_OUTPUT=1 || true
+
         # Check if actual vulnerabilities were found in the JSON results
         if [ -f js-audit.json ] && [ "$(jq -r '.vulnerabilities | length' js-audit.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "js_issues=true" >> $GITHUB_OUTPUT
@@ -52,15 +54,32 @@ runs:
       id: bandit-scan
       shell: bash
       run: |
-        source .venv/bin/activate
-        # Run bandit and allow non-zero exit codes (|| true)
-        bandit -r flaskr/ -ll -f json -o bandit-results.json || true
-        
+        # Run bandit with JSON output and allow non-zero exit codes
+        make security-python-sarif || true
+
         # Check if actual issues were found in the JSON results
         if [ -f bandit-results.json ] && [ "$(jq -r '.results | length' bandit-results.json 2>/dev/null || echo 0)" -gt 0 ]; then
           echo "bandit_issues=true" >> $GITHUB_OUTPUT
         else
           echo "bandit_issues=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run Gitleaks secret detection
+      id: gitleaks-scan
+      uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      continue-on-error: true
+
+    - name: Check Gitleaks results
+      id: gitleaks-check
+      shell: bash
+      run: |
+        # Gitleaks action sets exit code on findings, check the previous step status
+        if [ "${{ steps.gitleaks-scan.outcome }}" = "failure" ]; then
+          echo "gitleaks_issues=true" >> $GITHUB_OUTPUT
+        else
+          echo "gitleaks_issues=false" >> $GITHUB_OUTPUT
         fi
 
     - name: Run additional security scans

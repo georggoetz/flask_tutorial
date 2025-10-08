@@ -103,14 +103,16 @@ def init_app(app):
       return response
 
 
-def log_user_action(action, user_id=None, level='info'):
+def format_log_message(message):
   request_id = getattr(g, 'request_id', None)
-  request_context = f' [{request_id}]' if request_id else ''
+  return f'{message}{f' [{request_id}]' if request_id else ''}'
 
+
+def log_user_action(action, user_id=None, level='info'):
   if user_id:
-    log_msg = f'User Action{request_context} (User ID: {user_id}): {action}'
+    log_msg = f'{format_log_message('User Action')} (User ID: {user_id}): {action}'
   else:
-    log_msg = f'User Action{request_context}: {action}'
+    log_msg = f'{format_log_message('User Action')}: {action}'
 
   if level.lower() == 'warning':
     current_app.logger.warning(log_msg)
@@ -120,30 +122,17 @@ def log_user_action(action, user_id=None, level='info'):
     current_app.logger.info(log_msg)
 
 
-def get_request_id():
-  """Get the current request ID for correlation purposes."""
-  return getattr(g, 'request_id', None)
-
-
 def log_info(message):
-  request_id = get_request_id()
-  request_context = f' [{request_id}]' if request_id else ''
-  current_app.logger.info(f'{message}{request_context}')
+  current_app.logger.info(format_log_message(message))
 
 
 def log_warning(message):
-  request_id = get_request_id()
-  request_context = f' [{request_id}]' if request_id else ''
-  current_app.logger.warning(f'{message}{request_context}')
+  current_app.logger.warning(format_log_message(message))
 
 
 def log_error(message):
-  request_id = get_request_id()
-  request_context = f' [{request_id}]' if request_id else ''
-  current_app.logger.error(f'{message}{request_context}')
+  current_app.logger.error(format_log_message(message))
 
 
 def log_exception(error):
-  request_id = get_request_id()
-  request_context = f' [{request_id}]' if request_id else ''
-  current_app.logger.exception(f'{error}{request_context}')
+  current_app.logger.exception(format_log_message(error))

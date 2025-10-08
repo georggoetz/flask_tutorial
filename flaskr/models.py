@@ -1,9 +1,10 @@
 from sqlalchemy import Integer, String, Text, ForeignKey, TIMESTAMP, Table, Column, func
 from sqlalchemy.sql import exists, and_, desc
-from sqlalchemy.orm import relationship, mapped_column, object_session
-from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.orm import relationship, mapped_column, object_session, deferred
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 
 from flaskr.db import db
+from flaskr.utils import markdown_to_html, get_preview
 
 
 post_likes = Table(
@@ -26,21 +27,47 @@ class Post(db.Model):
   id = mapped_column(Integer, primary_key=True, autoincrement=True)
   created = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
   title = mapped_column(String, nullable=False)
+  excerpt = mapped_column(Text, nullable=True)
   author_id = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
-  author = relationship('User', back_populates='posts')
-  content_id = mapped_column(Integer, ForeignKey('content.id'), nullable=False)
-  content = relationship('Content', back_populates='post', uselist=False, cascade='all, delete')
-  liked_by = relationship('User', secondary=post_likes, back_populates='liked_posts', cascade='all, delete')
   like_count = mapped_column(Integer, default=0, nullable=False)
+
+  body = deferred(mapped_column(Text, nullable=False))
+  body_html = deferred(mapped_column(Text, nullable=True))
+
+  author = relationship('User', back_populates='posts')
+  liked_by = relationship('User', secondary=post_likes, back_populates='liked_posts', cascade='all, delete')
   comments = relationship('Comment', back_populates='post', cascade='all, delete')
 
-  def __init__(self, title=None, author_id=None, body=None):
+  def __init__(self, title=None, author_id=None, body=None, excerpt=None):
     self.title = title
     self.author_id = author_id
-    self.content = Content(body=body)
+    self.body = body
+    self.excerpt = excerpt
+    self.body_html = None
 
   def __repr__(self):
     return f'Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r})'
+
+  @hybrid_property
+  def html(self):
+    if self.body_html is None and self.body:
+      self.body_html = markdown_to_html(self.body)
+    return self.body_html or ''
+
+  def preview(self, max_length=200):
+    if self.excerpt:
+      if len(self.excerpt) <= max_length:
+        return self.excerpt
+      else:
+        truncated = self.excerpt[:max_length]
+        last_space = truncated.rfind(' ')
+        if last_space > max_length * 0.8:
+          return truncated[:last_space] + '...'
+        else:
+          return truncated + '...'
+    else:
+      html_content = self.html
+      return get_preview(html_content, max_length)
 
   @hybrid_method
   def is_liked_by(self, user):
@@ -60,20 +87,20 @@ class Post(db.Model):
 
 
 class Comment(db.Model):
-
   __tablename__ = 'comments'
 
   id = mapped_column(Integer, primary_key=True, autoincrement=True)
   created = mapped_column(TIMESTAMP, server_default=func.current_timestamp(), nullable=False)
   author_id = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
-  author = relationship('User', back_populates='comments')
   post_id = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
-  post = relationship('Post', back_populates='comments')
   comment_id = mapped_column(Integer, ForeignKey('comments.id'))
+
+  content = deferred(mapped_column(Text, nullable=False))
+
+  author = relationship('User', back_populates='comments')
+  post = relationship('Post', back_populates='comments')
   reply_to = relationship('Comment', remote_side=[id], back_populates='replies')
   replies = relationship('Comment', back_populates='reply_to', cascade='all, delete')
-  content_id = mapped_column(Integer, ForeignKey('content.id'), nullable=False)
-  content = relationship('Content', back_populates='comment', uselist=False, cascade='all, delete')
 
   def __init__(self, author_id=None, post_id=None, content=None, comment_id=None):
     self.author_id = author_id
@@ -81,21 +108,8 @@ class Comment(db.Model):
     self.content = content
     self.comment_id = comment_id
 
-
-class Content(db.Model):
-  __tablename__ = 'content'
-
-  id = mapped_column(Integer, primary_key=True, autoincrement=True)
-  body = mapped_column(Text, nullable=False)
-  post = relationship('Post', back_populates='content', uselist=False)
-  comment = relationship('Comment', back_populates='content', uselist=False)
-
-  def __init__(self, body=None, post_id=None):
-    self.body = body
-    self.post_id = post_id
-
   def __repr__(self):
-    return f'Content(id={self.id!r}, post_id={self.post_id!r})'
+    return f'Comment(id={self.id!r}, author_id={self.author_id!r}, post_id={self.post_id!r})'
 
 
 class User(db.Model):

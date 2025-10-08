@@ -28,12 +28,11 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: 'npm'
 
+    - name: Check system requirements
+      shell: bash
+      run: make configure
+
     - name: Install dependencies
       if: ${{ inputs.install-deps == 'true' }}
       shell: bash
-      run: |
-        python -m venv .venv
-        source .venv/bin/activate
-        pip install -e .[dev]
-        # Try npm ci first, fall back to npm install if lockfile is out of sync
-        npm ci || npm install
+      run: make install
