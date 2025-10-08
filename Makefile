@@ -109,7 +109,13 @@ configure:
 	@printf "Pre-commit hooks: "
 	@if [ -f ".git/hooks/pre-commit" ]; then echo "✅ Installed"; else echo "❌ NOT INSTALLED - run 'make install'"; fi
 	@printf "Gitleaks:         "
-	@if [ -n "$(PRE_COMMIT_CMD)" ] && pre-commit run gitleaks --all-files --dry-run >/dev/null 2>&1; then echo "✅ Available via pre-commit"; else echo "⚠️  Will be installed with pre-commit hooks"; fi
+	@if [ -f "$(VENV)/bin/pre-commit" ] && $(VENV)/bin/pre-commit run gitleaks --all-files --dry-run >/dev/null 2>&1; then \
+		echo "✅ Available via pre-commit"; \
+	elif [ -n "$(PRE_COMMIT_CMD)" ] && pre-commit run gitleaks --all-files --dry-run >/dev/null 2>&1; then \
+		echo "✅ Available via pre-commit"; \
+	else \
+		echo "⚠️  Will be installed with pre-commit hooks"; \
+	fi
 	@echo ""
 	@if [ -z "$(PYTHON3_CMD)" ] || [ -z "$(NODE_CMD)" ] || [ -z "$(NPM_CMD)" ]; then \
 		echo "❌ Missing required dependencies. Please install:"; \
@@ -149,7 +155,7 @@ install-pre-commit: check-venv
 	@echo "Installing pre-commit framework..."
 	@$(PIP) install pre-commit
 	@echo "Installing pre-commit hooks (including Gitleaks)..."
-	@pre-commit install --install-hooks
+	@$(VENV)/bin/pre-commit install --install-hooks
 	@echo "✅ Pre-commit hooks installed with security tools"
 
 install: check-required-tools venv install-pre-commit
@@ -208,7 +214,9 @@ security-deps-python:
 
 gitleaks:
 	@echo "Running Gitleaks secret detection..."
-	@if command -v pre-commit >/dev/null 2>&1; then \
+	@if [ -f "$(VENV)/bin/pre-commit" ]; then \
+		$(VENV)/bin/pre-commit run gitleaks --all-files; \
+	elif command -v pre-commit >/dev/null 2>&1; then \
 		pre-commit run gitleaks --all-files; \
 	else \
 		echo "❌ Pre-commit not available. Run 'make install' first."; \
