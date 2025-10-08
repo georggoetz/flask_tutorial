@@ -21,61 +21,63 @@ DOCKER_CMD := $(shell command -v docker 2>/dev/null)
 DOCKER_COMPOSE_CMD := $(shell command -v docker-compose 2>/dev/null)
 FLY_CMD := $(shell command -v fly 2>/dev/null)
 TMUX_CMD := $(shell command -v tmux 2>/dev/null)
+PRE_COMMIT_CMD := $(shell command -v pre-commit 2>/dev/null)
 
-.PHONY: help configure check-required-tools check-venv check-node-modules check-fly
+.PHONY: help configure check-required-tools check-venv check-node-modules check-fly install-pre-commit gitleaks
 help:
 	@echo "Available targets:"
 	@echo ""
 	@echo "Setup & Configuration:"
-	@echo "  make configure    						- Check system requirements (Unix-style)"
-	@echo "  make venv         						- Create virtual environment"
-	@echo "  make install      						- Install Python and Node dependencies"
+	@echo "  make configure                  - Check system requirements (Unix-style)"
+	@echo "  make venv                       - Create virtual environment"
+	@echo "  make install                    - Install Python and Node dependencies"
 	@echo ""
 	@echo "Development:"
-	@echo "  make flask        						- Run Flask in development mode"
-	@echo "  make webpack      						- Build frontend assets (production)"
-	@echo "  make webpack-dev  						- Build frontend assets (development + watch)"
-	@echo "  make dev          						- Run Flask and Webpack dev server (tmux required)"
+	@echo "  make flask                      - Run Flask in development mode"
+	@echo "  make webpack                    - Build frontend assets (production)"
+	@echo "  make webpack-dev                - Build frontend assets (development + watch)"
+	@echo "  make dev                        - Run Flask and Webpack dev server (tmux required)"
 	@echo ""
 	@echo "Testing & Quality:"
-	@echo "  make test         						- Run tests (Vitest, pytest, coverage)"
-	@echo "  make lint         						- Run all linters (Python, JS)"
-	@echo "  make security     						- Run all security scans (Python, JS, Dependencies)"
-	@echo "  make security-python					- Run Python security scan (Bandit)"
-	@echo "  make security-python-sarif		- Run Python security scan with SARIF output (for CI)"
-	@echo "  make security-js  					  - Run JavaScript security scan (ESLint Security)"
-	@echo "  make security-deps-js				- Run JavaScript dependency security audit (npm audit)"
-	@echo "  make security-deps-python		- Run Python dependency security audit (pip-audit)"
+	@echo "  make test                       - Run tests (Vitest, pytest, coverage)"
+	@echo "  make lint                       - Run all linters (Python, JS)"
+	@echo "  make security                   - Run all security scans (Python, JS, Dependencies, Gitleaks)"
+	@echo "  make gitleaks                   - Run Gitleaks secret detection"
+	@echo "  make security-python            - Run Python security scan (Bandit)"
+	@echo "  make security-python-sarif      - Run Python security scan with SARIF output (for CI)"
+	@echo "  make security-js                - Run JavaScript security scan (ESLint Security)"
+	@echo "  make security-deps-js           - Run JavaScript dependency security audit (npm audit)"
+	@echo "  make security-deps-python       - Run Python dependency security audit (pip-audit)"
 	@echo ""
 	@echo "Deployment & Infrastructure:"
-	@echo "  make clean        						- Remove generated files and folders"
-	@echo "  make docker-build  					- Build Docker image"
-	@echo "  make docker-run    					- Run Docker container"
-	@echo "  make docker-shell  					- Access Docker container shell"
-	@echo "  make docker-push   					- Push Docker image to registry"
-	@echo "  make docker-compose-up    		- Start Docker containers with Docker Compose"
-	@echo "  make docker-compose-down  		- Stop Docker containers with Docker Compose"
-	@echo "  make docker-compose-logs  		- View logs from Docker containers"
-	@echo "  make docker-compose-init-db 	- Initialize the database"
-	@echo "  make docker-compose-seed-db  - Seed the database"
-	@echo "  make fly-deploy      				- Deploy to Fly.io"
-	@echo "  make fly-db-create   				- Create Fly.io Postgres database"
-	@echo "  make fly-db-connect  				- Connect to Fly.io Postgres database"
-	@echo "  make fly-db-status   				- Check Fly.io Postgres database status"
+	@echo "  make clean                      - Remove generated files and folders"
+	@echo "  make docker-build               - Build Docker image"
+	@echo "  make docker-run                 - Run Docker container"
+	@echo "  make docker-shell               - Access Docker container shell"
+	@echo "  make docker-push                - Push Docker image to registry"
+	@echo "  make docker-compose-up          - Start Docker containers with Docker Compose"
+	@echo "  make docker-compose-down        - Stop Docker containers with Docker Compose"
+	@echo "  make docker-compose-logs        - View logs from Docker containers"
+	@echo "  make docker-compose-init-db     - Initialize the database"
+	@echo "  make docker-compose-seed-db     - Seed the database"
+	@echo "  make fly-deploy                 - Deploy to Fly.io"
+	@echo "  make fly-db-create              - Create Fly.io Postgres database"
+	@echo "  make fly-db-connect             - Connect to Fly.io Postgres database"
+	@echo "  make fly-db-status              - Check Fly.io Postgres database status"
 	@echo ""
 	@echo "E2E Testing:"
-	@echo "  make cypress-open     				- Open Cypress UI"
-	@echo "  make cypress-run      				- Run Cypress tests"
-	@echo "  make cypress-run SPEC=<file> - Run specific Cypress test file"
-	@echo "                          		    Example: make cypress-run SPEC=\"cypress/e2e/login-user.cy.js\""
+	@echo "  make cypress-open               - Open Cypress UI"
+	@echo "  make cypress-run                - Run Cypress tests"
+	@echo "  make cypress-run SPEC=<file>    - Run specific Cypress test file"
+	@echo "                                    Example: make cypress-run SPEC=\"cypress/e2e/login-user.cy.js\""
 	@echo ""
 	@echo "Database Management:"
-	@echo "  make init-db          				- Initialize database (create tables)"
-	@echo "  make seed-db          				- Seed database with sample data"
-	@echo "  make migrate          				- Create new migration from model changes"
-	@echo "  make migrate-initial  				- Create initial migration (fresh start)"
-	@echo "  make migrate-upgrade  				- Apply pending migrations"
-	@echo "  make migrate-downgrade				- Rollback last migration"
+	@echo "  make init-db                    - Initialize database (create tables)"
+	@echo "  make seed-db                    - Seed database with sample data"
+	@echo "  make migrate                    - Create new migration from model changes"
+	@echo "  make migrate-initial            - Create initial migration (fresh start)"
+	@echo "  make migrate-upgrade            - Apply pending migrations"
+	@echo "  make migrate-downgrade          - Rollback last migration"
 
 configure:
 	@echo "Checking system requirements..."
@@ -94,26 +96,42 @@ configure:
 	@if [ -n "$(FLY_CMD)" ];            then echo "✅ $(FLY_CMD)";            else echo "⚠️  NOT FOUND (optional)"; fi
 	@printf "tmux:           "
 	@if [ -n "$(TMUX_CMD)" ];           then echo "✅ $(TMUX_CMD)";           else echo "⚠️  NOT FOUND (for 'make dev')"; fi
+	@printf "Pre-commit:     "
+	@if [ -n "$(PRE_COMMIT_CMD)" ];     then echo "✅ $(PRE_COMMIT_CMD)";     else echo "⚠️  NOT FOUND (will be installed via pip)"; fi
+	@echo ""
+	@echo "Virtual Environment Status:"
+	@printf "Python venv:    "
+	@if [ -d "$(VENV)" ];      then echo "✅ $(VENV) exists";      else echo "❌ NOT FOUND - run 'make install'"; fi
+	@printf "Node modules:   "
+	@if [ -d "node_modules" ]; then echo "✅ node_modules exists"; else echo "❌ NOT FOUND - run 'make install'"; fi
+	@echo ""
+	@echo "Security Tools Status:"
+	@printf "Pre-commit hooks: "
+	@if [ -f ".git/hooks/pre-commit" ]; then echo "✅ Installed"; else echo "❌ NOT INSTALLED - run 'make install'"; fi
+	@printf "Gitleaks:         "
+	@if [ -n "$(PRE_COMMIT_CMD)" ] && pre-commit run gitleaks --all-files --dry-run >/dev/null 2>&1; then echo "✅ Available via pre-commit"; else echo "⚠️  Will be installed with pre-commit hooks"; fi
 	@echo ""
 	@if [ -z "$(PYTHON3_CMD)" ] || [ -z "$(NODE_CMD)" ] || [ -z "$(NPM_CMD)" ]; then \
 		echo "❌ Missing required dependencies. Please install:"; \
-		[ -z "$(PYTHON3_CMD)" ] && echo "   - Python 3"; \
-		[ -z "$(NODE_CMD)" ]    && echo "   - Node.js"; \
+		[ -z "$(PYTHON3_CMD)" ] && echo "   - Python 3: https://python.org/downloads/"; \
+		[ -z "$(NODE_CMD)" ]    && echo "   - Node.js: https://nodejs.org/"; \
+		[ -z "$(NPM_CMD)" ]     && echo "   - npm (usually comes with Node.js)"; \
 		echo ""; \
 		exit 1; \
+	else \
+		echo "✅ All required tools are available!"; \
+		echo ""; \
+		echo "Next steps:"; \
+		echo "   1. Run 'make install' to set up development environment"; \
+		echo "   2. Run 'make init-db' to initialize the database"; \
+		echo "   3. Run 'make seed-db' to populate with sample data"; \
+		echo "   4. Run 'make dev' to start development server"; \
 	fi
-	@echo "✅ All required tools are available!"
-	@echo ""
-	@echo "Next steps:"
-	@echo "  make install    # Install dependencies"
-	@echo "  make init-db    # Initialize database"
-	@echo "  make seed-db    # Populate with sample data"
-	@echo "  make dev        # Start development server"
 
 check-required-tools:
-	@if [ -z "$(PYTHON3_CMD)" ]; 	then echo "❌ python3 not found. Run 'make configure'"; 	exit 1; fi
-	@if [ -z "$(NODE_CMD)" ]; 		then echo "❌ node not found. Run 'make configure'"; 		exit 1; fi
-	@if [ -z "$(NPM_CMD)" ]; 			then echo "❌ npm not found. Run 'make configure'"; 			exit 1; fi
+	@if [ -z "$(PYTHON3_CMD)" ]; then echo "❌ python3 not found. Run 'make configure'"; exit 1; fi
+	@if [ -z "$(NODE_CMD)" ];    then echo "❌ node not found. Run 'make configure'";    exit 1; fi
+	@if [ -z "$(NPM_CMD)" ];     then echo "❌ npm not found. Run 'make configure'";     exit 1; fi
 
 check-venv:
 	@if [ ! -d "$(VENV)" ]; then echo "❌ Virtual environment not found. Run 'make install'"; exit 1; fi
@@ -127,9 +145,20 @@ check-fly:
 venv: check-required-tools
 	$(PYTHON3_CMD) -m venv $(VENV)
 
-install: check-required-tools venv
+install-pre-commit: check-venv
+	@echo "Installing pre-commit framework..."
+	@$(PIP) install pre-commit
+	@echo "Installing pre-commit hooks (including Gitleaks)..."
+	@pre-commit install --install-hooks
+	@echo "✅ Pre-commit hooks installed with security tools"
+
+install: check-required-tools venv install-pre-commit
 	$(PIP) install .[dev]
 	$(NPM) install
+	@echo ""
+	@echo "✅ All dependencies installed!"
+	@echo "Development environment ready! 🚀"
+	@echo "Run 'make configure' to verify installation."
 
 flask: check-venv
 	FLASK_ENV=development FLASK_APP=flaskr $(FLASK) run
@@ -177,7 +206,16 @@ security-deps-python:
 	@echo "Running pip-audit for Python dependencies..."
 	@$(PIP_AUDIT) --desc $(if $(JSON_OUTPUT),--format=json --output=python-audit.json,) || echo "✓ pip-audit completed (local packages skipped)"
 
-security: security-python security-js security-deps-js security-deps-python
+gitleaks:
+	@echo "Running Gitleaks secret detection..."
+	@if command -v pre-commit >/dev/null 2>&1; then \
+		pre-commit run gitleaks --all-files; \
+	else \
+		echo "❌ Pre-commit not available. Run 'make install' first."; \
+		exit 1; \
+	fi
+
+security: security-python security-js security-deps-js security-deps-python gitleaks
 
 sbom-python:
 	@echo "Generating Python SBOM..."
