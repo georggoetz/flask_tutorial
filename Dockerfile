@@ -6,7 +6,7 @@ COPY flaskr/frontend/ ./flaskr/frontend/
 COPY webpack.config.js .babelrc eslint.config.mjs ./
 RUN npm run build
 
-FROM python:3.13-slim AS backend-build
+FROM python:3.14-slim AS backend-build
 WORKDIR /app
 RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
 
@@ -19,7 +19,7 @@ COPY --from=frontend-build /app/flaskr/static/dist ./flaskr/static/dist
 RUN pip install --no-cache-dir .
 RUN python -m build --wheel
 
-FROM python:3.13-slim AS production
+FROM python:3.14-slim AS production
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
