@@ -37,7 +37,7 @@ jobs:
       scan-context: ${{ steps.context.outputs.scan-context }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Setup environment
       uses: ./.github/actions/setup
