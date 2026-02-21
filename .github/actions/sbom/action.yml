@@ -28,7 +28,7 @@ runs:
 
     - name: Upload SBOM artifacts
       if: ${{ inputs.upload-artifacts == 'true' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: sbom-${{ github.sha }}
         path: sbom/
