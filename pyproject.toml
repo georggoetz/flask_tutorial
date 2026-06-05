@@ -12,7 +12,7 @@ dependencies = [
     "flask-compress",
     "flasgger",
     "markdown==3.10.2",
-    "bleach==6.3.0",
+    "bleach==6.4.0",
     "pymdown-extensions==10.21.3",
     "beautifulsoup4==4.14.3"
 ]
