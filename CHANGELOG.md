@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.21.0](https://github.com/georggoetz/flask_tutorial/compare/v0.20.4...v0.21.0) (2025-12-20)
+
+
+### Features
+
+* **markdown:** Prepared backend for markdown ([ffdba6f](https://github.com/georggoetz/flask_tutorial/commit/ffdba6f50ab48fe6bbd9156becfa6a8e60c223b6))
+* **security:** integrate Gitleaks secrets detection: ([d5c10de](https://github.com/georggoetz/flask_tutorial/commit/d5c10de5fe9c127614c4d207ec7abefaca5b4645)), closes [#76](https://github.com/georggoetz/flask_tutorial/issues/76)
+
+
+### Bug Fixes
+
+* **makefile:** fix venv check ([21b21fe](https://github.com/georggoetz/flask_tutorial/commit/21b21fe6f949f8ba3f5e88e584b9f2f7f939e6b8))
+* **security:** fix broken actions ([96ea294](https://github.com/georggoetz/flask_tutorial/commit/96ea2946029ee329d9c6ba880934bb14bff80425))
+* **security:** fix Makefile target for pre-commit. [#76](https://github.com/georggoetz/flask_tutorial/issues/76) ([cef8701](https://github.com/georggoetz/flask_tutorial/commit/cef8701f146d6276b0cef977d8a58b43acf86cc9))
+
 ## [0.20.4](https://github.com/georggoetz/flask_tutorial/compare/v0.20.3...v0.20.4) (2025-09-23)
 
 
