@@ -37,7 +37,7 @@ jobs:
       scan-context: ${{ steps.context.outputs.scan-context }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7
 
     - name: Setup environment
       uses: ./.github/actions/setup
@@ -69,7 +69,7 @@ jobs:
 
     - name: Comment on PR (if PR context)
       if: github.event_name == 'pull_request'
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       with:
         script: |
           const pythonIssues = '${{ steps.security.outputs.python-issues }}' === 'true';
@@ -110,7 +110,7 @@ jobs:
       )
     steps:
     - name: Create security issue
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       with:
         script: |
           const scanContext = '${{ needs.security-scan.outputs.scan-context }}';
